@@ -1,1 +1,45 @@
-/* stub T0.1 */
+/* CSS scroll-snap sheet when pure-web-bottom-sheet is unsupported (Safari < 18.2). */
+
+html.sheet-fallback .config-sheet--fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+html.sheet-fallback .config-sheet__scroller {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: none;
+}
+
+html.sheet-fallback .config-sheet__snap--peek {
+  height: calc(100% - 7.5rem);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  pointer-events: none;
+}
+
+html.sheet-fallback .config-sheet__panel {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+  min-height: 7.5rem;
+  max-height: 90dvh;
+  padding: 0 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  border-radius: 12px 12px 0 0;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--bg-elevated);
+  pointer-events: auto;
+}
+
+html.sheet-fallback .config-sheet__handle {
+  display: flex;
+  justify-content: center;
+  padding: 0.65rem 0 0.35rem;
+  cursor: grab;
+}

@@ -15,5 +15,7 @@
   "about.title": "About",
   "about.disclaimer": "Prices are illustrative for portfolio demo, not a real store.",
   "about.icons": "Icons by Lucide (ISC).",
-  "about.close": "Close"
+  "about.close": "Close",
+  "config.color": "Color",
+  "config.panelAria": "Furniture options"
 }

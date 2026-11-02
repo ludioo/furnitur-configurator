@@ -79,6 +79,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-09 | Hash `#configure` default, `#about` buka About stub, `#saved` no-op sampai T1.5; Lucide SVG individual (termasuk chevron/trash) di `src/ui/icons/` | Routing architecture; tree-shake manual | architecture · content-and-assets · D-UI-07 |
 | D-STORE-01 | `storage.js` helper generik `get`/`set` berprefix `furncfg:` + `getLang`/`setLang` | Dipakai T1.1 sekarang, T1.5 nanti tanpa API kedua | data-model · architecture |
 
+## 2026-11-02 — T1.2 Bottom sheet + swatches
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-10 | Desktop ≥768 = fixed rail kanan 320px (bukan web component); mobile = `pure-web-bottom-sheet` bila `animation-timeline: scroll()` + Safari/iOS ≥18.2, else CSS snap fallback | Lib dioptimasi mobile snap; rail desktop lebih sederhana & a11y | architecture bottom sheet strategy · npm README browserslist |
+| D-MAT-02 | Swatch set `material.color` langsung (tanpa lerp) pada `bodyMaterialNames`; map tekstur tetap | &lt;150 ms, paling sedikit kode; lerp boleh di T1.7/polish | design-system · architecture-conventions |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

@@ -9,7 +9,7 @@
 | T0.3 | done | 2026-11-02 | Draco+WebP GLB armchair 391 KB / sofa 183 KB; bodyMaterialNames Armchair_01 / Sofa_01; splash+Retry; `__furncfgLoad` |
 | T0.4 | done | 2026-11-02 | `vercel.json` cache models/decoders; `origin/main` + Vercel project terpisah; https://configurator.barkahmauludi.com HTTPS live |
 | T1.1 | done | 2026-11-02 | Top bar + EN/ID persist + Lucide SVG lokal + About stub + hash #configure; acceptance OK Barkah |
-| T1.2 | pending | — | + pure-web-bottom-sheet / CSS fallback |
+| T1.2 | done | 2026-11-02 | Bottom sheet native/fallback + desktop rail 320px; 6 swatch tint bodyMaterialNames; Vitest state; acceptance OK Barkah |
 | T1.3 | pending | — | — |
 | T1.4 | pending | — | + Vitest pricing |
 | T1.5 | pending | — | + Vitest storage |

@@ -7,8 +7,10 @@
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | Diharapkan (three di critical path); code-split/on-demand di T3.3 — bukan blocker acceptance |
 | 2026-11-02 | T0.3 | Teks splash masih hardcode EN | Diganti i18n di T1.1 (keputusan D-UX-01) — selesai T1.1 |
 | 2026-11-02 | T1.1 | Product tabs Chair/Sofa disabled (placeholder) | Wire ganti produk di T1.3; sementara `__furncfgLoad` |
+| 2026-11-02 | T1.2 | `pure-web-bottom-sheet@1.1.1` engines minta Node ≥24 / npm ≥11.7; project CI Node 22 | Warning EBADENGINE saja; runtime browser OK. Tetap pin 1.1.1 per D-UI-02 |
+| 2026-11-02 | T1.2 | Safari/iOS &lt; 18.2 tidak support initial snap lib | `html.sheet-fallback` + CSS scroll-snap peek 120px; desktop tetap rail kanan |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4.
+Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4 / T1.1 / T1.2.
 
 Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 

@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
+import { getState, subscribe as subscribeState } from './state.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
 import { createProductController } from '../scene/product.js';
 import { initShell } from '../ui/shell.js';
+import { initConfigPanel } from '../ui/configPanel.js';
+import { resolveFabricHex } from '../ui/swatches.js';
 
 const SLOW_MS = 8000;
 
@@ -20,6 +23,9 @@ export function init() {
   if (!container || !splash || !splashPct || !splashStatus || !splashRetry) return;
 
   initShell(document.body);
+  initConfigPanel(document.body).catch((err) => {
+    console.error('[configPanel]', err);
+  });
 
   let scene;
   let renderer;
@@ -121,6 +127,15 @@ export function init() {
     },
   });
 
+  function applyCurrentColor() {
+    const hex = resolveFabricHex(getState());
+    if (hex) products.applyColor(hex);
+  }
+
+  subscribeState(() => {
+    applyCurrentColor();
+  });
+
   /**
    * @param {string} productId
    */
@@ -129,9 +144,11 @@ export function init() {
     showSplash();
     armSlowTimer();
     try {
-      await products.load(productId);
+      const hex = resolveFabricHex(getState()) || undefined;
+      await products.load(productId, { fabricColorHex: hex });
       if (gen !== loadGeneration) return;
       hideSplash();
+      applyCurrentColor();
     } catch (err) {
       if (gen !== loadGeneration) return;
       console.error(err);

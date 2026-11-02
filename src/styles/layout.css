@@ -17,7 +17,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -134,6 +134,12 @@
 
 .top-bar__about:hover {
   border-color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .top-bar {
+    right: var(--config-panel-width);
+  }
 }
 
 @media (max-width: 420px) {

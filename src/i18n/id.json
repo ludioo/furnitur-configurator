@@ -15,5 +15,7 @@
   "about.title": "Tentang",
   "about.disclaimer": "Harga bersifat ilustrasi untuk demo portofolio, bukan toko nyata.",
   "about.icons": "Ikon oleh Lucide (ISC).",
-  "about.close": "Tutup"
+  "about.close": "Tutup",
+  "config.color": "Warna",
+  "config.panelAria": "Opsi furnitur"
 }

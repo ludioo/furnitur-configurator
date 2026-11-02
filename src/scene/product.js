@@ -60,9 +60,31 @@ export function createProductController(scene, hooks = {}) {
   }
 
   /**
-   * @param {string} productId
+   * Tint body materials by hex. Keeps existing texture maps.
+   * @param {string} hex
    */
-  async function load(productId) {
+  function applyColor(hex) {
+    if (!current || !currentId) return;
+    const product = getProduct(currentId);
+    const names = new Set(product.bodyMaterialNames ?? []);
+    if (names.size === 0) return;
+    const color = new THREE.Color(hex);
+    current.traverse((obj) => {
+      if (!obj.isMesh) return;
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      for (const m of mats) {
+        if (!m?.name || !names.has(m.name) || !m.color) continue;
+        m.color.copy(color);
+        m.needsUpdate = true;
+      }
+    });
+  }
+
+  /**
+   * @param {string} productId
+   * @param {{ fabricColorHex?: string }} [opts]
+   */
+  async function load(productId, opts = {}) {
     const product = getProduct(productId);
     const root = await loader.load(product.modelUrl);
     root.name = productId;
@@ -82,6 +104,8 @@ export function createProductController(scene, hooks = {}) {
     current = root;
     currentId = productId;
 
+    if (opts.fabricColorHex) applyColor(opts.fabricColorHex);
+
     const info = inspectMaterials(root);
     console.info(`[product] ${productId} materials:`, info.materials, 'meshes:', info.meshes);
     return { root, product, info };
@@ -89,14 +113,17 @@ export function createProductController(scene, hooks = {}) {
 
   return {
     load,
+    applyColor,
     getCurrentId: () => currentId,
     getCurrentRoot: () => current,
+    getProduct,
     listProducts: () => productsData.products ?? [],
     dispose() {
       if (current) {
         scene.remove(current);
         disposeObject(current);
         current = null;
+        currentId = null;
       }
       loader.dispose();
     },

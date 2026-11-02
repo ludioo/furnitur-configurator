@@ -7,9 +7,11 @@
   --accent: #d4a373;
   --accent-press: #b8895a;
   --border: #2e3542;
+  --swatch-ring: #ffffff;
   --font-ui: 'DM Sans', system-ui, sans-serif;
   --radius-btn: 10px;
   --touch-min: 44px;
+  --config-panel-width: 320px;
 }
 
 *,

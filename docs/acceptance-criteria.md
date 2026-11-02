@@ -33,9 +33,9 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Ikon top bar / tombol terlihat tajam (SVG), bukan kotak pecah.
 
 ## T1.2
-- [ ] 6 swatch mengubah warna armchair instan; touch target ≥44 px di HP.
-- [ ] Di HP: panel bisa di-drag/snap (peek → expand); di desktop panel di kanan.
-- [ ] Jika AI laporkan Safari tua: fallback CSS tetap bisa dibuka/tutup tanpa macet.
+- [x] 6 swatch mengubah warna armchair instan; touch target ≥44 px di HP.
+- [x] Di HP: panel bisa di-drag/snap (peek → expand); di desktop panel di kanan.
+- [x] Jika AI laporkan Safari tua: fallback CSS tetap bisa dibuka/tutup tanpa macet.
 
 ## T1.3
 - [ ] Finish Fabric/Leather & Size mengubah tampilan + (nanti) harga.
