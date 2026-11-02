@@ -37,5 +37,17 @@
   "saved.close": "Close",
   "toast.saved": "Saved",
   "toast.savedEvicted": "Saved — oldest slot replaced",
-  "toast.storageFail": "Could not save (storage unavailable)"
+  "toast.storageFail": "Could not save (storage unavailable)",
+  "onboarding.skip": "Skip",
+  "onboarding.next": "Next",
+  "onboarding.prev": "Back",
+  "onboarding.done": "Done",
+  "onboarding.canvasTitle": "Orbit the model",
+  "onboarding.canvasBody": "Drag to rotate. Pinch or scroll to zoom.",
+  "onboarding.swatchTitle": "Pick a color",
+  "onboarding.swatchBody": "Tap a swatch to tint the fabric. Finish and size are below.",
+  "onboarding.saveTitle": "Save your look",
+  "onboarding.saveBody": "Save up to 10 configs on this device. Open Saved anytime from the top bar.",
+  "onboarding.arTitle": "View in your room",
+  "onboarding.arBody": "On a supported phone, place the furniture in AR. Desktop stays disabled for now."
 }

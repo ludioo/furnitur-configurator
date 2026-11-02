@@ -57,9 +57,9 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Hover/fokus lama di tombol AR disabled (desktop) → tooltip terbaca.
 
 ## T1.8
-- [ ] Kunjungan pertama (localStorage kosong untuk onboard): tour 3–5 langkah bisa di-Skip.
-- [ ] Refresh kedua: tour tidak muncul lagi.
-- [ ] Network: `driver.js` tidak ke-load sebelum tour mulai.
+- [x] Kunjungan pertama (localStorage kosong untuk onboard): tour 3–5 langkah bisa di-Skip.
+- [x] Refresh kedua: tour tidak muncul lagi.
+- [x] Network: `driver.js` tidak ke-load sebelum tour mulai.
 
 ## T2.1
 - [ ] Desktop: tombol AR disabled + pesan/tooltip.

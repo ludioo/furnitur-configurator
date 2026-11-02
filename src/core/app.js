@@ -45,7 +45,7 @@ export function init() {
 
   /** @type {(() => Promise<void>) | null} */
   let runScreenshot = null;
-  initConfigPanel(document.body, {
+  const configPanelReady = initConfigPanel(document.body, {
     onSaved() {
       saved.render();
     },
@@ -230,6 +230,10 @@ export function init() {
       loadingProductId = null;
       hideSplash();
       applyCurrentAppearance();
+      void configPanelReady
+        .then(() => import('../ui/onboarding.js'))
+        .then((m) => m.maybeStartTour())
+        .catch((err) => console.error('[onboarding]', err));
     } catch (err) {
       if (gen !== loadGeneration) return;
       loadingProductId = null;

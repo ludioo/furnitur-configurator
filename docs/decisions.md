@@ -120,6 +120,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-12 | UI motion hanya lewat `src/ui/motion.js` → `import { animate } from 'motion/mini'`; skip animate jika `prefers-reduced-motion`; sheet tidak di-wrap Motion (lib/CSS snap) | Satu gate reduced-motion; hindari double-animate sheet; bukan Motion+ | design-system · D-UI-04 · performance-budget |
 | D-UI-13 | Tombol AR stub T1.7 selalu `aria-disabled` + tooltip `ar.unsupported`; deteksi capability tetap T2.1 | Acceptance T1.7 butuh target tooltip desktop sebelum WebXR/USDZ | prompts T1.7 · T2.1 · D-UI-06 |
 
+## 2026-11-02 — T1.8 driver.js onboarding
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-14 | Tour visibility mobile = `scrollIntoView` pada step target; tidak menambah API expand bottom-sheet | `mountBottomSheet` belum expose expand; scrollIntoView cukup tanpa dep baru | UF6 · Grill T1.8 · architecture |
+| D-UI-15 | `maybeStartTour` di-dynamic-import dari `app.js` setelah `hideSplash`; flag `furncfg:onboarded` via `storage` `set('onboarded','1')` pada Skip/Done (`onDestroyed`) | Jaga critical path bersih; Skip dan selesai sama-sama once | D-UI-03 · prompts T1.8 · acceptance T1.8 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

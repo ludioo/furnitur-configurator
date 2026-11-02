@@ -37,5 +37,17 @@
   "saved.close": "Tutup",
   "toast.saved": "Tersimpan",
   "toast.savedEvicted": "Tersimpan — slot tertua diganti",
-  "toast.storageFail": "Gagal menyimpan (penyimpanan tidak tersedia)"
+  "toast.storageFail": "Gagal menyimpan (penyimpanan tidak tersedia)",
+  "onboarding.skip": "Lewati",
+  "onboarding.next": "Lanjut",
+  "onboarding.prev": "Kembali",
+  "onboarding.done": "Selesai",
+  "onboarding.canvasTitle": "Putar model",
+  "onboarding.canvasBody": "Seret untuk memutar. Cubit atau scroll untuk zoom.",
+  "onboarding.swatchTitle": "Pilih warna",
+  "onboarding.swatchBody": "Ketuk swatch untuk mewarnai kain. Finishing dan ukuran ada di bawahnya.",
+  "onboarding.saveTitle": "Simpan tampilan",
+  "onboarding.saveBody": "Simpan hingga 10 konfigurasi di perangkat ini. Buka Tersimpan dari bilah atas kapan saja.",
+  "onboarding.arTitle": "Lihat di ruanganmu",
+  "onboarding.arBody": "Di HP yang didukung, letakkan furnitur lewat AR. Di desktop tombol ini tetap nonaktif untuk saat ini."
 }
