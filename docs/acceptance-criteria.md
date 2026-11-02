@@ -3,19 +3,19 @@
 Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 
 ## T0.1
-- [ ] localhost dari AI terbuka tanpa error.
-- [ ] Folder sesuai architecture.md.
+- [x] localhost dari AI terbuka tanpa error.
+- [x] Folder sesuai architecture.md.
 
 ## T0.5
-- [ ] Di terminal, `npm test` selesai tanpa gagal (boleh 1–2 tes stub dulu).
-- [ ] `npm run lint` selesai tanpa error.
-- [ ] File `.github/workflows/ci.yml` ada (AI tunjukkan isinya: lint → test → build).
-- [ ] AI jelaskan dalam Bahasa Indonesia: kapan menjalankan `npm test` vs `npm run e2e`.
+- [x] Di terminal, `npm test` selesai tanpa gagal (boleh 1–2 tes stub dulu).
+- [x] `npm run lint` selesai tanpa error.
+- [x] File `.github/workflows/ci.yml` ada (AI tunjukkan isinya: lint → test → build).
+- [x] AI jelaskan dalam Bahasa Indonesia: kapan menjalankan `npm test` vs `npm run e2e`.
 
 ## T0.2
-- [ ] Placeholder 3D (cube/kursi kasar) di studio gelap.
-- [ ] Orbit + zoom; tidak tembus lantai.
-- [ ] Idle 5 dtk → auto-rotate (mati jika OS "reduce motion").
+- [x] Placeholder 3D (cube/kursi kasar) di studio gelap.
+- [x] Orbit + zoom; tidak tembus lantai.
+- [x] Idle 5 dtk → auto-rotate (mati jika OS "reduce motion").
 
 ## T0.3
 - [ ] Armchair lalu sofa bisa diload (switch sementara boleh via console/UI kasar).
