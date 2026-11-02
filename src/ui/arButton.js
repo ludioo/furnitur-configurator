@@ -1,6 +1,7 @@
 import { detectArCapability } from '../ar/capability.js';
 import { applyDom, subscribe, t } from '../core/i18n.js';
 import { iconHtml, icons } from './icons.js';
+import { showToast } from './toast.js';
 import { attachTooltip } from './tooltip.js';
 
 /**
@@ -29,6 +30,7 @@ export function initArButton(mountParent) {
   /** @type {'webxr' | 'quicklook' | 'unsupported'} */
   let mode = 'unsupported';
   let alive = true;
+  let busy = false;
   /** @type {(() => void | Promise<void>) | null} */
   let onWebxr = null;
   /** @type {(() => void | Promise<void>) | null} */
@@ -46,15 +48,28 @@ export function initArButton(mountParent) {
     tip.updateText();
   }
 
+  function runAr(handler) {
+    if (!handler || busy) return;
+    busy = true;
+    btn.setAttribute('aria-busy', 'true');
+    void Promise.resolve(handler())
+      .catch((err) => {
+        console.error('[ar]', err);
+        showToast(t('toast.arFail'));
+      })
+      .finally(() => {
+        busy = false;
+        btn.removeAttribute('aria-busy');
+      });
+  }
+
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    if (mode === 'webxr' && onWebxr) {
-      void Promise.resolve(onWebxr()).catch((err) => console.error('[ar]', err));
+    if (mode === 'webxr') {
+      runAr(onWebxr);
       return;
     }
-    if (mode === 'quicklook' && onQuicklook) {
-      void Promise.resolve(onQuicklook()).catch((err) => console.error('[ar]', err));
-    }
+    if (mode === 'quicklook') runAr(onQuicklook);
   });
 
   const unsub = subscribe(() => {

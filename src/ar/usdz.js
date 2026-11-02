@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js';
+import { track } from '../core/analytics.js';
 
 /** 1×1 transparent GIF — Apple requires an <img> child of rel=ar. */
 const FALLBACK_IMG =
@@ -152,6 +153,7 @@ export async function exportAndOpen(root) {
     document.body.appendChild(a);
     a.click();
     a.remove();
+    track('ar_enter', { platform: 'quicklook' });
   } finally {
     disposeExportClone(clone);
     exportScene.remove(clone);

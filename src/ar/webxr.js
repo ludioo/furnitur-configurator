@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { track } from '../core/analytics.js';
 
 let active = false;
 
@@ -184,6 +185,8 @@ export async function startWebxr(ctx) {
     }
     throw err;
   }
+
+  track('ar_enter', { platform: 'webxr' });
 
   renderer.setAnimationLoop((_t, frame) => {
     if (frame && hitTestSource) {

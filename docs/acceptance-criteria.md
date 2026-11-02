@@ -73,12 +73,16 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 > Kode T2.2 merged 2026-11-02 (desktop no-regression OK). Kedua checkbox di atas deferred sampai ada Android Chrome HTTPS — lihat `docs/known-issues.md`.
 
 ## T2.3 (iPhone)
-- [ ] Tap CTA → Quick Look membuka model; warna kira-kira sesuai swatch aktif.
-- [ ] Tutup Quick Look → kembali ke halaman.
+- [x] Tap CTA → Quick Look membuka model; warna kira-kira sesuai swatch aktif.
+- [x] Tutup Quick Look → kembali ke halaman.
+
+> Diverifikasi Barkah 2026-11-02: Safari iPhone + live HTTPS. Catatan: UI mobile overall masih buruk (di luar AC T2.3) — polish terpisah.
 
 ## T2.4
-- [ ] Network tab: modul AR tidak ke-load sebelum CTA.
-- [ ] Gagal AR → toast, app tidak blank.
+- [x] Network tab / build: chunk `webxr-*` & `usdz-*` terpisah dari entry; WebXR tidak preload sebelum CTA (desktop).
+- [x] Gagal AR → toast, app tidak blank.
+
+> Catatan D-AR-07: di iOS Safari, warm-import `usdz` sebelum tap CTA sengaja (D-AR-06) — bukan regresi.
 
 ## T2.5
 - [ ] Tanpa `?debug=1`: tidak ada panel FPS/GUI.

@@ -146,6 +146,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-AR-06 | `ar/usdz.exportAndOpen`: clone root + bake `color×map` ke CanvasTexture; `USDZExporter.parseAsync({ quickLookCompatible: true })`; `<a rel="ar">` + img 1×1; revoke blob ~60s; warm-import chunk saat capability=quicklook; gagal = console saja (toast T2.4); desktop CTA tetap disabled, non-iOS set `download` | Warna Quick Look beda bila color×map; blob revoke 0ms sering putus WebKit; import di tap makan user-activation | D-AR-01 · USDZExporter docs · prompts T2.3 · known-issues bake |
 
+## 2026-11-02 — T2.4 Lazy AR + errors
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AR-07 | Lazy AR: promise cache `loadWebxr`/`loadUsdz` (reset bila import reject); CTA busy + `aria-busy` + toast `toast.arFail`; `ar_enter` hanya setelah session WebXR siap / setelah Quick Look `a.click()`; warm-import USDZ Quick Look tetap (AC Network = WebXR tidak preload) | Double-load & spam tap; gagal tidak blank; Umami tanpa noise gagal; D-AR-06 tetap | prompts T2.4 · UF2 · D-AR-06 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

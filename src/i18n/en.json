@@ -38,6 +38,7 @@
   "toast.saved": "Saved",
   "toast.savedEvicted": "Saved — oldest slot replaced",
   "toast.storageFail": "Could not save (storage unavailable)",
+  "toast.arFail": "AR failed — try again",
   "onboarding.skip": "Skip",
   "onboarding.next": "Next",
   "onboarding.prev": "Back",

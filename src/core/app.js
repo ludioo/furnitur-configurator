@@ -19,6 +19,25 @@ import { detectArCapability } from '../ar/capability.js';
 
 const SLOW_MS = 8000;
 
+/** @type {Promise<typeof import('../ar/webxr.js')> | null} */
+let webxrModP = null;
+/** @type {Promise<typeof import('../ar/usdz.js')> | null} */
+let usdzModP = null;
+
+function loadWebxr() {
+  return (webxrModP ??= import('../ar/webxr.js').catch((err) => {
+    webxrModP = null;
+    throw err;
+  }));
+}
+
+function loadUsdz() {
+  return (usdzModP ??= import('../ar/usdz.js').catch((err) => {
+    usdzModP = null;
+    throw err;
+  }));
+}
+
 export function init() {
   applyDom();
 
@@ -264,7 +283,7 @@ export function init() {
   };
 
   arButton.setOnWebxr(async () => {
-    const { startWebxr } = await import('../ar/webxr.js');
+    const { startWebxr } = await loadWebxr();
     await startWebxr({
       renderer,
       scene,
@@ -280,13 +299,13 @@ export function init() {
   });
 
   arButton.setOnQuicklook(async () => {
-    const { exportAndOpen } = await import('../ar/usdz.js');
+    const { exportAndOpen } = await loadUsdz();
     await exportAndOpen(products.getCurrentRoot());
   });
 
   // Warm USDZ chunk on Quick Look devices so tap spends less of the activation window on import.
   void detectArCapability().then((mode) => {
-    if (mode === 'quicklook') void import('../ar/usdz.js');
+    if (mode === 'quicklook') void loadUsdz();
   });
 
   setOnTick((dt) => {

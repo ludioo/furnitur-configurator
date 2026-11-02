@@ -38,6 +38,7 @@
   "toast.saved": "Tersimpan",
   "toast.savedEvicted": "Tersimpan — slot tertua diganti",
   "toast.storageFail": "Gagal menyimpan (penyimpanan tidak tersedia)",
+  "toast.arFail": "AR gagal — coba lagi",
   "onboarding.skip": "Lewati",
   "onboarding.next": "Lanjut",
   "onboarding.prev": "Kembali",
