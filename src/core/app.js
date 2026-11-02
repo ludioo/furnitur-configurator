@@ -11,6 +11,7 @@ import { capturePng, shareOrDownloadPng } from '../scene/screenshot.js';
 import { initShell, setHash } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
 import { initSavedList } from '../ui/savedList.js';
+import { initArButton } from '../ui/arButton.js';
 import { showToast } from '../ui/toast.js';
 import { resolveFabricHex } from '../ui/swatches.js';
 import { resolveFinish, resolveSizeScale } from '../ui/optionChips.js';
@@ -40,6 +41,7 @@ export function init() {
     },
   });
   initShell(document.body, { saved });
+  initArButton(document.body);
 
   /** @type {(() => Promise<void>) | null} */
   let runScreenshot = null;

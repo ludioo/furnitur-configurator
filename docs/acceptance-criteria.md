@@ -53,8 +53,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Screenshot menghasilkan PNG; di HP yang support, Share sheet muncul atau fallback unduh.
 
 ## T1.7
-- [ ] Toast muncul halus lalu hilang; dengan "reduce motion" tetap muncul tanpa animasi aneh.
-- [ ] Hover/fokus lama di tombol AR disabled (desktop) → tooltip terbaca.
+- [x] Toast muncul halus lalu hilang; dengan "reduce motion" tetap muncul tanpa animasi aneh.
+- [x] Hover/fokus lama di tombol AR disabled (desktop) → tooltip terbaca.
 
 ## T1.8
 - [ ] Kunjungan pertama (localStorage kosong untuk onboard): tour 3–5 langkah bisa di-Skip.

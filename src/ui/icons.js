@@ -3,6 +3,7 @@ import xSvg from './icons/x.svg?raw';
 import saveSvg from './icons/save.svg?raw';
 import trashSvg from './icons/trash.svg?raw';
 import cameraSvg from './icons/camera.svg?raw';
+import cubeSvg from './icons/cube.svg?raw';
 
 /**
  * @param {string} svg
@@ -22,4 +23,5 @@ export const icons = {
   save: saveSvg,
   trash: trashSvg,
   camera: cameraSvg,
+  cube: cubeSvg,
 };

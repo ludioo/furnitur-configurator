@@ -27,6 +27,8 @@
   "config.saveAria": "Save this configuration",
   "cta.screenshot": "Screenshot",
   "cta.screenshotAria": "Capture and share a screenshot",
+  "cta.ar": "View in your room",
+  "ar.unsupported": "AR needs Chrome on Android or Safari on iPhone",
   "price.illustrative": "Illustrative price",
   "saved.title": "Saved",
   "saved.empty": "No saved configurations yet.",

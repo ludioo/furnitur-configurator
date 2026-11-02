@@ -27,6 +27,8 @@
   "config.saveAria": "Simpan konfigurasi ini",
   "cta.screenshot": "Screenshot",
   "cta.screenshotAria": "Ambil dan bagikan screenshot",
+  "cta.ar": "Lihat di ruanganmu",
+  "ar.unsupported": "AR butuh Chrome di Android atau Safari di iPhone",
   "price.illustrative": "Harga ilustrasi",
   "saved.title": "Tersimpan",
   "saved.empty": "Belum ada konfigurasi tersimpan.",

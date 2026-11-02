@@ -3,6 +3,10 @@ import { deleteConfig, listConfigs } from '../core/storage.js';
 import { setState } from '../core/state.js';
 import { showToast } from './toast.js';
 import { iconHtml, icons } from './icons.js';
+import { runUiMotion } from './motion.js';
+
+const OPEN_S = 0.2;
+const CLOSE_S = 0.16;
 
 /**
  * @param {HTMLElement} mountParent
@@ -32,7 +36,9 @@ export function initSavedList(mountParent, options = {}) {
 
   const emptyEl = /** @type {HTMLElement} */ (root.querySelector('[data-empty]'));
   const listEl = /** @type {HTMLElement} */ (root.querySelector('[data-list]'));
+  const dialog = /** @type {HTMLElement} */ (root.querySelector('.saved-panel__dialog'));
   const closeBtn = root.querySelector('[data-close]');
+  let animGen = 0;
 
   function formatDate(iso) {
     try {
@@ -100,15 +106,50 @@ export function initSavedList(mountParent, options = {}) {
   }
 
   function open() {
+    const gen = ++animGen;
     render();
     root.hidden = false;
+    root.style.opacity = '0';
+    dialog.style.opacity = '0';
+    dialog.style.transform = 'translateY(8px)';
     closeBtn instanceof HTMLElement && closeBtn.focus();
+    void Promise.all([
+      runUiMotion(root, { opacity: [0, 1] }, { duration: OPEN_S }),
+      runUiMotion(
+        dialog,
+        {
+          opacity: [0, 1],
+          transform: ['translateY(8px)', 'translateY(0px)'],
+        },
+        { duration: OPEN_S },
+      ),
+    ]).then(() => {
+      if (gen !== animGen) return;
+    });
   }
 
   function close() {
     if (root.hidden) return;
-    root.hidden = true;
-    options.onClose?.();
+    const gen = ++animGen;
+    void (async () => {
+      await Promise.all([
+        runUiMotion(root, { opacity: [1, 0] }, { duration: CLOSE_S }),
+        runUiMotion(
+          dialog,
+          {
+            opacity: [1, 0],
+            transform: ['translateY(0px)', 'translateY(8px)'],
+          },
+          { duration: CLOSE_S },
+        ),
+      ]);
+      if (gen !== animGen) return;
+      root.hidden = true;
+      root.style.opacity = '';
+      dialog.style.opacity = '';
+      dialog.style.transform = '';
+      options.onClose?.();
+    })();
   }
 
   function isOpen() {

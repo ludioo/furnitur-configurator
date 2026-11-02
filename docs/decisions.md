@@ -113,6 +113,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-SHOT-01 | Capture = render-once + `toBlob`; tanpa `preserveDrawingBuffer` permanen; satu CTA Screenshot → `navigator.share` bila `canShare({ files })`, else unduh PNG | Hemat VRAM; alur MVP satu tombol di footer panel | prompts T1.6 · performance-budget |
 | D-SHOT-02 | `navigator.share` hanya jika UA mobile (Android/iPhone/iPad); desktop selalu unduh PNG | Windows Share sheet Chromium sering hang load apps (validasi Barkah) | known-issues T1.6 · eksperimen desktop |
 
+## 2026-11-02 — T1.7 motion/mini + toast + floating-ui
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-12 | UI motion hanya lewat `src/ui/motion.js` → `import { animate } from 'motion/mini'`; skip animate jika `prefers-reduced-motion`; sheet tidak di-wrap Motion (lib/CSS snap) | Satu gate reduced-motion; hindari double-animate sheet; bukan Motion+ | design-system · D-UI-04 · performance-budget |
+| D-UI-13 | Tombol AR stub T1.7 selalu `aria-disabled` + tooltip `ar.unsupported`; deteksi capability tetap T2.1 | Acceptance T1.7 butuh target tooltip desktop sebelum WebXR/USDZ | prompts T1.7 · T2.1 · D-UI-06 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

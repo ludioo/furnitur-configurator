@@ -14,7 +14,7 @@
 | T1.4 | done | 2026-11-02 | priceBar sticky + pricing.js (compute/format) + Vitest; IDR↔USD ikut bahasa |
 | T1.5 | done | 2026-11-02 | save/load/delete max 10 + last restore + toast tipis; `tests/storage.test.js` |
 | T1.6 | done | 2026-11-02 | Screenshot PNG render-once; desktop unduh, mobile Web Share (D-SHOT-02); analytics `screenshot`; acceptance OK Barkah |
-| T1.7 | pending | — | motion/mini + toast + floating-ui |
+| T1.7 | done | 2026-11-02 | motion/mini + toast/modal polish + floating-ui tooltip; AR CTA stub disabled; +~10 KB gzip JS; acceptance OK Barkah |
 | T1.8 | pending | — | driver.js onboarding lazy |
 | T2.1 | pending | — | — |
 | T2.2 | pending | — | — |

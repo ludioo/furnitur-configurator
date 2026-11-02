@@ -1,5 +1,9 @@
 import { applyDom } from '../core/i18n.js';
 import { iconHtml, icons } from './icons.js';
+import { runUiMotion } from './motion.js';
+
+const OPEN_S = 0.2;
+const CLOSE_S = 0.16;
 
 /**
  * @param {{ onClose?: () => void }} [opts]
@@ -29,16 +33,55 @@ export function createAboutModal(opts = {}) {
 
   applyDom(root);
 
+  const backdrop = /** @type {HTMLElement} */ (root.querySelector('.about-modal__backdrop'));
+  const panel = /** @type {HTMLElement} */ (root.querySelector('.about-modal__panel'));
+  let animGen = 0;
+
   function close() {
     if (root.hidden) return;
-    root.hidden = true;
-    opts.onClose?.();
+    const gen = ++animGen;
+    void (async () => {
+      await Promise.all([
+        runUiMotion(backdrop, { opacity: [1, 0] }, { duration: CLOSE_S }),
+        runUiMotion(
+          panel,
+          {
+            opacity: [1, 0],
+            transform: ['translateY(0px)', 'translateY(8px)'],
+          },
+          { duration: CLOSE_S },
+        ),
+      ]);
+      if (gen !== animGen) return;
+      root.hidden = true;
+      backdrop.style.opacity = '';
+      panel.style.opacity = '';
+      panel.style.transform = '';
+      opts.onClose?.();
+    })();
   }
 
   function open() {
+    const gen = ++animGen;
     applyDom(root);
     root.hidden = false;
+    backdrop.style.opacity = '0';
+    panel.style.opacity = '0';
+    panel.style.transform = 'translateY(8px)';
     root.querySelector('.about-modal__close')?.focus();
+    void Promise.all([
+      runUiMotion(backdrop, { opacity: [0, 1] }, { duration: OPEN_S }),
+      runUiMotion(
+        panel,
+        {
+          opacity: [0, 1],
+          transform: ['translateY(8px)', 'translateY(0px)'],
+        },
+        { duration: OPEN_S },
+      ),
+    ]).then(() => {
+      if (gen !== animGen) return;
+    });
   }
 
   root.addEventListener('click', (e) => {
