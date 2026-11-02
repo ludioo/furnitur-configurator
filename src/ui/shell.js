@@ -6,8 +6,10 @@ import { iconHtml, icons } from './icons.js';
 
 /**
  * @param {HTMLElement} mountParent
+ * @param {{ saved?: { open: () => void, close: () => void, isOpen: () => boolean } }} [options]
  */
-export function initShell(mountParent) {
+export function initShell(mountParent, options = {}) {
+  const saved = options.saved;
   const bar = document.createElement('header');
   bar.className = 'top-bar';
   bar.innerHTML = `
@@ -24,6 +26,9 @@ export function initShell(mountParent) {
         <span class="top-bar__lang-sep" aria-hidden="true">|</span>
         <button type="button" class="top-bar__lang-btn" data-lang="id" data-i18n="lang.id"></button>
       </div>
+      <button type="button" class="top-bar__saved" data-i18n-aria="nav.savedAria">
+        <span data-i18n="nav.saved"></span>
+      </button>
       <button type="button" class="top-bar__about" data-i18n-aria="nav.aboutAria">
         ${iconHtml(icons.info)}
         <span data-i18n="nav.about"></span>
@@ -56,6 +61,11 @@ export function initShell(mountParent) {
       switchProduct(productId);
       track('product_change', { productId });
     });
+  });
+
+  bar.querySelector('.top-bar__saved')?.addEventListener('click', () => {
+    setHash('saved');
+    saved?.open();
   });
 
   bar.querySelector('.top-bar__about')?.addEventListener('click', () => {
@@ -95,10 +105,16 @@ export function initShell(mountParent) {
   function syncRoute() {
     const route = routeFromHash();
     if (route === 'about') {
+      saved?.close();
       about.open();
       return;
     }
     if (about.isOpen()) about.close();
+    if (route === 'saved') {
+      saved?.open();
+      return;
+    }
+    saved?.close();
     if (!location.hash || location.hash === '#') {
       setHash('configure', true);
     }
@@ -119,7 +135,7 @@ function routeFromHash() {
  * @param {string} name
  * @param {boolean} [replace]
  */
-function setHash(name, replace = false) {
+export function setHash(name, replace = false) {
   const next = `#${name}`;
   if (location.hash === next) return;
   if (replace) history.replaceState(null, '', next);

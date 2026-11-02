@@ -8,6 +8,8 @@
   "lang.id": "ID",
   "nav.about": "Tentang",
   "nav.aboutAria": "Tentang konfigurator ini",
+  "nav.saved": "Tersimpan",
+  "nav.savedAria": "Konfigurasi tersimpan",
   "splash.loading": "Memuat model 3D…",
   "splash.slow": "Koneksi lambat, masih memuat…",
   "splash.retry": "Coba lagi",
@@ -21,5 +23,15 @@
   "config.finish": "Finishing",
   "config.size": "Ukuran",
   "config.panelAria": "Opsi furnitur",
-  "price.illustrative": "Harga ilustrasi"
+  "config.save": "Simpan",
+  "config.saveAria": "Simpan konfigurasi ini",
+  "price.illustrative": "Harga ilustrasi",
+  "saved.title": "Tersimpan",
+  "saved.empty": "Belum ada konfigurasi tersimpan.",
+  "saved.load": "Muat",
+  "saved.delete": "Hapus",
+  "saved.close": "Tutup",
+  "toast.saved": "Tersimpan",
+  "toast.savedEvicted": "Tersimpan — slot tertua diganti",
+  "toast.storageFail": "Gagal menyimpan (penyimpanan tidak tersedia)"
 }

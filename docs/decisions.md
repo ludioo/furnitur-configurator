@@ -99,6 +99,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-PRICE-02 | `pricing.js`: `computePrice` + `currencyForLang` + `formatPrice` (Intl); hapus stub `pricingReady`; UI `priceBar` sticky di footer panel | Diganti API murni untuk Vitest + T1.5 `priceSnapshot`; ID→IDR / EN→USD | data-model · i18n-content · D-QA-05 |
 
+## 2026-11-02 — T1.5 Save configs + storage
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-STORE-02 | Max 10: evict tertua otomatis + toast; nama auto `Config #n`; `schemaVersion` mismatch → clear configs+last; `priceSnapshot` dihitung di UI lalu di-pass ke storage | UF1 + Grill T1.5; storage tetap murni untuk Vitest | data-model · prompts T1.5 · user-flows UF1 |
+| D-UI-11 | Hash `#saved` aktif (panel list Load/Delete); nav Saved di top bar; toast custom tanpa motion/mini dulu | Menutup no-op D-UI-09; motion polish tetap T1.7 | architecture · prompts T1.5 · D-UI-05 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

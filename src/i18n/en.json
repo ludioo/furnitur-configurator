@@ -8,6 +8,8 @@
   "lang.id": "ID",
   "nav.about": "About",
   "nav.aboutAria": "About this configurator",
+  "nav.saved": "Saved",
+  "nav.savedAria": "Saved configurations",
   "splash.loading": "Loading 3D model…",
   "splash.slow": "Slow connection, still loading…",
   "splash.retry": "Retry",
@@ -21,5 +23,15 @@
   "config.finish": "Finish",
   "config.size": "Size",
   "config.panelAria": "Furniture options",
-  "price.illustrative": "Illustrative price"
+  "config.save": "Save",
+  "config.saveAria": "Save this configuration",
+  "price.illustrative": "Illustrative price",
+  "saved.title": "Saved",
+  "saved.empty": "No saved configurations yet.",
+  "saved.load": "Load",
+  "saved.delete": "Delete",
+  "saved.close": "Close",
+  "toast.saved": "Saved",
+  "toast.savedEvicted": "Saved — oldest slot replaced",
+  "toast.storageFail": "Could not save (storage unavailable)"
 }

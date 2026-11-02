@@ -46,8 +46,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] `npm test` memuat tes pricing yang lulus.
 
 ## T1.5
-- [ ] Save → muncul di list; refresh persist; load restore; delete hilang; empty state.
-- [ ] `npm test` memuat tes storage yang lulus.
+- [x] Save → muncul di list; refresh persist; load restore; delete hilang; empty state.
+- [x] `npm test` memuat tes storage yang lulus.
 
 ## T1.6
 - [ ] Screenshot menghasilkan PNG; di HP yang support, Share sheet muncul atau fallback unduh.

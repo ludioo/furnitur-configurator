@@ -1,12 +1,15 @@
 import * as THREE from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
-import { getState, subscribe as subscribeState, switchProduct } from './state.js';
+import { getState, setState, subscribe as subscribeState, switchProduct } from './state.js';
+import { ensureSchema, getLast, setLast } from './storage.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
 import { createProductController } from '../scene/product.js';
-import { initShell } from '../ui/shell.js';
+import { initShell, setHash } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
+import { initSavedList } from '../ui/savedList.js';
+import { showToast } from '../ui/toast.js';
 import { resolveFabricHex } from '../ui/swatches.js';
 import { resolveFinish, resolveSizeScale } from '../ui/optionChips.js';
 
@@ -23,10 +26,39 @@ export function init() {
   const poster = document.getElementById('webgl-poster');
   if (!container || !splash || !splashPct || !splashStatus || !splashRetry) return;
 
-  initShell(document.body);
-  initConfigPanel(document.body).catch((err) => {
+  ensureSchema();
+  const last = getLast();
+  if (last) setState(last);
+
+  const saved = initSavedList(document.body, {
+    onClose() {
+      if ((location.hash || '').replace(/^#/, '') === 'saved') {
+        setHash('configure');
+      }
+    },
+  });
+  initShell(document.body, { saved });
+  initConfigPanel(document.body, {
+    onSaved() {
+      saved.render();
+    },
+  }).catch((err) => {
     console.error('[configPanel]', err);
   });
+
+  let storageFailToasted = false;
+  /** @param {{ productId: string, fabricColor: string, finish: string, size: string }} snapshot */
+  function persistLast(snapshot) {
+    if (setLast(snapshot)) return;
+    if (storageFailToasted) return;
+    storageFailToasted = true;
+    showToast(t('toast.storageFail'));
+  }
+
+  subscribeState((next) => {
+    persistLast(next);
+  });
+  persistLast(getState());
 
   let scene;
   let renderer;
@@ -202,5 +234,5 @@ export function init() {
   });
   start();
 
-  loadProduct('armchair');
+  loadProduct(getState().productId || 'armchair');
 }

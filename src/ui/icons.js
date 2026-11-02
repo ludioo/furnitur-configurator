@@ -1,5 +1,7 @@
 import infoSvg from './icons/info.svg?raw';
 import xSvg from './icons/x.svg?raw';
+import saveSvg from './icons/save.svg?raw';
+import trashSvg from './icons/trash.svg?raw';
 
 /**
  * @param {string} svg
@@ -16,4 +18,6 @@ export function iconHtml(svg, className = 'icon') {
 export const icons = {
   info: infoSvg,
   x: xSvg,
+  save: saveSvg,
+  trash: trashSvg,
 };
