@@ -1,0 +1,26 @@
+---
+description: Anggaran performa 3D & web (load <3 dtk, transfer <3 MB), GLB Draco/KTX2, AR/driver/debug lazy
+globs: src/scene/**,src/ar/**,src/core/**,src/ui/**,src/debug/**,public/**,scripts/**,vite.config.js,vercel.json,lighthouserc.js
+alwaysApply: false
+---
+
+# Anggaran Performa
+
+## Target (dari `docs/PRD.md` / tech-stack)
+- Model interaktif < 3 dtk di HP 4G; total transfer awal < 3 MB.
+- Tiap GLB ideal < 800 KB, hard cap ~1.2 MB setelah optimize.
+- Initial JS gzip app+three < ~300 KB critical path.
+- Lighthouse mobile Performance ≥ 80 (stretch 85), Accessibility ≥ 90 — lewat `@lhci/cli`.
+- 60 fps desktop, ≥ 30 fps HP mid-range.
+
+## Aturan
+- Model hanya dari `public/models/*.glb` hasil `scripts/optimize-model.mjs` (gltf-transform: Draco/meshopt + webp/ktx2, tekstur maks 1024). Catat fallback di `docs/known-issues.md` jika tool kurang.
+- **Jangan** ship HDRI besar; pakai `RoomEnvironment` + PMREM.
+- Render on demand bila memungkinkan; hentikan kerja saat tab hidden (`document.hidden`).
+- `renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2))`.
+- **Dynamic `import()` wajib** untuk: `ar/webxr.js`, `ar/usdz.js`, `driver.js` (onboarding), `lil-gui` + `stats.js` (hanya `?debug=1`), PDF Later.
+- `motion/mini` boleh di path UI ringan; jangan animasi JS berat di loop frame 3D.
+- Ikon = SVG individual Lucide; jangan bundle icon set penuh.
+- Script analytics setelah load + idle, hanya jika env ID ada.
+- Setiap menambah aset/dependency, laporkan dampak ukuran (KB) ke user.
+- `stats.js` / `lil-gui` hanya `?debug`, tidak di bundle produksi utama / critical chunk.

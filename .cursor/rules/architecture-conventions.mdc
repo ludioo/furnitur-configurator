@@ -1,0 +1,49 @@
+---
+description: Pola arsitektur & konvensi kode untuk vanilla three.js + Vite (scene, product, AR, storage, styling)
+globs: src/**/*.js,src/**/*.css,index.html,vite.config.js,vercel.json,scripts/**/*
+alwaysApply: false
+---
+
+# Konvensi Arsitektur
+
+## Struktur & Penamaan
+
+- Struktur folder mengikuti `docs/architecture.md` persis: `src/core/`, `src/scene/`, `src/ar/`, `src/ui/` (termasuk `icons/`, `onboarding.js`, `tooltip.js`, `motion.js`, `bottomSheet.js`), `src/debug/`, `src/data/`, `src/i18n/`, `src/styles/`, plus `tests/`, `e2e/`.
+- Nama file kebab-case atau camelCase konsisten dengan architecture.md (`configPanel.js`, `webxr.js`); variabel/fungsi camelCase; konstanta UPPER_SNAKE_CASE.
+- Satu WebGLRenderer / scene / camera — dibuat di `src/scene/renderer.js` (+ camera.js). Jangan `new WebGLRenderer()` di UI atau AR selain mengaktifkan XR pada renderer yang sama.
+- Komunikasi longgar lewat callback/`app.js` atau event kecil di core — jangan import silang UI↔AR tanpa perlu.
+
+## Scene & 3D
+
+- Load model hanya lewat `src/scene/loader.js` (GLTFLoader + DRACOLoader + KTX2Loader/Meshopt, decoder `public/decoders/`).
+- Ganti warna fabric via color multiplier pada material di `bodyMaterialNames` — **jangan** menghapus `map` tekstur.
+- Finish = set `roughness` / `metalness` (dan opsional envMapIntensity), bukan ganti seluruh material baru kecuali perlu.
+- Size = `scale` pada root produk, bukan re-export model.
+- Saat ganti produk: dispose geometry/material lama yang aman (hindari leak).
+- Orbit/dolly lewat `camera-controls` di `src/scene/camera.js`.
+
+## AR
+
+- `src/ar/webxr.js` dan `src/ar/usdz.js` **wajib** di-load dengan dynamic `import()` dari CTA.
+- WebXR: session `immersive-ar` + hit-test; cleanup listener & reticle on end.
+- USDZ: `USDZExporter` dengan `{ quickLookCompatible: true }`; revoke object URLs.
+- Jangan menambah `@google/model-viewer` tanpa keputusan baru di `docs/decisions.md`.
+
+## Storage
+
+- Semua akses `localStorage` lewat `src/core/storage.js`: prefix `furncfg:`, `schemaVersion: 1`, try/catch, maks 10 configs sesuai `docs/data-model.md`.
+- Mengubah bentuk data = naikkan `schemaVersion` + migrasi sederhana, catat di `docs/decisions.md`.
+
+## Styling
+
+- Warna, spacing, radius, font hanya lewat CSS custom properties (dari `docs/design-system.md`) — jangan hex hardcoded di banyak tempat.
+- Mobile-first: default HP, lalu `@media (min-width: 768px)`. Target sentuh minimal 44×44px.
+- Hormati `prefers-reduced-motion` (matikan auto-rotate & lerp panjang).
+
+
+## UI libs
+- Bottom sheet: `pure-web-bottom-sheet` + CSS fallback (`bottom-sheet-fallback.css`) — lihat strategy di architecture.md.
+- Motion UI: `import { animate } from "motion/mini"` lewat `src/ui/motion.js`; hormati `prefers-reduced-motion`.
+- Onboarding: `src/ui/onboarding.js` dynamic-import `driver.js`.
+- Tooltip: `@floating-ui/dom` di `src/ui/tooltip.js`.
+- Debug: `src/debug/debugPanel.js` hanya jika `?debug=1`.

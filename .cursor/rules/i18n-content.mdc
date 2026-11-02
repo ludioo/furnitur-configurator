@@ -1,0 +1,28 @@
+---
+description: Aturan teks UI bilingual EN/ID, harga ilustrasi, kredit aset
+globs: src/i18n/**,src/data/**,index.html,src/ui/**/*.js
+alwaysApply: false
+---
+
+# Teks, Bahasa & Konten
+
+## i18n
+
+- Setiap string yang terlihat user wajib punya key di **kedua** file `src/i18n/en.json` dan `src/i18n/id.json` — tidak boleh ada key yang hanya di satu bahasa.
+- Di HTML pakai atribut `data-i18n="key"`; di JS pakai `t('key')`. Jangan hardcode teks.
+- Data bilingual di `src/data/*.json` memakai objek `{ "en": "...", "id": "..." }`.
+- Ganti bahasa tanpa reload; pilihan disimpan di `furncfg:lang`.
+- Tone: EN singkat aktif; ID baku santai (bukan terlalu formal birokrasi).
+
+## Harga & spek
+
+- Selalu tampilkan "Illustrative price" / "Harga ilustrasi".
+- Mata uang: IDR saat ID, USD saat EN.
+- Format angka pakai `Intl.NumberFormat` sesuai bahasa aktif.
+- Jangan mengklaim stok, ongkir, atau toko nyata.
+
+## Kredit & disclaimer
+
+- Kredit Poly Haven CC0 (ArmChair_01, Sofa_01) wajib di About.
+- Disclaimer harga ilustrasi wajib di UI harga + About.
+- Jangan mengarang lisensi aset lain; semua harus tercatat di `docs/content-and-assets.md`.

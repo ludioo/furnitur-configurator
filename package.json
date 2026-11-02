@@ -1,0 +1,18 @@
+{
+  "name": "furniture-configurator",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "camera-controls": "^3.1.0",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^6.4.0"
+  }
+}

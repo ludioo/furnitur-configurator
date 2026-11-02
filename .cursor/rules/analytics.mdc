@@ -1,0 +1,14 @@
+---
+description: Aturan analytics Umami Cloud (tanpa cookie) dan custom events
+globs: src/core/analytics.js,src/ui/**/*.js,src/ar/**/*.js
+alwaysApply: false
+---
+
+# Analytics (Umami)
+
+- Semua tracking **hanya** lewat `track(name, data)` dari `src/core/analytics.js` — jangan panggil `window.umami` langsung di UI/AR.
+- `track` harus no-op aman jika script diblokir/tidak ada (`window.umami?.track`). App tidak boleh error karena analytics.
+- Script `https://cloud.umami.is/script.js` disisipkan dinamis setelah model load + `requestIdleCallback`, hanya jika `VITE_UMAMI_WEBSITE_ID` ada dan hostname `configurator.barkahmauludi.com` (pakai `data-domains`).
+- Event yang diizinkan: `product_change`, `variant_change`, `config_save`, `ar_enter`, `screenshot`, `lang_change`. Event baru = catat di `docs/decisions.md` dulu. Nama ≤ 50 karakter.
+- **Privasi**: tanpa cookie, tanpa banner. Jangan kirim nama konfigurasi bebas yang bisa berisi PII sensitif berlebih; payload cukup id opsi (sand, leather, dll).
+- Kuota Hobby ~100K events/bulan: jangan track per frame / per orbit.
