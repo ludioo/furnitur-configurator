@@ -65,5 +65,11 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-MAT-01 | `bodyMaterialNames`: armchair = `Armchair_01`; sofa = `Sofa_01`. Satu material per model; **tidak** ada material kaki terpisah (Legs Later tidak dibuka dari aset ini) | Inspeksi GLB setelah optimize | eksperimen T0.3 |
 | D-UX-01 | Splash loading EN hardcode sampai T1.1; ganti produk sementara via `window.__furncfgLoad('sofa'\|'armchair')` | i18n & UI switcher belum ada; acceptance mengizinkan console | prompts T0.3 · user-flows UF0 |
 
+## 2026-11-02 — T0.4 Deploy Vercel
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-HOST-02 | Vercel Production Branch = `main` (push tip dari `develop`); GitHub default tetap `develop`; slug repo `furnitur-configurator` tidak di-rename | Selaras CI on `main` (D-QA-03); rename mid-flight berisiko; subdomain sudah Valid + HTTPS | env-setup · T0.4 · github.com/ludioo/furnitur-configurator |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`

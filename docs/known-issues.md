@@ -7,7 +7,9 @@
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | Diharapkan (three di critical path); code-split/on-demand di T3.3 — bukan blocker acceptance |
 | 2026-11-02 | T0.3 | Teks splash masih hardcode EN | Diganti i18n di T1.1 (keputusan D-UX-01) |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2.
+Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4.
+
+Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 
 ## Risiko yang sudah diantisipasi
 | Gejala | Penyebab mungkin | Mitigasi |
