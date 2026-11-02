@@ -5,9 +5,14 @@ import { attachTooltip } from './tooltip.js';
 
 /**
  * AR CTA with capability states (WebXR / Quick Look / unsupported).
- * WebXR click starts session via setOnWebxr; Quick Look is T2.3.
+ * WebXR → setOnWebxr; Quick Look → setOnQuicklook.
  * @param {HTMLElement} mountParent
- * @returns {{ root: HTMLButtonElement, setOnWebxr: (fn: (() => void | Promise<void>) | null) => void, destroy: () => void }}
+ * @returns {{
+ *   root: HTMLButtonElement,
+ *   setOnWebxr: (fn: (() => void | Promise<void>) | null) => void,
+ *   setOnQuicklook: (fn: (() => void | Promise<void>) | null) => void,
+ *   destroy: () => void,
+ * }}
  */
 export function initArButton(mountParent) {
   const btn = document.createElement('button');
@@ -26,6 +31,8 @@ export function initArButton(mountParent) {
   let alive = true;
   /** @type {(() => void | Promise<void>) | null} */
   let onWebxr = null;
+  /** @type {(() => void | Promise<void>) | null} */
+  let onQuicklook = null;
 
   const tip = attachTooltip(btn, () => (mode === 'unsupported' ? t('ar.unsupported') : ''));
 
@@ -41,8 +48,13 @@ export function initArButton(mountParent) {
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    if (mode !== 'webxr' || !onWebxr) return;
-    void Promise.resolve(onWebxr()).catch((err) => console.error('[ar]', err));
+    if (mode === 'webxr' && onWebxr) {
+      void Promise.resolve(onWebxr()).catch((err) => console.error('[ar]', err));
+      return;
+    }
+    if (mode === 'quicklook' && onQuicklook) {
+      void Promise.resolve(onQuicklook()).catch((err) => console.error('[ar]', err));
+    }
   });
 
   const unsub = subscribe(() => {
@@ -60,9 +72,13 @@ export function initArButton(mountParent) {
     setOnWebxr(fn) {
       onWebxr = fn;
     },
+    setOnQuicklook(fn) {
+      onQuicklook = fn;
+    },
     destroy() {
       alive = false;
       onWebxr = null;
+      onQuicklook = null;
       unsub();
       tip.destroy();
       btn.remove();

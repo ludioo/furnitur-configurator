@@ -17,8 +17,10 @@
 | 2026-11-02 | T2.1 | State “siap” Android Chrome / iPhone Safari tidak diverifikasi di perangkat nyata (hanya Vitest + desktop headless) | Desktop + tooltip OK Barkah; cek tombol aktif di HP teman/keluarga bila ada |
 | 2026-11-02 | T1.8/T2.1 | Teks tour driver.js hampir tak terbaca (putih/abu di latar putih) | `onboarding.css` diimpor setelah `driver.css` (D-UI-16); kontras OK Barkah |
 | 2026-11-02 | T2.2 | Hit-test place/exit tidak diverifikasi di Android Chrome HTTPS (mesin AI Windows; emulator tanpa hit-test) | Kode + Vitest pose + desktop no-regression OK; tes HP: Chrome Android ke HTTPS (deploy atau `chrome://inspect` port-forward) |
+| 2026-11-02 | T2.3 | Quick Look warna/buka tidak diverifikasi di iPhone Safari HTTPS (mesin AI Windows) | Kode + Vitest bake + chunk `usdz` + desktop CTA disabled OK; tes: Safari iPhone ke HTTPS deploy → tap AR → Quick Look → tutup |
+| 2026-11-02 | T2.3 | Export USDZ masih `await parseAsync` di dalam tap — model besar bisa habiskan user-activation sebelum `a.click()` | Warm-import chunk sudah; bila Quick Look sering gagal buka, pertimbangkan dua ketukan / anchor siap (bukan scope T2.3) |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4 / T1.1 / T1.2 / T1.3 / T1.4 / T1.5 / T1.6 / T1.7 / T1.8 / T2.1 desktop / T2.2 desktop. Device AR hit-test (Android) + Quick Look (iPhone) tetap deferred.
+Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4 / T1.1 / T1.2 / T1.3 / T1.4 / T1.5 / T1.6 / T1.7 / T1.8 / T2.1 desktop / T2.2 desktop / T2.3 desktop. Device AR hit-test (Android) + Quick Look (iPhone) tetap deferred.
 
 Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 

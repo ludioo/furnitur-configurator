@@ -18,7 +18,7 @@
 | T1.8 | done | 2026-11-02 | Lazy driver.js tour 4 langkah + `furncfg:onboarded`; chunk terpisah di build; acceptance OK Barkah |
 | T2.1 | done | 2026-11-02 | Capability WebXR + Safari iOS heuristic; tombol disabled/ready; Vitest arCapability; desktop + tooltip OK Barkah; HP device deferred; tour CSS after driver.css (kontras) |
 | T2.2 | done | 2026-11-02 | WebXR immersive-ar + hit-test + reticle; place root live; dynamic import chunk `webxr`; desktop viewer + aria-disabled OK; hit-test nyata deferred ke Android Chrome HTTPS |
-| T2.3 | pending | — | — |
+| T2.3 | done | 2026-11-02 | USDZExporter quickLookCompatible + bake tint pada clone; CTA quicklook; chunk `usdz` terpisah; Vitest bake; Quick Look device deferred ke iPhone Safari HTTPS |
 | T2.4 | pending | — | — |
 | T2.5 | pending | — | lil-gui + stats ?debug |
 | T3.1 | pending | — | — |

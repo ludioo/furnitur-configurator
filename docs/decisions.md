@@ -140,6 +140,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-AR-05 | WebXR via CTA T2.1 + `startWebxr` (bukan addon `ARButton`); `setReferenceSpaceType('local')`; reticle hit-test; place root produk live; tanpa DOM overlay exit | Satu tombol; default three `local-floor` sering gagal di HP; overlay exit = scope ekstra; UI sistem Chrome cukup | D-AR-01 · webxr_ar_hittest · ARButton.js · UF2 · prompts T2.2 |
 
+## 2026-11-02 — T2.3 USDZ Quick Look
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AR-06 | `ar/usdz.exportAndOpen`: clone root + bake `color×map` ke CanvasTexture; `USDZExporter.parseAsync({ quickLookCompatible: true })`; `<a rel="ar">` + img 1×1; revoke blob ~60s; warm-import chunk saat capability=quicklook; gagal = console saja (toast T2.4); desktop CTA tetap disabled, non-iOS set `download` | Warna Quick Look beda bila color×map; blob revoke 0ms sering putus WebKit; import di tap makan user-activation | D-AR-01 · USDZExporter docs · prompts T2.3 · known-issues bake |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

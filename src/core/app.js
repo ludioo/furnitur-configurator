@@ -15,6 +15,7 @@ import { initArButton } from '../ui/arButton.js';
 import { showToast } from '../ui/toast.js';
 import { resolveFabricHex } from '../ui/swatches.js';
 import { resolveFinish, resolveSizeScale } from '../ui/optionChips.js';
+import { detectArCapability } from '../ar/capability.js';
 
 const SLOW_MS = 8000;
 
@@ -276,6 +277,16 @@ export function init() {
       syncSize,
       setControlsEnabled,
     });
+  });
+
+  arButton.setOnQuicklook(async () => {
+    const { exportAndOpen } = await import('../ar/usdz.js');
+    await exportAndOpen(products.getCurrentRoot());
+  });
+
+  // Warm USDZ chunk on Quick Look devices so tap spends less of the activation window on import.
+  void detectArCapability().then((mode) => {
+    if (mode === 'quicklook') void import('../ar/usdz.js');
   });
 
   setOnTick((dt) => {
