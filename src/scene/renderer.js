@@ -4,7 +4,16 @@ const CLEAR_COLOR = 0x12151c;
 
 /**
  * @param {HTMLElement} container
- * @returns {{ scene: THREE.Scene, renderer: THREE.WebGLRenderer, setOnTick: (fn: ((dt: number) => void) | null) => void, start: () => void }}
+ * @returns {{
+ *   scene: THREE.Scene,
+ *   renderer: THREE.WebGLRenderer,
+ *   setOnTick: (fn: ((dt: number, force: boolean) => boolean) | null) => void,
+ *   invalidate: () => void,
+ *   start: () => void,
+ *   stop: () => void,
+ *   setPassthrough: (on: boolean) => void,
+ *   syncSize: () => void,
+ * }}
  */
 export function createRenderer(container) {
   const scene = new THREE.Scene();
@@ -18,11 +27,11 @@ export function createRenderer(container) {
   setPixelRatio(renderer);
   container.appendChild(renderer.domElement);
 
-  /** @type {((dt: number) => void) | null} */
+  /** @type {((dt: number, force: boolean) => boolean) | null} */
   let onTick = null;
   let rafId = 0;
   let lastTime = 0;
-  let running = false;
+  let dirty = true;
 
   function resize() {
     const w = container.clientWidth || window.innerWidth;
@@ -36,19 +45,41 @@ export function createRenderer(container) {
     r.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2));
   }
 
-  function frame(now) {
+  function schedule() {
+    if (rafId || document.hidden) return;
     rafId = requestAnimationFrame(frame);
+  }
+
+  function frame(now) {
+    rafId = 0;
     if (document.hidden) {
       lastTime = now;
       return;
     }
     const dt = lastTime ? Math.min(0.05, (now - lastTime) / 1000) : 0;
     lastTime = now;
-    if (onTick) onTick(dt);
+
+    const force = dirty;
+    dirty = false;
+
+    let keep = force;
+    if (onTick) {
+      if (onTick(dt, force)) keep = true;
+    }
+    if (dirty) keep = true;
+
+    if (keep) schedule();
+  }
+
+  function invalidate() {
+    dirty = true;
+    schedule();
   }
 
   function onVisibility() {
-    if (!document.hidden) lastTime = performance.now();
+    if (document.hidden) return;
+    lastTime = performance.now();
+    invalidate();
   }
 
   function onWindowResize() {
@@ -57,6 +88,7 @@ export function createRenderer(container) {
     renderer.domElement.dispatchEvent(
       new CustomEvent('furncfg:resize', { detail: { width, height } }),
     );
+    invalidate();
   }
 
   resize();
@@ -69,6 +101,7 @@ export function createRenderer(container) {
     renderer.domElement.dispatchEvent(
       new CustomEvent('furncfg:resize', { detail: { width, height } }),
     );
+    invalidate();
   }
 
   /**
@@ -83,6 +116,7 @@ export function createRenderer(container) {
       scene.background = new THREE.Color(CLEAR_COLOR);
       renderer.setClearColor(CLEAR_COLOR, 1);
     }
+    invalidate();
   }
 
   return {
@@ -91,15 +125,15 @@ export function createRenderer(container) {
     setOnTick(fn) {
       onTick = fn;
     },
+    invalidate,
     start() {
-      if (running) return;
-      running = true;
       lastTime = 0;
-      rafId = requestAnimationFrame(frame);
+      invalidate();
     },
     stop() {
-      running = false;
+      dirty = false;
       cancelAnimationFrame(rafId);
+      rafId = 0;
     },
     setPassthrough,
     syncSize,

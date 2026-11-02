@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Mesh, MeshStandardMaterial, PlaneGeometry } from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
 import { getState, setState, subscribe as subscribeState, switchProduct } from './state.js';
 import { ensureSchema, getLast, setLast } from './storage.js';
@@ -93,16 +93,20 @@ export function init() {
   let scene;
   let renderer;
   let setOnTick;
+  let invalidate;
   let start;
   let stop;
   let setPassthrough;
   let syncSize;
   try {
-    ({ scene, renderer, setOnTick, start, stop, setPassthrough, syncSize } =
+    ({ scene, renderer, setOnTick, invalidate, start, stop, setPassthrough, syncSize } =
       createRenderer(container));
   } catch (err) {
     console.error(err);
     splash.hidden = true;
+    splash.setAttribute('aria-hidden', 'true');
+    splashPct.textContent = '';
+    splashStatus.textContent = '';
     if (poster) {
       poster.hidden = false;
       applyDom(poster);
@@ -119,6 +123,7 @@ export function init() {
   const { camera, update: updateCamera, setEnabled: setControlsEnabled } = createCamera(
     renderer,
     size,
+    { invalidate },
   );
 
   runScreenshot = async () => {
@@ -134,9 +139,9 @@ export function init() {
     }
   };
 
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
-    new THREE.MeshStandardMaterial({
+  const ground = new Mesh(
+    new PlaneGeometry(20, 20),
+    new MeshStandardMaterial({
       color: 0x1a1e26,
       roughness: 1,
       metalness: 0,
@@ -157,6 +162,7 @@ export function init() {
   function showSplash() {
     splashPhase = 'loading';
     splash.hidden = false;
+    splash.removeAttribute('aria-hidden');
     splash.setAttribute('aria-busy', 'true');
     splashRetry.hidden = true;
     splashPct.textContent = '0%';
@@ -167,6 +173,9 @@ export function init() {
     splashPhase = 'idle';
     splash.hidden = true;
     splash.setAttribute('aria-busy', 'false');
+    splash.setAttribute('aria-hidden', 'true');
+    splashPct.textContent = '';
+    splashStatus.textContent = '';
     if (slowTimer) {
       clearTimeout(slowTimer);
       slowTimer = null;
@@ -180,6 +189,7 @@ export function init() {
       slowTimer = null;
     }
     splash.hidden = false;
+    splash.removeAttribute('aria-hidden');
     splash.setAttribute('aria-busy', 'false');
     splashStatus.textContent = message;
     splashRetry.hidden = false;
@@ -219,6 +229,7 @@ export function init() {
     const finish = resolveFinish(cfg);
     if (finish) products.applyFinish(finish);
     products.applySize(resolveSizeScale(cfg));
+    invalidate();
   }
 
   subscribeState((next) => {
@@ -317,14 +328,19 @@ export function init() {
       .then((m) => m.mountDebugPanel({ renderer, products }))
       .then((api) => {
         debugUpdate = api?.update ?? null;
+        invalidate();
       })
       .catch((err) => console.error('[debug]', err));
   }
 
-  setOnTick((dt) => {
-    updateCamera(dt);
-    debugUpdate?.();
-    renderer.render(scene, camera);
+  setOnTick((dt, force) => {
+    const moved = updateCamera(dt);
+    const debugOn = Boolean(debugUpdate);
+    if (force || moved || debugOn) {
+      debugUpdate?.();
+      renderer.render(scene, camera);
+    }
+    return moved || debugOn;
   });
   start();
 

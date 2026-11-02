@@ -4,7 +4,8 @@
 | Tanggal | Task | Gejala | Solusi |
 |---|---|---|---|
 | 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
-| 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | Diharapkan (three di critical path); code-split/on-demand di T3.3 — bukan blocker acceptance |
+| 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | T3.3: on-demand RAF (D-SCENE-02); chunk utama ~861 KB / **228 KB gzip** (&lt; ~300 KB budget); warning Vite &gt;500 KB tetap ada (three critical path) |
+| 2026-11-02 | T3.3 | Tidak ada HDRI mati di `public/`; `draco_decoder.js` (~512 KB) tetap di repo sebagai fallback Draco | Tidak dihapus tanpa bukti unused di semua browser; path awal pakai wasm + wrapper (~251 KB) |
 | 2026-11-02 | T0.3 | Teks splash masih hardcode EN | Diganti i18n di T1.1 (keputusan D-UX-01) — selesai T1.1 |
 | 2026-11-02 | T1.1 | Product tabs Chair/Sofa disabled (placeholder) | Selesai T1.3 — tab aktif + `__furncfgLoad` tetap sinkron state |
 | 2026-11-02 | T1.2 | `pure-web-bottom-sheet@1.1.1` engines minta Node ≥24 / npm ≥11.7; project CI Node 22 | Warning EBADENGINE saja; runtime browser OK. Tetap pin 1.1.1 per D-UI-02 |

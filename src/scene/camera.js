@@ -10,8 +10,10 @@ const IDLE_AZIMUTH_SPEED = 0.15;
 /**
  * @param {THREE.WebGLRenderer} renderer
  * @param {{ width: number, height: number }} size
+ * @param {{ invalidate?: () => void }} [opts]
  */
-export function createCamera(renderer, size) {
+export function createCamera(renderer, size, opts = {}) {
+  const invalidate = opts.invalidate;
   const camera = new THREE.PerspectiveCamera(45, size.width / size.height, 0.1, 100);
   const controls = new CameraControls(camera, renderer.domElement);
   controls.minDistance = 1.2;
@@ -24,10 +26,25 @@ export function createCamera(renderer, size) {
   let reducedMotion = reducedMotionMq.matches;
   let lastInteractAt = performance.now();
   let idle = false;
+  /** @type {ReturnType<typeof setTimeout> | null} */
+  let idleTimer = null;
+
+  function armIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = null;
+    if (reducedMotion) return;
+    idleTimer = setTimeout(() => {
+      idleTimer = null;
+      idle = true;
+      invalidate?.();
+    }, IDLE_MS);
+  }
 
   function bumpInteract() {
     lastInteractAt = performance.now();
     idle = false;
+    armIdleTimer();
+    invalidate?.();
   }
 
   controls.addEventListener('controlstart', bumpInteract);
@@ -37,9 +54,18 @@ export function createCamera(renderer, size) {
 
   function onReducedMotionChange() {
     reducedMotion = reducedMotionMq.matches;
-    if (reducedMotion) idle = false;
+    if (reducedMotion) {
+      idle = false;
+      if (idleTimer) {
+        clearTimeout(idleTimer);
+        idleTimer = null;
+      }
+    } else {
+      armIdleTimer();
+    }
   }
   reducedMotionMq.addEventListener('change', onReducedMotionChange);
+  armIdleTimer();
 
   renderer.domElement.addEventListener('furncfg:resize', (e) => {
     const { width, height } = e.detail;

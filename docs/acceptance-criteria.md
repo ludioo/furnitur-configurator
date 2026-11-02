@@ -98,8 +98,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [ ] Umami events muncul di dashboard untuk ganti warna, save, AR, bahasa (tanpa adblock) — **ditunda** (Hobby 1 website; lihat known-issues T3.2).
 
 ## T3.3
-- [ ] Teks Loading hilang dari DOM setelah load.
-- [ ] AI laporkan transfer awal < 3 MB (atau blocker tercatat).
+- [x] Teks Loading hilang dari DOM setelah load.
+- [x] AI laporkan transfer awal < 3 MB (atau blocker tercatat). — ~1.46 MB raw / ~0.9 MB wire-ish (HTML+CSS+JS gzip+armchair+Draco); lihat progress T3.3
 
 ## T3.4
 - [ ] `npm run lhci` (atau setara) dijalankan AI; skor + assert budget dilampirkan.

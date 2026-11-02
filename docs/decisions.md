@@ -165,6 +165,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-AN-01 | `initAnalytics` setelah model load sukses + `requestIdleCallback` (fallback timeout); script hanya jika `VITE_UMAMI_WEBSITE_ID`; `data-domains=configurator.barkahmauludi.com`; `track` no-op aman; `lang_change` hanya saat bahasa benar-benar berubah | Critical path bersih; lokal/staging tanpa noise; privasi tanpa cookie banner | analytics.mdc · env-setup §7 · prompts T3.2 |
 | D-AN-02 | Live Umami Cloud untuk configurator **ditunda**; jangan Pro berbayar; env ID boleh kosong sampai slot/domain tersedia | Hobby = 1 website; slot penuh; MVP tidak bergantung dashboard Events | Barkah 2026-11-02 · umami.is/pricing |
 
+## 2026-11-02 — T3.3 Performance pass
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-SCENE-02 | Studio loop on-demand: RAF hanya saat dirty / kamera bergerak / idle spin; `invalidate()` + idle `setTimeout(5s)`; pause `document.hidden`; splash teks dikosongkan + `aria-hidden` setelah load; cache immutable `/assets` | Ganti D-SCENE-01 continuous RAF; hemat CPU HP; AC teks loading hilang dari DOM; Vite hashed assets | performance-budget · prompts T3.3 · D-SCENE-01 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 
