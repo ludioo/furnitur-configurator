@@ -1,4 +1,5 @@
 /** @typedef {{ productId: string, fabricColor: string, finish: string, size: string }} ConfigState */
+/** @typedef {{ fabricColor: string, finish: string, size: string }} ProductOptions */
 
 /** @type {ConfigState} */
 const DEFAULT_STATE = {
@@ -8,11 +9,25 @@ const DEFAULT_STATE = {
   size: 'standard',
 };
 
+/** @type {ProductOptions} */
+const DEFAULT_OPTIONS = {
+  fabricColor: DEFAULT_STATE.fabricColor,
+  finish: DEFAULT_STATE.finish,
+  size: DEFAULT_STATE.size,
+};
+
 /** @type {ConfigState} */
 let state = { ...DEFAULT_STATE };
 
+/** @type {Map<string, ProductOptions>} */
+const lastByProduct = new Map();
+
 /** @type {Set<(next: ConfigState) => void>} */
 const listeners = new Set();
+
+function notify() {
+  for (const fn of listeners) fn(state);
+}
 
 /** @returns {Readonly<ConfigState>} */
 export function getState() {
@@ -32,7 +47,7 @@ export function setOption(key, value) {
   if (!(key in DEFAULT_STATE)) return;
   if (state[key] === value) return;
   state = { ...state, [key]: value };
-  for (const fn of listeners) fn(state);
+  notify();
 }
 
 /**
@@ -49,7 +64,31 @@ export function setState(patch) {
   }
   if (!changed) return;
   state = next;
-  for (const fn of listeners) fn(state);
+  notify();
+}
+
+/**
+ * Switch product; remember current options for the previous product and
+ * restore the last options for the new one (or defaults if never visited).
+ * @param {string} productId
+ */
+export function switchProduct(productId) {
+  if (!productId || productId === state.productId) return;
+
+  lastByProduct.set(state.productId, {
+    fabricColor: state.fabricColor,
+    finish: state.finish,
+    size: state.size,
+  });
+
+  const restored = lastByProduct.get(productId) ?? DEFAULT_OPTIONS;
+  state = {
+    productId,
+    fabricColor: restored.fabricColor,
+    finish: restored.finish,
+    size: restored.size,
+  };
+  notify();
 }
 
 /**
@@ -64,5 +103,6 @@ export function subscribe(fn) {
 /** Reset to defaults — tests only. */
 export function resetState() {
   state = { ...DEFAULT_STATE };
-  for (const fn of listeners) fn(state);
+  lastByProduct.clear();
+  notify();
 }

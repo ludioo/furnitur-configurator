@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
-import { getState, subscribe as subscribeState } from './state.js';
+import { getState, subscribe as subscribeState, switchProduct } from './state.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
@@ -8,6 +8,7 @@ import { createProductController } from '../scene/product.js';
 import { initShell } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
 import { resolveFabricHex } from '../ui/swatches.js';
+import { resolveFinish, resolveSizeScale } from '../ui/optionChips.js';
 
 const SLOW_MS = 8000;
 
@@ -66,6 +67,8 @@ export function init() {
   /** @type {ReturnType<typeof setTimeout> | null} */
   let slowTimer = null;
   let loadGeneration = 0;
+  /** @type {string | null} */
+  let loadingProductId = null;
   /** @type {'loading' | 'slow' | 'error' | 'idle'} */
   let splashPhase = 'idle';
 
@@ -127,13 +130,22 @@ export function init() {
     },
   });
 
-  function applyCurrentColor() {
-    const hex = resolveFabricHex(getState());
+  function applyCurrentAppearance() {
+    const cfg = getState();
+    const hex = resolveFabricHex(cfg);
     if (hex) products.applyColor(hex);
+    const finish = resolveFinish(cfg);
+    if (finish) products.applyFinish(finish);
+    products.applySize(resolveSizeScale(cfg));
   }
 
-  subscribeState(() => {
-    applyCurrentColor();
+  subscribeState((next) => {
+    if (next.productId !== products.getCurrentId()) {
+      if (loadingProductId === next.productId) return;
+      loadProduct(next.productId);
+      return;
+    }
+    applyCurrentAppearance();
   });
 
   /**
@@ -141,26 +153,48 @@ export function init() {
    */
   async function loadProduct(productId) {
     const gen = ++loadGeneration;
+    loadingProductId = productId;
     showSplash();
     armSlowTimer();
     try {
-      const hex = resolveFabricHex(getState()) || undefined;
-      await products.load(productId, { fabricColorHex: hex });
+      const cfg = getState();
+      const hex = resolveFabricHex(cfg) || undefined;
+      const finish = resolveFinish(cfg) || undefined;
+      const sizeScale = resolveSizeScale(cfg);
+      const loaded = await products.load(productId, {
+        fabricColorHex: hex,
+        finish,
+        sizeScale,
+        isStale: () => gen !== loadGeneration,
+      });
       if (gen !== loadGeneration) return;
+      if (!loaded || getState().productId !== productId) {
+        loadProduct(getState().productId);
+        return;
+      }
+      loadingProductId = null;
       hideSplash();
-      applyCurrentColor();
+      applyCurrentAppearance();
     } catch (err) {
       if (gen !== loadGeneration) return;
+      loadingProductId = null;
       console.error(err);
       showError(t('splash.loadError'));
     }
   }
 
   splashRetry.addEventListener('click', () => {
-    loadProduct(products.getCurrentId() || 'armchair');
+    loadProduct(products.getCurrentId() || getState().productId || 'armchair');
   });
 
-  window.__furncfgLoad = (productId) => loadProduct(productId);
+  window.__furncfgLoad = (productId) => {
+    if (!productId) return;
+    if (productId === getState().productId) {
+      loadProduct(productId);
+      return;
+    }
+    switchProduct(productId);
+  };
 
   setOnTick((dt) => {
     updateCamera(dt);

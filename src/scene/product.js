@@ -40,6 +40,20 @@ function disposeObject(root) {
 }
 
 /**
+ * @param {THREE.Object3D} root
+ * @param {number} scale
+ */
+function groundAlign(root, scale) {
+  root.position.y = 0;
+  root.scale.setScalar(scale);
+  const box = new THREE.Box3().setFromObject(root);
+  const minY = box.min.y;
+  if (Number.isFinite(minY) && minY !== 0) {
+    root.position.y -= minY;
+  }
+}
+
+/**
  * @param {THREE.Scene} scene
  * @param {{
  *   onProgress?: (pct: number) => void,
@@ -59,42 +73,75 @@ export function createProductController(scene, hooks = {}) {
     return product;
   }
 
-  /**
-   * Tint body materials by hex. Keeps existing texture maps.
-   * @param {string} hex
-   */
-  function applyColor(hex) {
+  function forBodyMaterials(fn) {
     if (!current || !currentId) return;
     const product = getProduct(currentId);
     const names = new Set(product.bodyMaterialNames ?? []);
     if (names.size === 0) return;
-    const color = new THREE.Color(hex);
     current.traverse((obj) => {
       if (!obj.isMesh) return;
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       for (const m of mats) {
-        if (!m?.name || !names.has(m.name) || !m.color) continue;
-        m.color.copy(color);
-        m.needsUpdate = true;
+        if (!m?.name || !names.has(m.name)) continue;
+        fn(m);
       }
     });
   }
 
   /**
+   * Tint body materials by hex. Keeps existing texture maps.
+   * @param {string} hex
+   */
+  function applyColor(hex) {
+    const color = new THREE.Color(hex);
+    forBodyMaterials((m) => {
+      if (!m.color) return;
+      m.color.copy(color);
+      m.needsUpdate = true;
+    });
+  }
+
+  /**
+   * @param {{ roughness: number, metalness: number }} finish
+   */
+  function applyFinish(finish) {
+    forBodyMaterials((m) => {
+      if ('roughness' in m) m.roughness = finish.roughness;
+      if ('metalness' in m) m.metalness = finish.metalness;
+      m.needsUpdate = true;
+    });
+  }
+
+  /**
+   * Scale root by product defaultScale × size option scale, then re-ground.
+   * @param {number} sizeScale
+   */
+  function applySize(sizeScale) {
+    if (!current || !currentId) return;
+    const product = getProduct(currentId);
+    const base = product.defaultScale ?? 1;
+    groundAlign(current, base * sizeScale);
+  }
+
+  /**
    * @param {string} productId
-   * @param {{ fabricColorHex?: string }} [opts]
+   * @param {{
+   *   fabricColorHex?: string,
+   *   finish?: { roughness: number, metalness: number },
+   *   sizeScale?: number,
+   *   isStale?: () => boolean,
+   * }} [opts]
    */
   async function load(productId, opts = {}) {
     const product = getProduct(productId);
     const root = await loader.load(product.modelUrl);
-    root.name = productId;
-    root.scale.setScalar(product.defaultScale ?? 1);
-
-    const box = new THREE.Box3().setFromObject(root);
-    const minY = box.min.y;
-    if (Number.isFinite(minY) && minY !== 0) {
-      root.position.y -= minY;
+    if (opts.isStale?.()) {
+      disposeObject(root);
+      return null;
     }
+    root.name = productId;
+    const sizeScale = opts.sizeScale ?? 1;
+    groundAlign(root, (product.defaultScale ?? 1) * sizeScale);
 
     if (current) {
       scene.remove(current);
@@ -105,6 +152,7 @@ export function createProductController(scene, hooks = {}) {
     currentId = productId;
 
     if (opts.fabricColorHex) applyColor(opts.fabricColorHex);
+    if (opts.finish) applyFinish(opts.finish);
 
     const info = inspectMaterials(root);
     console.info(`[product] ${productId} materials:`, info.materials, 'meshes:', info.meshes);
@@ -114,6 +162,8 @@ export function createProductController(scene, hooks = {}) {
   return {
     load,
     applyColor,
+    applyFinish,
+    applySize,
     getCurrentId: () => currentId,
     getCurrentRoot: () => current,
     getProduct,

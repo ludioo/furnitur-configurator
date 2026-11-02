@@ -86,6 +86,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-10 | Desktop ≥768 = fixed rail kanan 320px (bukan web component); mobile = `pure-web-bottom-sheet` bila `animation-timeline: scroll()` + Safari/iOS ≥18.2, else CSS snap fallback | Lib dioptimasi mobile snap; rail desktop lebih sederhana & a11y | architecture bottom sheet strategy · npm README browserslist |
 | D-MAT-02 | Swatch set `material.color` langsung (tanpa lerp) pada `bodyMaterialNames`; map tekstur tetap | &lt;150 ms, paling sedikit kode; lerp boleh di T1.7/polish | design-system · architecture-conventions |
 
+## 2026-11-02 — T1.3 Finish + size + product switch
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-STATE-02 | Ganti produk: simpan opsi terakhir per `productId` di memori sesi (`lastByProduct`); restore atau default | UF1 “last config produk bila ada”; tidak persist dulu (T1.5) | user-flows UF1 · prompts T1.3 |
+| D-LOAD-01 | `product.load` terima `isStale()` — buang root baru tanpa swap scene jika generasi load usang | Race A→B→A bisa menimpa model benar dengan GLB lama | eksperimen T1.3 · code review |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

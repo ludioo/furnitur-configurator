@@ -3,6 +3,7 @@
   "app.logo": "Configurator",
   "tab.chair": "Chair",
   "tab.sofa": "Sofa",
+  "tab.productAria": "Product",
   "lang.en": "EN",
   "lang.id": "ID",
   "nav.about": "About",
@@ -17,5 +18,7 @@
   "about.icons": "Icons by Lucide (ISC).",
   "about.close": "Close",
   "config.color": "Color",
+  "config.finish": "Finish",
+  "config.size": "Size",
   "config.panelAria": "Furniture options"
 }

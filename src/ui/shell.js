@@ -1,4 +1,6 @@
 import { applyDom, getLang, setLang, subscribe } from '../core/i18n.js';
+import { getState, subscribe as subscribeState, switchProduct } from '../core/state.js';
+import { track } from '../core/analytics.js';
 import { createAboutModal } from './aboutModal.js';
 import { iconHtml, icons } from './icons.js';
 
@@ -12,9 +14,9 @@ export function initShell(mountParent) {
     <div class="top-bar__brand">
       <span class="top-bar__logo" data-i18n="app.logo"></span>
     </div>
-    <div class="top-bar__tabs" role="tablist" aria-label="Product">
-      <button type="button" class="top-bar__tab is-active" role="tab" aria-selected="true" data-i18n="tab.chair" disabled></button>
-      <button type="button" class="top-bar__tab" role="tab" aria-selected="false" data-i18n="tab.sofa" disabled></button>
+    <div class="top-bar__tabs" role="tablist" data-i18n-aria="tab.productAria">
+      <button type="button" class="top-bar__tab" role="tab" data-product-id="armchair" data-i18n="tab.chair"></button>
+      <button type="button" class="top-bar__tab" role="tab" data-product-id="sofa" data-i18n="tab.sofa"></button>
     </div>
     <div class="top-bar__actions">
       <div class="top-bar__lang" role="group" aria-label="Language">
@@ -38,11 +40,21 @@ export function initShell(mountParent) {
   mountParent.append(bar, about.root);
   applyDom(document);
   syncLangButtons();
+  syncProductTabs();
 
   bar.querySelectorAll('[data-lang]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const next = btn.getAttribute('data-lang');
       if (next === 'en' || next === 'id') setLang(next);
+    });
+  });
+
+  bar.querySelectorAll('[data-product-id]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const productId = btn.getAttribute('data-product-id');
+      if (!productId || productId === getState().productId) return;
+      switchProduct(productId);
+      track('product_change', { productId });
     });
   });
 
@@ -55,6 +67,10 @@ export function initShell(mountParent) {
     syncLangButtons();
   });
 
+  subscribeState(() => {
+    syncProductTabs();
+  });
+
   window.addEventListener('hashchange', syncRoute);
   syncRoute();
 
@@ -64,6 +80,15 @@ export function initShell(mountParent) {
       const active = btn.getAttribute('data-lang') === current;
       btn.classList.toggle('is-active', active);
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  function syncProductTabs() {
+    const { productId } = getState();
+    bar.querySelectorAll('[data-product-id]').forEach((btn) => {
+      const active = btn.getAttribute('data-product-id') === productId;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
     });
   }
 

@@ -6,7 +6,7 @@
 | 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | Diharapkan (three di critical path); code-split/on-demand di T3.3 — bukan blocker acceptance |
 | 2026-11-02 | T0.3 | Teks splash masih hardcode EN | Diganti i18n di T1.1 (keputusan D-UX-01) — selesai T1.1 |
-| 2026-11-02 | T1.1 | Product tabs Chair/Sofa disabled (placeholder) | Wire ganti produk di T1.3; sementara `__furncfgLoad` |
+| 2026-11-02 | T1.1 | Product tabs Chair/Sofa disabled (placeholder) | Selesai T1.3 — tab aktif + `__furncfgLoad` tetap sinkron state |
 | 2026-11-02 | T1.2 | `pure-web-bottom-sheet@1.1.1` engines minta Node ≥24 / npm ≥11.7; project CI Node 22 | Warning EBADENGINE saja; runtime browser OK. Tetap pin 1.1.1 per D-UI-02 |
 | 2026-11-02 | T1.2 | Safari/iOS &lt; 18.2 tidak support initial snap lib | `html.sheet-fallback` + CSS scroll-snap peek 120px; desktop tetap rail kanan |
 

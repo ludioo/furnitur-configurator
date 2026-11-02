@@ -38,8 +38,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Jika AI laporkan Safari tua: fallback CSS tetap bisa dibuka/tutup tanpa macet.
 
 ## T1.3
-- [ ] Finish Fabric/Leather & Size mengubah tampilan + (nanti) harga.
-- [ ] Tab Chair/Sofa mengganti model tanpa crash.
+- [x] Finish Fabric/Leather & Size mengubah tampilan + (nanti) harga.
+- [x] Tab Chair/Sofa mengganti model tanpa crash.
 
 ## T1.4
 - [ ] Harga IDR/USD ikut bahasa; label Illustrative/Harga ilustrasi terlihat.

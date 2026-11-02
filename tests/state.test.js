@@ -5,6 +5,7 @@ import {
   resetState,
   setOption,
   subscribe,
+  switchProduct,
 } from '../src/core/state.js';
 
 afterEach(() => {
@@ -44,6 +45,50 @@ describe('state', () => {
     const unsub = subscribe(spy);
     setOption('fabricColor', 'sand');
     expect(spy).not.toHaveBeenCalled();
+    unsub();
+  });
+
+  it('switchProduct restores last options per product', () => {
+    setOption('fabricColor', 'navy');
+    setOption('finish', 'leather');
+    setOption('size', 'large');
+
+    switchProduct('sofa');
+    expect(getState()).toEqual({
+      productId: 'sofa',
+      fabricColor: 'sand',
+      finish: 'fabric',
+      size: 'standard',
+    });
+
+    setOption('fabricColor', 'forest');
+    setOption('finish', 'leather');
+
+    switchProduct('armchair');
+    expect(getState()).toEqual({
+      productId: 'armchair',
+      fabricColor: 'navy',
+      finish: 'leather',
+      size: 'large',
+    });
+
+    switchProduct('sofa');
+    expect(getState()).toEqual({
+      productId: 'sofa',
+      fabricColor: 'forest',
+      finish: 'leather',
+      size: 'standard',
+    });
+  });
+
+  it('switchProduct no-op when same productId', () => {
+    const spy = vi.fn();
+    const unsub = subscribe(spy);
+    setOption('fabricColor', 'navy');
+    spy.mockClear();
+    switchProduct('armchair');
+    expect(spy).not.toHaveBeenCalled();
+    expect(getState().fabricColor).toBe('navy');
     unsub();
   });
 });

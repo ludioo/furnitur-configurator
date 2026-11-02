@@ -3,6 +3,7 @@
   "app.logo": "Configurator",
   "tab.chair": "Kursi",
   "tab.sofa": "Sofa",
+  "tab.productAria": "Produk",
   "lang.en": "EN",
   "lang.id": "ID",
   "nav.about": "Tentang",
@@ -17,5 +18,7 @@
   "about.icons": "Ikon oleh Lucide (ISC).",
   "about.close": "Tutup",
   "config.color": "Warna",
+  "config.finish": "Finishing",
+  "config.size": "Ukuran",
   "config.panelAria": "Opsi furnitur"
 }
