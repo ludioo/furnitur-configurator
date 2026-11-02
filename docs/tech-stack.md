@@ -97,8 +97,8 @@ Vanilla **three.js r170+** + **Vite 6** (sama pola APAR). Tanpa React/TS/Tailwin
 ## Aset 3D
 | Model | Tris (approx) | Sumber | Lisensi |
 |---|---|---|---|
-| ArmChair_01 (1k) | ~6K | https://polyhaven.com/a/ArmChair_01 · API `https://api.polyhaven.com/files/ArmChair_01` | CC0 (https://polyhaven.com/license) |
-| Sofa_01 (1k) | ~cek di T0.3 | https://polyhaven.com/a/Sofa_01 | CC0 |
+| ArmChair_01 (1k) | ~5.6K (GLB optimize ~391 KB) | https://polyhaven.com/a/ArmChair_01 · API `https://api.polyhaven.com/files/ArmChair_01` | CC0 (https://polyhaven.com/license) |
+| Sofa_01 (1k) | ~4.1K (GLB optimize ~183 KB) | https://polyhaven.com/a/Sofa_01 | CC0 |
 | Cadangan sofa_03 | ~8K, 2 materials | https://polyhaven.com/a/sofa_03 | CC0 |
 
 Pipeline: unduh glTF 1k → `npm run optimize:model` → `public/models/*.glb`.

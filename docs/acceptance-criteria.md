@@ -18,9 +18,9 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Idle 5 dtk → auto-rotate (mati jika OS "reduce motion").
 
 ## T0.3
-- [ ] Armchair lalu sofa bisa diload (switch sementara boleh via console/UI kasar).
-- [ ] Laporan AI: nama material body; ukuran tiap GLB; keduanya dalam anggaran.
-- [ ] Offline saat load → error + Retry.
+- [x] Armchair lalu sofa bisa diload (switch sementara boleh via console/UI kasar).
+- [x] Laporan AI: nama material body; ukuran tiap GLB; keduanya dalam anggaran.
+- [x] Offline saat load → error + Retry.
 
 ## T0.4
 - [ ] https://configurator.barkahmauludi.com HTTPS.

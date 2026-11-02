@@ -6,7 +6,7 @@
 | T0.1 | done | 2026-11-02 | Scaffold Vite + three + camera-controls; stub runtime folder; `npm run build` hijau |
 | T0.5 | done | 2026-11-02 | ESLint 9 flat + Prettier 3 + Vitest 5 + CI Node 22; stub `tests/pricing.test.js` |
 | T0.2 | done | 2026-11-02 | Scene WebGL full-bleed + RoomEnvironment/PMREM + camera-controls idle 5s; box accent + ground; reduced-motion |
-| T0.3 | pending | — | — |
+| T0.3 | done | 2026-11-02 | Draco+WebP GLB armchair 391 KB / sofa 183 KB; bodyMaterialNames Armchair_01 / Sofa_01; splash+Retry; `__furncfgLoad` |
 | T0.4 | pending | — | — |
 | T1.1 | pending | — | + Lucide SVG icons |
 | T1.2 | pending | — | + pure-web-bottom-sheet / CSS fallback |

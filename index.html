@@ -7,6 +7,20 @@
   </head>
   <body>
     <div id="app"></div>
+    <div
+      id="splash"
+      class="splash"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <p class="splash__title">Furniture Configurator</p>
+      <p id="splash-pct" class="splash__pct">0%</p>
+      <p id="splash-status" class="splash__status">Loading 3D model…</p>
+      <button id="splash-retry" class="splash__retry" type="button" hidden>
+        Retry
+      </button>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

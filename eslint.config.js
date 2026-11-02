@@ -19,6 +19,10 @@ const browserGlobals = {
   HTMLElement: 'readonly',
   customElements: 'readonly',
   console: 'readonly',
+  setTimeout: 'readonly',
+  clearTimeout: 'readonly',
+  setInterval: 'readonly',
+  clearInterval: 'readonly',
 };
 
 const nodeGlobals = {
@@ -30,11 +34,22 @@ const nodeGlobals = {
   module: 'readonly',
   require: 'readonly',
   exports: 'readonly',
+  fetch: 'readonly',
+  URL: 'readonly',
+  setTimeout: 'readonly',
+  clearTimeout: 'readonly',
 };
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**', 'docs/**', 'coverage/**'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'docs/**',
+      'coverage/**',
+      'public/decoders/**',
+      '.tmp/**',
+    ],
   },
   js.configs.recommended,
   eslintConfigPrettier,
@@ -49,6 +64,7 @@ export default [
   {
     files: [
       'tests/**/*.js',
+      'scripts/**/*.{js,mjs}',
       'vite.config.js',
       'vitest.config.js',
       'eslint.config.js',

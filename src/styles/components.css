@@ -1,1 +1,61 @@
-/* stub T0.1 */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  text-align: center;
+}
+
+.splash[hidden] {
+  display: none;
+}
+
+.splash__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.splash__pct {
+  margin: 0;
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.splash__status {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.splash__retry {
+  margin-top: 0.75rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.splash__retry:hover,
+.splash__retry:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.splash__retry[hidden] {
+  display: none;
+}

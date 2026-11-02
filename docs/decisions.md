@@ -57,5 +57,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-SCENE-01 | T0.2 pakai RAF continuous (pause `document.hidden`); idle auto-rotate di `camera.js` via `controls.rotate`; No-WebGL poster ditunda T1.1 | Cukup untuk orbit/idle; on-demand di T3.3; i18n belum ada | design-system · prompts T0.2 · performance-budget |
 
+## 2026-11-02 — T0.3 Model + optimize
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-ASSET-01 | Pipeline optimize: gltf-transform **Draco + WebP** (bukan meshopt/KTX2 di MVP); decoder Draco glTF di `/decoders/draco/` | Ukuran masuk ideal (&lt;800 KB) tanpa Basis transcoder | eksperimen T0.3 · gltf-transform.dev |
+| D-MAT-01 | `bodyMaterialNames`: armchair = `Armchair_01`; sofa = `Sofa_01`. Satu material per model; **tidak** ada material kaki terpisah (Legs Later tidak dibuka dari aset ini) | Inspeksi GLB setelah optimize | eksperimen T0.3 |
+| D-UX-01 | Splash loading EN hardcode sampai T1.1; ganti produk sementara via `window.__furncfgLoad('sofa'\|'armchair')` | i18n & UI switcher belum ada; acceptance mengizinkan console | prompts T0.3 · user-flows UF0 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`

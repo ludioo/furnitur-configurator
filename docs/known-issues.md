@@ -5,6 +5,7 @@
 |---|---|---|---|
 | 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | Diharapkan (three di critical path); code-split/on-demand di T3.3 — bukan blocker acceptance |
+| 2026-11-02 | T0.3 | Teks splash masih hardcode EN | Diganti i18n di T1.1 (keputusan D-UX-01) |
 
 Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2.
 
