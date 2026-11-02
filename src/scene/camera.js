@@ -62,5 +62,14 @@ export function createCamera(renderer, size) {
     return controls.update(dt);
   }
 
-  return { camera, controls, update };
+  /**
+   * Pause orbit during AR; re-enable resets idle timer so studio does not spin immediately.
+   * @param {boolean} on
+   */
+  function setEnabled(on) {
+    controls.enabled = on;
+    if (on) bumpInteract();
+  }
+
+  return { camera, controls, update, setEnabled };
 }

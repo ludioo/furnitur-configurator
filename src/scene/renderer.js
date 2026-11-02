@@ -10,7 +10,7 @@ export function createRenderer(container) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(CLEAR_COLOR);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setClearColor(CLEAR_COLOR, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -63,6 +63,28 @@ export function createRenderer(container) {
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('visibilitychange', onVisibility);
 
+  function syncSize() {
+    setPixelRatio(renderer);
+    const { width, height } = resize();
+    renderer.domElement.dispatchEvent(
+      new CustomEvent('furncfg:resize', { detail: { width, height } }),
+    );
+  }
+
+  /**
+   * Clear scene background for camera passthrough (AR). Studio restores solid clear.
+   * @param {boolean} on
+   */
+  function setPassthrough(on) {
+    if (on) {
+      scene.background = null;
+      renderer.setClearColor(0x000000, 0);
+    } else {
+      scene.background = new THREE.Color(CLEAR_COLOR);
+      renderer.setClearColor(CLEAR_COLOR, 1);
+    }
+  }
+
   return {
     scene,
     renderer,
@@ -79,5 +101,7 @@ export function createRenderer(container) {
       running = false;
       cancelAnimationFrame(rafId);
     },
+    setPassthrough,
+    syncSize,
   };
 }

@@ -41,7 +41,7 @@ export function init() {
     },
   });
   initShell(document.body, { saved });
-  initArButton(document.body);
+  const arButton = initArButton(document.body);
 
   /** @type {(() => Promise<void>) | null} */
   let runScreenshot = null;
@@ -74,8 +74,12 @@ export function init() {
   let renderer;
   let setOnTick;
   let start;
+  let stop;
+  let setPassthrough;
+  let syncSize;
   try {
-    ({ scene, renderer, setOnTick, start } = createRenderer(container));
+    ({ scene, renderer, setOnTick, start, stop, setPassthrough, syncSize } =
+      createRenderer(container));
   } catch (err) {
     console.error(err);
     splash.hidden = true;
@@ -92,7 +96,10 @@ export function init() {
     width: container.clientWidth || window.innerWidth,
     height: container.clientHeight || window.innerHeight,
   };
-  const { camera, update: updateCamera } = createCamera(renderer, size);
+  const { camera, update: updateCamera, setEnabled: setControlsEnabled } = createCamera(
+    renderer,
+    size,
+  );
 
   runScreenshot = async () => {
     try {
@@ -254,6 +261,22 @@ export function init() {
     }
     switchProduct(productId);
   };
+
+  arButton.setOnWebxr(async () => {
+    const { startWebxr } = await import('../ar/webxr.js');
+    await startWebxr({
+      renderer,
+      scene,
+      camera,
+      getRoot: () => products.getCurrentRoot(),
+      ground,
+      stopStudio: stop,
+      startStudio: start,
+      setPassthrough,
+      syncSize,
+      setControlsEnabled,
+    });
+  });
 
   setOnTick((dt) => {
     updateCamera(dt);

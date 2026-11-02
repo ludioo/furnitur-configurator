@@ -70,6 +70,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [ ] Enter AR → reticle → tap lantai → furniture muncul dengan warna/finish terkini.
 - [ ] Exit AR kembali ke viewer aman.
 
+> Kode T2.2 merged 2026-11-02 (desktop no-regression OK). Kedua checkbox di atas deferred sampai ada Android Chrome HTTPS — lihat `docs/known-issues.md`.
+
 ## T2.3 (iPhone)
 - [ ] Tap CTA → Quick Look membuka model; warna kira-kira sesuai swatch aktif.
 - [ ] Tutup Quick Look → kembali ke halaman.

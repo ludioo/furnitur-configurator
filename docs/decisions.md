@@ -134,6 +134,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-AR-04 | Deteksi AR di `src/ar/capability.js`: WebXR `immersive-ar` menang; else Safari iOS (iPhone/iPad/iPod + iPadOS MacIntel `maxTouchPoints>1`, exclude CriOS/FxiOS/EdgiOS/OPiOS) = Quick Look; desktop/unsupported tetap `aria-disabled` + tooltip. Klik belum start session/export | T2.1 hanya state CTA; WebXR/USDZ di T2.2–T2.3; heuristic Quick Look tanpa API native | D-AR-01 · UF2 · prompts T2.1 · D-UI-13 |
 | D-UI-16 | Tema tour di `src/styles/onboarding.css`, di-`import()` **setelah** `driver.js/dist/driver.css` | CSS driver load belakangan + `all:unset` mengalahkan tema di `components.css` → teks terang di latar putih | T1.8 · driver.js · validasi Barkah |
 
+## 2026-11-02 — T2.2 WebXR hit-test
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AR-05 | WebXR via CTA T2.1 + `startWebxr` (bukan addon `ARButton`); `setReferenceSpaceType('local')`; reticle hit-test; place root produk live; tanpa DOM overlay exit | Satu tombol; default three `local-floor` sering gagal di HP; overlay exit = scope ekstra; UI sistem Chrome cukup | D-AR-01 · webxr_ar_hittest · ARButton.js · UF2 · prompts T2.2 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

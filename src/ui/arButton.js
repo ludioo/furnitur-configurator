@@ -5,9 +5,9 @@ import { attachTooltip } from './tooltip.js';
 
 /**
  * AR CTA with capability states (WebXR / Quick Look / unsupported).
- * Does not start a session or export USDZ (T2.2 / T2.3).
+ * WebXR click starts session via setOnWebxr; Quick Look is T2.3.
  * @param {HTMLElement} mountParent
- * @returns {{ root: HTMLButtonElement, destroy: () => void }}
+ * @returns {{ root: HTMLButtonElement, setOnWebxr: (fn: (() => void | Promise<void>) | null) => void, destroy: () => void }}
  */
 export function initArButton(mountParent) {
   const btn = document.createElement('button');
@@ -24,6 +24,8 @@ export function initArButton(mountParent) {
   /** @type {'webxr' | 'quicklook' | 'unsupported'} */
   let mode = 'unsupported';
   let alive = true;
+  /** @type {(() => void | Promise<void>) | null} */
+  let onWebxr = null;
 
   const tip = attachTooltip(btn, () => (mode === 'unsupported' ? t('ar.unsupported') : ''));
 
@@ -39,6 +41,8 @@ export function initArButton(mountParent) {
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
+    if (mode !== 'webxr' || !onWebxr) return;
+    void Promise.resolve(onWebxr()).catch((err) => console.error('[ar]', err));
   });
 
   const unsub = subscribe(() => {
@@ -53,8 +57,12 @@ export function initArButton(mountParent) {
 
   return {
     root: btn,
+    setOnWebxr(fn) {
+      onWebxr = fn;
+    },
     destroy() {
       alive = false;
+      onWebxr = null;
       unsub();
       tip.destroy();
       btn.remove();
