@@ -2,10 +2,12 @@ import * as THREE from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
 import { getState, setState, subscribe as subscribeState, switchProduct } from './state.js';
 import { ensureSchema, getLast, setLast } from './storage.js';
+import { track } from './analytics.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
 import { createProductController } from '../scene/product.js';
+import { capturePng, shareOrDownloadPng } from '../scene/screenshot.js';
 import { initShell, setHash } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
 import { initSavedList } from '../ui/savedList.js';
@@ -38,9 +40,15 @@ export function init() {
     },
   });
   initShell(document.body, { saved });
+
+  /** @type {(() => Promise<void>) | null} */
+  let runScreenshot = null;
   initConfigPanel(document.body, {
     onSaved() {
       saved.render();
+    },
+    onScreenshot() {
+      return runScreenshot?.();
     },
   }).catch((err) => {
     console.error('[configPanel]', err);
@@ -83,6 +91,19 @@ export function init() {
     height: container.clientHeight || window.innerHeight,
   };
   const { camera, update: updateCamera } = createCamera(renderer, size);
+
+  runScreenshot = async () => {
+    try {
+      const blob = await capturePng(renderer, scene, camera);
+      const productId = getState().productId || 'furniture';
+      const filename = `furncfg-${productId}-${Date.now()}.png`;
+      const via = await shareOrDownloadPng(blob, filename);
+      if (via === 'aborted') return;
+      track('screenshot', { productId, via });
+    } catch (err) {
+      console.error('[screenshot]', err);
+    }
+  };
 
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(20, 20),

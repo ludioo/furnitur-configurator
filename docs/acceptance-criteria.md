@@ -50,7 +50,7 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] `npm test` memuat tes storage yang lulus.
 
 ## T1.6
-- [ ] Screenshot menghasilkan PNG; di HP yang support, Share sheet muncul atau fallback unduh.
+- [x] Screenshot menghasilkan PNG; di HP yang support, Share sheet muncul atau fallback unduh.
 
 ## T1.7
 - [ ] Toast muncul halus lalu hilang; dengan "reduce motion" tetap muncul tanpa animasi aneh.

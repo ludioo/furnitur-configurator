@@ -25,6 +25,8 @@
   "config.panelAria": "Opsi furnitur",
   "config.save": "Simpan",
   "config.saveAria": "Simpan konfigurasi ini",
+  "cta.screenshot": "Screenshot",
+  "cta.screenshotAria": "Ambil dan bagikan screenshot",
   "price.illustrative": "Harga ilustrasi",
   "saved.title": "Tersimpan",
   "saved.empty": "Belum ada konfigurasi tersimpan.",

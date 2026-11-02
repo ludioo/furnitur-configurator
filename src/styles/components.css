@@ -221,7 +221,14 @@
   background: var(--bg-elevated);
 }
 
-.config-panel__save {
+.config-panel__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.config-panel__action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -239,8 +246,8 @@
   cursor: pointer;
 }
 
-.config-panel__save:hover,
-.config-panel__save:focus-visible {
+.config-panel__action:hover,
+.config-panel__action:focus-visible {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
   outline-offset: 2px;

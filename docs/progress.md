@@ -13,7 +13,7 @@
 | T1.3 | done | 2026-11-02 | Finish/Size chips + tab Chair/Sofa; session restore opsi; stale-load guard + dispose; acceptance OK Barkah |
 | T1.4 | done | 2026-11-02 | priceBar sticky + pricing.js (compute/format) + Vitest; IDR↔USD ikut bahasa |
 | T1.5 | done | 2026-11-02 | save/load/delete max 10 + last restore + toast tipis; `tests/storage.test.js` |
-| T1.6 | pending | — | — |
+| T1.6 | done | 2026-11-02 | Screenshot PNG render-once; desktop unduh, mobile Web Share (D-SHOT-02); analytics `screenshot`; acceptance OK Barkah |
 | T1.7 | pending | — | motion/mini + toast + floating-ui |
 | T1.8 | pending | — | driver.js onboarding lazy |
 | T2.1 | pending | — | — |

@@ -25,6 +25,8 @@
   "config.panelAria": "Furniture options",
   "config.save": "Save",
   "config.saveAria": "Save this configuration",
+  "cta.screenshot": "Screenshot",
+  "cta.screenshotAria": "Capture and share a screenshot",
   "price.illustrative": "Illustrative price",
   "saved.title": "Saved",
   "saved.empty": "No saved configurations yet.",

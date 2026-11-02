@@ -106,6 +106,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-STORE-02 | Max 10: evict tertua otomatis + toast; nama auto `Config #n`; `schemaVersion` mismatch → clear configs+last; `priceSnapshot` dihitung di UI lalu di-pass ke storage | UF1 + Grill T1.5; storage tetap murni untuk Vitest | data-model · prompts T1.5 · user-flows UF1 |
 | D-UI-11 | Hash `#saved` aktif (panel list Load/Delete); nav Saved di top bar; toast custom tanpa motion/mini dulu | Menutup no-op D-UI-09; motion polish tetap T1.7 | architecture · prompts T1.5 · D-UI-05 |
 
+## 2026-11-02 — T1.6 Screenshot + share
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-SHOT-01 | Capture = render-once + `toBlob`; tanpa `preserveDrawingBuffer` permanen; satu CTA Screenshot → `navigator.share` bila `canShare({ files })`, else unduh PNG | Hemat VRAM; alur MVP satu tombol di footer panel | prompts T1.6 · performance-budget |
+| D-SHOT-02 | `navigator.share` hanya jika UA mobile (Android/iPhone/iPad); desktop selalu unduh PNG | Windows Share sheet Chromium sering hang load apps (validasi Barkah) | known-issues T1.6 · eksperimen desktop |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

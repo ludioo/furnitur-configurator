@@ -20,7 +20,7 @@ function productById(productId) {
 
 /**
  * @param {HTMLElement} mountParent
- * @param {{ onSaved?: () => void }} [options]
+ * @param {{ onSaved?: () => void, onScreenshot?: () => void | Promise<void> }} [options]
  */
 export async function initConfigPanel(mountParent, options = {}) {
   const { host, content, mode } = await mountBottomSheet(mountParent);
@@ -39,10 +39,16 @@ export async function initConfigPanel(mountParent, options = {}) {
     </div>
     <div class="config-panel__footer">
       <div data-price-bar></div>
-      <button type="button" class="config-panel__save" data-save data-i18n-aria="config.saveAria">
-        ${iconHtml(icons.save, 'icon icon--sm')}
-        <span data-i18n="config.save"></span>
-      </button>
+      <div class="config-panel__actions">
+        <button type="button" class="config-panel__action" data-screenshot data-i18n-aria="cta.screenshotAria">
+          ${iconHtml(icons.camera, 'icon icon--sm')}
+          <span data-i18n="cta.screenshot"></span>
+        </button>
+        <button type="button" class="config-panel__action" data-save data-i18n-aria="config.saveAria">
+          ${iconHtml(icons.save, 'icon icon--sm')}
+          <span data-i18n="config.save"></span>
+        </button>
+      </div>
     </div>
   `;
   content.append(section);
@@ -53,6 +59,7 @@ export async function initConfigPanel(mountParent, options = {}) {
   const sizeMount = section.querySelector('[data-size-chips]');
   const priceMount = section.querySelector('[data-price-bar]');
   const saveBtn = section.querySelector('[data-save]');
+  const screenshotBtn = section.querySelector('[data-screenshot]');
   const swatches = initSwatches(/** @type {HTMLElement} */ (swatchMount));
   const finishChips = initOptionChips(/** @type {HTMLElement} */ (finishMount), {
     optionKey: 'finish',
@@ -63,6 +70,10 @@ export async function initConfigPanel(mountParent, options = {}) {
     headingId: 'config-size-heading',
   });
   const priceBar = initPriceBar(/** @type {HTMLElement} */ (priceMount));
+
+  screenshotBtn?.addEventListener('click', () => {
+    void options.onScreenshot?.();
+  });
 
   saveBtn?.addEventListener('click', () => {
     const state = getState();

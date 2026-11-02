@@ -2,6 +2,7 @@ import infoSvg from './icons/info.svg?raw';
 import xSvg from './icons/x.svg?raw';
 import saveSvg from './icons/save.svg?raw';
 import trashSvg from './icons/trash.svg?raw';
+import cameraSvg from './icons/camera.svg?raw';
 
 /**
  * @param {string} svg
@@ -20,4 +21,5 @@ export const icons = {
   x: xSvg,
   save: saveSvg,
   trash: trashSvg,
+  camera: cameraSvg,
 };
