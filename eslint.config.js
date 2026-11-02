@@ -11,6 +11,8 @@ const browserGlobals = {
   cancelAnimationFrame: 'readonly',
   requestIdleCallback: 'readonly',
   cancelIdleCallback: 'readonly',
+  performance: 'readonly',
+  CustomEvent: 'readonly',
   URL: 'readonly',
   Blob: 'readonly',
   Image: 'readonly',

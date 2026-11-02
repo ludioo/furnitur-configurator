@@ -51,5 +51,11 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-QA-04 | CI GitHub Actions pakai Node 22; tidak set `engines` di package.json dulu | cocok `camera-controls` (≥22) + Vite 6 / Vitest 5; engines bisa ditambah nanti di env-setup | npm lockfile · prompts T0.5 |
 | D-QA-05 | Stub Vitest `tests/pricing.test.js` + `pricingReady()` di `pricing.js`; CI tanpa `prettier --check`; pin `@eslint/js@9` bersama `eslint@9` | harga asli di T1.4; format lokal saja; `@eslint/js` latest minta ESLint 10 | architecture.md · npm peer deps |
 
+## 2026-11-02 — T0.2 Base scene
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-SCENE-01 | T0.2 pakai RAF continuous (pause `document.hidden`); idle auto-rotate di `camera.js` via `controls.rotate`; No-WebGL poster ditunda T1.1 | Cukup untuk orbit/idle; on-demand di T3.3; i18n belum ada | design-system · prompts T0.2 · performance-budget |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`

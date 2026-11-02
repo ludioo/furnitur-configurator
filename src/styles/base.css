@@ -1,1 +1,25 @@
-/* stub T0.1 */
+:root {
+  --bg: #0f1115;
+  --bg-elevated: #1a1e26;
+  --bg-soft: #242a35;
+  --text: #f3f1ec;
+  --text-muted: #a8a29a;
+  --accent: #d4a373;
+  --accent-press: #b8895a;
+  --border: #2e3542;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}

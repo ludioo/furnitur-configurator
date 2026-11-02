@@ -5,7 +5,7 @@
 | Doc pack | done | 2026-11-02 | Pack dibuat Neo; UI/QA libs ditambahkan 2 Nov 2026 |
 | T0.1 | done | 2026-11-02 | Scaffold Vite + three + camera-controls; stub runtime folder; `npm run build` hijau |
 | T0.5 | done | 2026-11-02 | ESLint 9 flat + Prettier 3 + Vitest 5 + CI Node 22; stub `tests/pricing.test.js` |
-| T0.2 | pending | — | — |
+| T0.2 | done | 2026-11-02 | Scene WebGL full-bleed + RoomEnvironment/PMREM + camera-controls idle 5s; box accent + ground; reduced-motion |
 | T0.3 | pending | — | — |
 | T0.4 | pending | — | — |
 | T1.1 | pending | — | + Lucide SVG icons |
