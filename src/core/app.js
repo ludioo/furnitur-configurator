@@ -308,8 +308,21 @@ export function init() {
     if (mode === 'quicklook') void loadUsdz();
   });
 
+  /** @type {(() => void) | null} */
+  let debugUpdate = null;
+  const debugFlag = new URLSearchParams(location.search).get('debug');
+  if (debugFlag === '1' || debugFlag === 'true') {
+    void import('../debug/debugPanel.js')
+      .then((m) => m.mountDebugPanel({ renderer, products }))
+      .then((api) => {
+        debugUpdate = api?.update ?? null;
+      })
+      .catch((err) => console.error('[debug]', err));
+  }
+
   setOnTick((dt) => {
     updateCamera(dt);
+    debugUpdate?.();
     renderer.render(scene, camera);
   });
   start();

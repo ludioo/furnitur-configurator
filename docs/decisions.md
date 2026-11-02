@@ -32,7 +32,7 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-05 | Toast = custom tipis di `toast.js` (tanpa lib) | Cukup untuk MVP; kurangi dep | architecture |
 | D-UI-06 | Tooltip AR/help = `@floating-ui/dom` ^1.8 | MIT, ~8KB gzip, positioning kokoh | https://floating-ui.com |
 | D-UI-07 | Ikon = SVG Lucide individual (ISC) di `src/ui/icons/` | Tree-shake manual; tolak lucide-static penuh & Phosphor font full | https://lucide.dev · https://github.com/lucide-icons/lucide |
-| D-DBG-01 | `lil-gui` 0.21 + `stats.js` hanya `?debug=1` (dynamic import) | Tidak masuk critical/prod path | https://lil-gui.georgealways.com · https://github.com/mrdoob/stats.js |
+| D-DBG-01 | `lil-gui` 0.21 + `stats.js` hanya `?debug=1` atau `debug=true` (dynamic import) | Tidak masuk critical/prod path; alias `true` ikut prompt T2.5 | https://lil-gui.georgealways.com · https://github.com/mrdoob/stats.js |
 | D-QA-01 | Unit = Vitest 5.x; E2E = Playwright; lint = ESLint flat + Prettier | Native Vite; mudah `npm test` / `npm run e2e` untuk non-coder | https://vitest.dev · https://playwright.dev · eslint.org |
 | D-QA-02 | Perf gate = `@lhci/cli` 0.15.x + budgets di `lighthouserc.js` | Otomatisasi T3.4 | https://github.com/GoogleChrome/lighthouse-ci |
 | D-QA-03 | CI GitHub Actions gratis: lint + test + build on push/PR `main` | Tanpa biaya; jaga regresi | docs.github.com/actions |

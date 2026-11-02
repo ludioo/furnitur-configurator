@@ -85,9 +85,9 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 > Catatan D-AR-07: di iOS Safari, warm-import `usdz` sebelum tap CTA sengaja (D-AR-06) — bukan regresi.
 
 ## T2.5
-- [ ] Tanpa `?debug=1`: tidak ada panel FPS/GUI.
-- [ ] Dengan `?debug=1`: stats FPS dan/atau lil-gui muncul.
-- [ ] Build produksi: AI konfirmasi debug di-dynamic-import (bukan di entry kritis).
+- [x] Tanpa `?debug=1`: tidak ada panel FPS/GUI.
+- [x] Dengan `?debug=1`: stats FPS dan/atau lil-gui muncul.
+- [x] Build produksi: AI konfirmasi debug di-dynamic-import (bukan di entry kritis).
 
 ## T3.1
 - [ ] About: kredit Poly Haven, disclaimer harga, Close/Esc/backdrop.

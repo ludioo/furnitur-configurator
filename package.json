@@ -17,8 +17,10 @@
     "@floating-ui/dom": "^1.8.0",
     "camera-controls": "^3.1.0",
     "driver.js": "^1.10.2",
+    "lil-gui": "^0.21.0",
     "motion": "^14.9.0",
     "pure-web-bottom-sheet": "^1.1.1",
+    "stats.js": "^0.17.0",
     "three": "^0.170.0"
   },
   "devDependencies": {
