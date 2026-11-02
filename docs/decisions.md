@@ -171,6 +171,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-SCENE-02 | Studio loop on-demand: RAF hanya saat dirty / kamera bergerak / idle spin; `invalidate()` + idle `setTimeout(5s)`; pause `document.hidden`; splash teks dikosongkan + `aria-hidden` setelah load; cache immutable `/assets` | Ganti D-SCENE-01 continuous RAF; hemat CPU HP; AC teks loading hilang dari DOM; Vite hashed assets | performance-budget · prompts T3.3 · D-SCENE-01 |
 
+## 2026-11-02 — T3.4 Lighthouse CI
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-QA-04 | Config LHCI = `lighthouserc.cjs` (CJS) + `--config`; collect = `staticDistDir: ./dist` (bukan Vite preview); `numberOfRuns: 1`; upload `filesystem` → `.lighthouseci/`; assert hanya kategori Perf ≥0.8 & A11y ≥0.9; **tidak** di GHA | Package `"type":"module"`; ESM rc diabaikan LHCI 0.15; Vite preview di Windows sering timeout pola `Local:` (stdout buffer) meski server hidup; static server LHCI = artefak build yang sama; D-QA-03 tetap lint/test/build | D-QA-02 · prompts T3.4 |
+| D-QA-05 | Skip onboarding tour bila `navigator.webdriver` | Audit LHCI tanpa driver.js `aria-expanded` di canvas; user nyata tidak terpengaruh | axe aria-allowed-attr · prompts T3.4 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

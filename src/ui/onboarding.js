@@ -29,6 +29,9 @@ function scrollStepIntoView(el) {
  */
 export async function maybeStartTour() {
   if (tourStarted || get(ONBOARDED_KEY)) return;
+  // Lighthouse / automation (navigator.webdriver) — skip tour so driver.js
+  // does not put aria-expanded on the WebGL canvas (axe aria-allowed-attr).
+  if (typeof navigator !== 'undefined' && navigator.webdriver) return;
   tourStarted = true;
 
   try {

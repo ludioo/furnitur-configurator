@@ -23,8 +23,11 @@
 | 2026-11-02 | UI | Layout/UX mobile (sheet, CTA, hierarchy) terasa buruk di iPhone meski fitur AR jalan | Spec mobile-first ada di design-system; implementasi Fase 1 lebih “desktop ok + sheet ada”. Polish UI mobile = task terpisah (bukan T2.4) |
 | 2026-11-02 | T2.4 | AC “modul AR tidak ke-load sebelum CTA” vs warm-import USDZ Quick Look | Sengaja D-AR-07 / D-AR-06: WebXR strict lazy; `usdz` boleh warm di iOS Safari saja |
 | 2026-11-02 | T3.2 | AC “Umami events muncul” belum diverifikasi live; Hobby Cloud limit **1 website** (slot sudah terpakai) | Kode wired + no-op tanpa env ID (D-AN-01/D-AN-02). Nanti: reuse situs Hobby (tambah domain configurator) atau slot baru; set `VITE_UMAMI_WEBSITE_ID` + redeploy |
+| 2026-11-02 | T3.4 | Lighthouse mobile Performance **~46–72** (Barkah **59**) &lt; budget **80**; A11y **100**, BP 100, SEO ~91 | Assert tetap Perf ≥80 (D-QA-02). Gap utama: JS three.js critical path (~228 KB gzip) + main-thread/bootup — bukan regresi fitur. AC T3.4: skor dilampirkan + blocker dicatat. Upgrade: code-split three lebih agresif / self-host font (Later) |
+| 2026-11-02 | T3.4 | LHCI 0.15 + `"type":"module"`: `lighthouserc.js` ESM `export default` tidak terpakai (fallback staticDistDir + preset recommended) | Pakai `lighthouserc.cjs` + `lhci autorun --config=./lighthouserc.cjs` (D-QA-04) |
+| 2026-11-02 | T3.4 | Vite preview + LHCI di Windows: timeout pola `/Local:/i` (stdout buffer) — skor Perf flaky | Collect pakai `staticDistDir: ./dist` (server bawaan LHCI); `npm run lhci` tetap `build` dulu (D-QA-04) |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1–T1.8 / T2.1 desktop / T2.2 desktop / **T2.3 iPhone Quick Look**. Hit-test Android Chrome HTTPS tetap deferred. AC T3.2 Events live = deferred (Hobby slot).
+Belum ada isu terbuka yang memblokir acceptance T0.1–T1.8 / T2.1 desktop / T2.2 desktop / **T2.3 iPhone Quick Look**. Hit-test Android Chrome HTTPS tetap deferred. AC T3.2 Events live = deferred (Hobby slot). T3.4 A11y budget lulus; Perf budget = blocker di atas.
 
 Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 

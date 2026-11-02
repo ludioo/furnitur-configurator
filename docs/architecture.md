@@ -13,7 +13,7 @@ furniture-configurator/
 ├── playwright.config.js
 ├── eslint.config.js          # flat config
 ├── .prettierrc
-├── lighthouserc.js           # @lhci/cli budgets
+├── lighthouserc.cjs          # @lhci/cli budgets (CJS; package is type:module)
 ├── vercel.json
 ├── .env.example              # VITE_UMAMI_WEBSITE_ID=
 ├── .github/

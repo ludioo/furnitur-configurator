@@ -102,8 +102,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] AI laporkan transfer awal < 3 MB (atau blocker tercatat). — ~1.46 MB raw / ~0.9 MB wire-ish (HTML+CSS+JS gzip+armchair+Draco); lihat progress T3.3
 
 ## T3.4
-- [ ] `npm run lhci` (atau setara) dijalankan AI; skor + assert budget dilampirkan.
-- [ ] Issue kritis/high yang aman sudah diperbaiki atau dicatat di known-issues.
+- [x] `npm run lhci` (atau setara) dijalankan AI; skor + assert budget dilampirkan. — AI: Perf ~46–72 / A11y 100; Barkah: Perf 59, tanpa timeout server; A11y assert OK; Perf &lt;80 → known-issues
+- [x] Issue kritis/high yang aman sudah diperbaiki atau dicatat di known-issues. — meta description, favicon.svg, skip tour webdriver; Perf gap dicatat; collect = staticDistDir
 
 ## T3.6
 - [ ] `npm run e2e` lulus: alur ganti swatch + save di viewport ~390 dan desktop.

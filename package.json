@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "lhci": "npm run build && lhci autorun --config=./lighthouserc.cjs",
     "optimize:model": "node scripts/optimize-model.mjs"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "@gltf-transform/core": "^4.5.1",
     "@gltf-transform/extensions": "^4.5.1",
     "@gltf-transform/functions": "^4.5.1",
+    "@lhci/cli": "^0.15.1",
     "draco3dgltf": "^1.5.9",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
