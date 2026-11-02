@@ -42,8 +42,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Tab Chair/Sofa mengganti model tanpa crash.
 
 ## T1.4
-- [ ] Harga IDR/USD ikut bahasa; label Illustrative/Harga ilustrasi terlihat.
-- [ ] `npm test` memuat tes pricing yang lulus.
+- [x] Harga IDR/USD ikut bahasa; label Illustrative/Harga ilustrasi terlihat.
+- [x] `npm test` memuat tes pricing yang lulus.
 
 ## T1.5
 - [ ] Save → muncul di list; refresh persist; load restore; delete hilang; empty state.

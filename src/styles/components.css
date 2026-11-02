@@ -200,6 +200,22 @@
   opacity: 0.55;
 }
 
+.config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.config-panel__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin-top: 1.25rem;
+  padding: 0.875rem 0 calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
 .config-panel__heading {
   margin: 0 0 0.75rem;
   font-size: 0.8rem;
@@ -211,6 +227,32 @@
 
 .config-panel__heading:not(:first-child) {
   margin-top: 1.25rem;
+}
+
+.price-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.price-bar__label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.price-bar__sep {
+  color: var(--text-muted);
+}
+
+.price-bar__amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
 }
 
 .option-chips {

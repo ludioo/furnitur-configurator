@@ -20,5 +20,6 @@
   "config.color": "Warna",
   "config.finish": "Finishing",
   "config.size": "Ukuran",
-  "config.panelAria": "Opsi furnitur"
+  "config.panelAria": "Opsi furnitur",
+  "price.illustrative": "Harga ilustrasi"
 }

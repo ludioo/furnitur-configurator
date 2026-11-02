@@ -11,7 +11,7 @@
 | T1.1 | done | 2026-11-02 | Top bar + EN/ID persist + Lucide SVG lokal + About stub + hash #configure; acceptance OK Barkah |
 | T1.2 | done | 2026-11-02 | Bottom sheet native/fallback + desktop rail 320px; 6 swatch tint bodyMaterialNames; Vitest state; acceptance OK Barkah |
 | T1.3 | done | 2026-11-02 | Finish/Size chips + tab Chair/Sofa; session restore opsi; stale-load guard + dispose; acceptance OK Barkah |
-| T1.4 | pending | — | + Vitest pricing |
+| T1.4 | done | 2026-11-02 | priceBar sticky + pricing.js (compute/format) + Vitest; IDR↔USD ikut bahasa |
 | T1.5 | pending | — | + Vitest storage |
 | T1.6 | pending | — | — |
 | T1.7 | pending | — | motion/mini + toast + floating-ui |

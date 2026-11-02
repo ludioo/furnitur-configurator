@@ -93,6 +93,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-STATE-02 | Ganti produk: simpan opsi terakhir per `productId` di memori sesi (`lastByProduct`); restore atau default | UF1 “last config produk bila ada”; tidak persist dulu (T1.5) | user-flows UF1 · prompts T1.3 |
 | D-LOAD-01 | `product.load` terima `isStale()` — buang root baru tanpa swap scene jika generasi load usang | Race A→B→A bisa menimpa model benar dengan GLB lama | eksperimen T1.3 · code review |
 
+## 2026-11-02 — T1.4 Illustrative price bar
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-PRICE-02 | `pricing.js`: `computePrice` + `currencyForLang` + `formatPrice` (Intl); hapus stub `pricingReady`; UI `priceBar` sticky di footer panel | Diganti API murni untuk Vitest + T1.5 `priceSnapshot`; ID→IDR / EN→USD | data-model · i18n-content · D-QA-05 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

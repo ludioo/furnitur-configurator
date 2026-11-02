@@ -20,5 +20,6 @@
   "config.color": "Color",
   "config.finish": "Finish",
   "config.size": "Size",
-  "config.panelAria": "Furniture options"
+  "config.panelAria": "Furniture options",
+  "price.illustrative": "Illustrative price"
 }
