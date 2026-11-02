@@ -94,7 +94,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Fokus kembali ke pemicu setelah tutup.
 
 ## T3.2
-- [ ] Umami events muncul untuk ganti warna, save, AR, bahasa (tanpa adblock).
+- [x] Kode analytics: no-op tanpa `VITE_UMAMI_WEBSITE_ID`; events wired (`product_change`, `variant_change`, `config_save`, `ar_enter`, `screenshot`, `lang_change`) — Vitest + build OK.
+- [ ] Umami events muncul di dashboard untuk ganti warna, save, AR, bahasa (tanpa adblock) — **ditunda** (Hobby 1 website; lihat known-issues T3.2).
 
 ## T3.3
 - [ ] Teks Loading hilang dari DOM setelah load.

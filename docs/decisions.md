@@ -158,6 +158,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-UI-17 | About: fokus return ke `.top-bar__about` setelah Close/Esc/backdrop; `close({ restoreFocus: false })` saat syncRoute (mis. buka Saved); focus trap penuh tetap deferred | AC T3.1 fokus kembali; trap penuh bukan AC; hindari curi fokus dari Saved | UF4 · acceptance T3.1 · known-issues T1.5 |
 
+## 2026-11-02 — T3.2 Umami
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AN-01 | `initAnalytics` setelah model load sukses + `requestIdleCallback` (fallback timeout); script hanya jika `VITE_UMAMI_WEBSITE_ID`; `data-domains=configurator.barkahmauludi.com`; `track` no-op aman; `lang_change` hanya saat bahasa benar-benar berubah | Critical path bersih; lokal/staging tanpa noise; privasi tanpa cookie banner | analytics.mdc · env-setup §7 · prompts T3.2 |
+| D-AN-02 | Live Umami Cloud untuk configurator **ditunda**; jangan Pro berbayar; env ID boleh kosong sampai slot/domain tersedia | Hobby = 1 website; slot penuh; MVP tidak bergantung dashboard Events | Barkah 2026-11-02 · umami.is/pricing |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

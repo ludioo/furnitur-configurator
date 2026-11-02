@@ -53,7 +53,10 @@ export function initShell(mountParent, options = {}) {
   bar.querySelectorAll('[data-lang]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const next = btn.getAttribute('data-lang');
-      if (next === 'en' || next === 'id') setLang(next);
+      if (next !== 'en' && next !== 'id') return;
+      if (next === getLang()) return;
+      setLang(next);
+      track('lang_change', { lang: next });
     });
   });
 

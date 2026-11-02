@@ -22,7 +22,7 @@
 | T2.4 | done | 2026-11-02 | Promise cache webxr/usdz + busy/toast.arFail; ar_enter sukses; warm Quick Look tetap; chunk terpisah build |
 | T2.5 | done | 2026-11-02 | lil-gui + stats hanya `?debug=1|true`; chunk terpisah build |
 | T3.1 | done | 2026-11-02 | About UF4: Poly Haven + Lucide + disclaimer + tech + links; Esc/backdrop/Close; fokus return ke About; trap tetap deferred |
-| T3.2 | pending | — | — |
+| T3.2 | done | 2026-11-02 | Kode + Vitest OK (`initAnalytics`/`lang_change`); **live Umami ditunda** — Hobby 1 website (slot penuh); tanpa `VITE_UMAMI_WEBSITE_ID` = no-op |
 | T3.3 | pending | — | — |
 | T3.4 | pending | — | @lhci/cli budgets |
 | T3.6 | pending | — | Playwright e2e |

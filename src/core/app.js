@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { applyDom, subscribe, t } from './i18n.js';
 import { getState, setState, subscribe as subscribeState, switchProduct } from './state.js';
 import { ensureSchema, getLast, setLast } from './storage.js';
-import { track } from './analytics.js';
+import { initAnalytics, track } from './analytics.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
@@ -257,6 +257,7 @@ export function init() {
       loadingProductId = null;
       hideSplash();
       applyCurrentAppearance();
+      initAnalytics();
       void configPanelReady
         .then(() => import('../ui/onboarding.js'))
         .then((m) => m.maybeStartTour())
