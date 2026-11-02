@@ -3,7 +3,7 @@
 Kamu tidak menulis kode. Yang kamu lakukan: klik di GitHub/Vercel/Umami dan tempel nilai. Sisanya minta AI di Cursor.
 
 ## 1. Alat sekali pakai (gratis)
-1. Node.js LTS (Vite 6 + Vitest 5 butuh Node modern; AI boleh minta upgrade bila perlu) — https://nodejs.org
+1. Node.js LTS / modern (Vite 6 + Vitest 5; CI GitHub Actions memakai **Node 22**) — https://nodejs.org
 2. Git — https://git-scm.com
 3. Cursor (sudah ada) + login GitHub
 4. Akun: GitHub, Vercel (sama dengan barkahmauludi.com), Umami Cloud Hobby — https://cloud.umami.is

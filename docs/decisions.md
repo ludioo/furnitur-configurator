@@ -44,5 +44,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-SCAFFOLD-01 | Scaffold manual (bukan `create-vite`); T0.1 hanya deps runtime `vite` + `three` + `camera-controls` | Folder sudah berisi AGENTS/docs/.cursor; tooling lint/test ditunda T0.5 | architecture.md · prompts T0.1 |
 
+## 2026-11-02 — T0.5 Quality toolchain
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-QA-04 | CI GitHub Actions pakai Node 22; tidak set `engines` di package.json dulu | cocok `camera-controls` (≥22) + Vite 6 / Vitest 5; engines bisa ditambah nanti di env-setup | npm lockfile · prompts T0.5 |
+| D-QA-05 | Stub Vitest `tests/pricing.test.js` + `pricingReady()` di `pricing.js`; CI tanpa `prettier --check`; pin `@eslint/js@9` bersama `eslint@9` | harga asli di T1.4; format lokal saja; `@eslint/js` latest minta ESLint 10 | architecture.md · npm peer deps |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`

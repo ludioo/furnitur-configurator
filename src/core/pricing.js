@@ -1,1 +1,3 @@
-// stub T0.1
+export function pricingReady() {
+  return true;
+}

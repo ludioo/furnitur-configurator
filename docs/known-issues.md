@@ -1,6 +1,11 @@
 # Known issues
 
-Belum ada isu implementasi terbuka setelah T0.1 scaffold.
+## Bug / catatan implementasi
+| Tanggal | Task | Gejala | Solusi |
+|---|---|---|---|
+| 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
+
+Belum ada isu terbuka yang memblokir acceptance T0.5.
 
 ## Risiko yang sudah diantisipasi
 | Gejala | Penyebab mungkin | Mitigasi |
