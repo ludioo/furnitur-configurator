@@ -74,9 +74,11 @@ export default [
   {
     files: [
       'tests/**/*.js',
+      'e2e/**/*.js',
       'scripts/**/*.{js,mjs}',
       'vite.config.js',
       'vitest.config.js',
+      'playwright.config.js',
       'eslint.config.js',
     ],
     languageOptions: {

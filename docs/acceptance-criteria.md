@@ -106,9 +106,9 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Issue kritis/high yang aman sudah diperbaiki atau dicatat di known-issues. — meta description, favicon.svg, skip tour webdriver; Perf gap dicatat; collect = staticDistDir
 
 ## T3.6
-- [ ] `npm run e2e` lulus: alur ganti swatch + save di viewport ~390 dan desktop.
-- [ ] Spec AR fallback: di Chromium desktop, CTA AR disabled atau menampilkan pesan unsupported.
-- [ ] AI kasih perintah satu baris untuk Barkah menjalankan ulang e2e.
+- [x] `npm run e2e` lulus: alur ganti swatch + save di viewport ~390 dan desktop. — 3 passed / 1 skipped (AR mobile skip)
+- [x] Spec AR fallback: di Chromium desktop, CTA AR disabled atau menampilkan pesan unsupported.
+- [x] AI kasih perintah satu baris untuk Barkah menjalankan ulang e2e.
 
 ## T3.5 (repo situs utama)
 - [ ] Kartu Furniture Configurator muncul di portofolio barkahmauludi.com (tahun 2026).

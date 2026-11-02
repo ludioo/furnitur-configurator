@@ -4,3 +4,7 @@ dist
 .env.local
 coverage
 .lighthouseci
+test-results
+playwright-report
+blob-report
+playwright/.cache

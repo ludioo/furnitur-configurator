@@ -25,7 +25,7 @@
 | T3.2 | done | 2026-11-02 | Kode + Vitest OK (`initAnalytics`/`lang_change`); **live Umami ditunda** — Hobby 1 website (slot penuh); tanpa `VITE_UMAMI_WEBSITE_ID` = no-op |
 | T3.3 | done | 2026-11-02 | Splash clear text + aria-hidden; on-demand RAF; `/assets` cache; transfer awal ~1.46 MB raw / ~0.9 MB wire-ish (HTML+CSS+JS gzip+armchair+Draco); lazy AR/driver/debug tetap chunk terpisah; JS gzip 228 KB |
 | T3.4 | done | 2026-11-02 | `@lhci/cli` 0.15.1 + `lighthouserc.cjs` (`staticDistDir: ./dist`); Barkah verify: tanpa timeout server, Perf **59** (&lt;80 blocker), A11y assert OK sebelumnya **100**; fix aman: meta description, favicon.svg, skip tour `navigator.webdriver` |
-| T3.6 | pending | — | Playwright e2e |
+| T3.6 | done | 2026-11-02 | `@playwright/test` 1.64 + smoke (390+desktop) + AR fallback desktop; `npm run e2e` 3 passed / 1 skipped |
 | T3.5 | pending | — | Repo situs utama |
 
 Status: `pending` | `in_progress` | `done` | `blocked`
