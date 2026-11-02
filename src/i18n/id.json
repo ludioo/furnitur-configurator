@@ -1,1 +1,19 @@
-{}
+{
+  "app.title": "Konfigurator Furnitur",
+  "app.logo": "Configurator",
+  "tab.chair": "Kursi",
+  "tab.sofa": "Sofa",
+  "lang.en": "EN",
+  "lang.id": "ID",
+  "nav.about": "Tentang",
+  "nav.aboutAria": "Tentang konfigurator ini",
+  "splash.loading": "Memuat model 3D…",
+  "splash.slow": "Koneksi lambat, masih memuat…",
+  "splash.retry": "Coba lagi",
+  "splash.loadError": "Model 3D gagal dimuat.",
+  "webgl.unsupported": "WebGL tidak tersedia di perangkat atau browser ini.",
+  "about.title": "Tentang",
+  "about.disclaimer": "Harga bersifat ilustrasi untuk demo portofolio, bukan toko nyata.",
+  "about.icons": "Ikon oleh Lucide (ISC).",
+  "about.close": "Tutup"
+}

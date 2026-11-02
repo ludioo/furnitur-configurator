@@ -71,5 +71,14 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-HOST-02 | Vercel Production Branch = `main` (push tip dari `develop`); GitHub default tetap `develop`; slug repo `furnitur-configurator` tidak di-rename | Selaras CI on `main` (D-QA-03); rename mid-flight berisiko; subdomain sudah Valid + HTTPS | env-setup · T0.4 · github.com/ludioo/furnitur-configurator |
 
+## 2026-11-02 — T1.1 Shell + i18n + Lucide
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-I18N-02 | Default bahasa: `furncfg:lang` → else `navigator.language` diawali `id` → else `en`; ganti tanpa reload via `data-i18n` + `t()` | UF3 + i18n-content; portfolio default EN | prompts T1.1 · user-flows UF3 |
+| D-UI-09 | Hash `#configure` default, `#about` buka About stub, `#saved` no-op sampai T1.5; Lucide SVG individual (termasuk chevron/trash) di `src/ui/icons/` | Routing architecture; tree-shake manual | architecture · content-and-assets · D-UI-07 |
+| D-STORE-01 | `storage.js` helper generik `get`/`set` berprefix `furncfg:` + `getLang`/`setLang` | Dipakai T1.1 sekarang, T1.5 nanti tanpa API kedua | data-model · architecture |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
+

@@ -5,6 +5,8 @@ const browserGlobals = {
   window: 'readonly',
   document: 'readonly',
   navigator: 'readonly',
+  location: 'readonly',
+  history: 'readonly',
   localStorage: 'readonly',
   sessionStorage: 'readonly',
   requestAnimationFrame: 'readonly',
@@ -38,6 +40,9 @@ const nodeGlobals = {
   URL: 'readonly',
   setTimeout: 'readonly',
   clearTimeout: 'readonly',
+  localStorage: 'readonly',
+  navigator: 'readonly',
+  document: 'readonly',
 };
 
 export default [

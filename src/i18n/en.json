@@ -1,1 +1,19 @@
-{}
+{
+  "app.title": "Furniture Configurator",
+  "app.logo": "Configurator",
+  "tab.chair": "Chair",
+  "tab.sofa": "Sofa",
+  "lang.en": "EN",
+  "lang.id": "ID",
+  "nav.about": "About",
+  "nav.aboutAria": "About this configurator",
+  "splash.loading": "Loading 3D model…",
+  "splash.slow": "Slow connection, still loading…",
+  "splash.retry": "Retry",
+  "splash.loadError": "Could not load the 3D model.",
+  "webgl.unsupported": "WebGL is not available on this device or browser.",
+  "about.title": "About",
+  "about.disclaimer": "Prices are illustrative for portfolio demo, not a real store.",
+  "about.icons": "Icons by Lucide (ISC).",
+  "about.close": "Close"
+}

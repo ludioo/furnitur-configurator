@@ -1,20 +1,42 @@
 import * as THREE from 'three';
+import { applyDom, subscribe, t } from './i18n.js';
 import { createRenderer } from '../scene/renderer.js';
 import { createCamera } from '../scene/camera.js';
 import { setupEnvironment } from '../scene/lights.js';
 import { createProductController } from '../scene/product.js';
+import { initShell } from '../ui/shell.js';
 
 const SLOW_MS = 8000;
 
 export function init() {
+  applyDom();
+
   const container = document.getElementById('app');
   const splash = document.getElementById('splash');
   const splashPct = document.getElementById('splash-pct');
   const splashStatus = document.getElementById('splash-status');
   const splashRetry = document.getElementById('splash-retry');
+  const poster = document.getElementById('webgl-poster');
   if (!container || !splash || !splashPct || !splashStatus || !splashRetry) return;
 
-  const { scene, renderer, setOnTick, start } = createRenderer(container);
+  initShell(document.body);
+
+  let scene;
+  let renderer;
+  let setOnTick;
+  let start;
+  try {
+    ({ scene, renderer, setOnTick, start } = createRenderer(container));
+  } catch (err) {
+    console.error(err);
+    splash.hidden = true;
+    if (poster) {
+      poster.hidden = false;
+      applyDom(poster);
+    }
+    return;
+  }
+
   setupEnvironment(scene, renderer);
 
   const size = {
@@ -38,16 +60,20 @@ export function init() {
   /** @type {ReturnType<typeof setTimeout> | null} */
   let slowTimer = null;
   let loadGeneration = 0;
+  /** @type {'loading' | 'slow' | 'error' | 'idle'} */
+  let splashPhase = 'idle';
 
   function showSplash() {
+    splashPhase = 'loading';
     splash.hidden = false;
     splash.setAttribute('aria-busy', 'true');
     splashRetry.hidden = true;
     splashPct.textContent = '0%';
-    splashStatus.textContent = 'Loading 3D model…';
+    splashStatus.textContent = t('splash.loading');
   }
 
   function hideSplash() {
+    splashPhase = 'idle';
     splash.hidden = true;
     splash.setAttribute('aria-busy', 'false');
     if (slowTimer) {
@@ -57,6 +83,7 @@ export function init() {
   }
 
   function showError(message) {
+    splashPhase = 'error';
     if (slowTimer) {
       clearTimeout(slowTimer);
       slowTimer = null;
@@ -65,16 +92,28 @@ export function init() {
     splash.setAttribute('aria-busy', 'false');
     splashStatus.textContent = message;
     splashRetry.hidden = false;
+    splashRetry.textContent = t('splash.retry');
   }
 
   function armSlowTimer() {
     if (slowTimer) clearTimeout(slowTimer);
     slowTimer = setTimeout(() => {
       if (!splash.hidden && splashRetry.hidden) {
-        splashStatus.textContent = 'Slow connection, still loading…';
+        splashPhase = 'slow';
+        splashStatus.textContent = t('splash.slow');
       }
     }, SLOW_MS);
   }
+
+  subscribe(() => {
+    if (splash.hidden) return;
+    if (splashPhase === 'loading') splashStatus.textContent = t('splash.loading');
+    else if (splashPhase === 'slow') splashStatus.textContent = t('splash.slow');
+    else if (splashPhase === 'error') {
+      splashStatus.textContent = t('splash.loadError');
+      splashRetry.textContent = t('splash.retry');
+    }
+  });
 
   const products = createProductController(scene, {
     onProgress(pct) {
@@ -96,7 +135,7 @@ export function init() {
     } catch (err) {
       if (gen !== loadGeneration) return;
       console.error(err);
-      showError('Could not load the 3D model.');
+      showError(t('splash.loadError'));
     }
   }
 

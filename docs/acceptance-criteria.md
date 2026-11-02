@@ -29,8 +29,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [ ] Push main → redeploy otomatis.
 
 ## T1.1
-- [ ] EN/ID berganti tanpa reload; refresh tetap.
-- [ ] Ikon top bar / tombol terlihat tajam (SVG), bukan kotak pecah.
+- [x] EN/ID berganti tanpa reload; refresh tetap.
+- [x] Ikon top bar / tombol terlihat tajam (SVG), bukan kotak pecah.
 
 ## T1.2
 - [ ] 6 swatch mengubah warna armchair instan; touch target ≥44 px di HP.
