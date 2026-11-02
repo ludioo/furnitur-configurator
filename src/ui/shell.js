@@ -47,6 +47,9 @@ export function initShell(mountParent, options = {}) {
   syncLangButtons();
   syncProductTabs();
 
+  /** @type {HTMLElement | null} */
+  const aboutBtn = bar.querySelector('.top-bar__about');
+
   bar.querySelectorAll('[data-lang]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const next = btn.getAttribute('data-lang');
@@ -68,9 +71,9 @@ export function initShell(mountParent, options = {}) {
     saved?.open();
   });
 
-  bar.querySelector('.top-bar__about')?.addEventListener('click', () => {
+  aboutBtn?.addEventListener('click', () => {
     setHash('about');
-    about.open();
+    about.open(aboutBtn);
   });
 
   subscribe(() => {
@@ -106,10 +109,10 @@ export function initShell(mountParent, options = {}) {
     const route = routeFromHash();
     if (route === 'about') {
       saved?.close();
-      about.open();
+      about.open(aboutBtn);
       return;
     }
-    if (about.isOpen()) about.close();
+    if (about.isOpen()) about.close({ restoreFocus: false });
     if (route === 'saved') {
       saved?.open();
       return;

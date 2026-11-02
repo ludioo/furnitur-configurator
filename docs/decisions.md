@@ -152,6 +152,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-AR-07 | Lazy AR: promise cache `loadWebxr`/`loadUsdz` (reset bila import reject); CTA busy + `aria-busy` + toast `toast.arFail`; `ar_enter` hanya setelah session WebXR siap / setelah Quick Look `a.click()`; warm-import USDZ Quick Look tetap (AC Network = WebXR tidak preload) | Double-load & spam tap; gagal tidak blank; Umami tanpa noise gagal; D-AR-06 tetap | prompts T2.4 · UF2 · D-AR-06 |
 
+## 2026-11-02 — T3.1 About modal
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-17 | About: fokus return ke `.top-bar__about` setelah Close/Esc/backdrop; `close({ restoreFocus: false })` saat syncRoute (mis. buka Saved); focus trap penuh tetap deferred | AC T3.1 fokus kembali; trap penuh bukan AC; hindari curi fokus dari Saved | UF4 · acceptance T3.1 · known-issues T1.5 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

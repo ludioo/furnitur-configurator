@@ -25,8 +25,14 @@ export function createAboutModal(opts = {}) {
           ${iconHtml(icons.x, 'icon icon--sm')}
         </button>
       </header>
+      <p data-i18n="about.blurb"></p>
+      <p data-i18n="about.credits"></p>
       <p data-i18n="about.disclaimer"></p>
       <p class="about-modal__muted" data-i18n="about.icons"></p>
+      <p class="about-modal__links">
+        <a href="https://barkahmauludi.com" target="_blank" rel="noopener noreferrer" data-i18n="about.portfolio"></a>
+        <a href="https://github.com/ludioo/furnitur-configurator" target="_blank" rel="noopener noreferrer" data-i18n="about.github"></a>
+      </p>
       <button type="button" class="about-modal__done" data-about-close data-i18n="about.close"></button>
     </div>
   `;
@@ -36,10 +42,18 @@ export function createAboutModal(opts = {}) {
   const backdrop = /** @type {HTMLElement} */ (root.querySelector('.about-modal__backdrop'));
   const panel = /** @type {HTMLElement} */ (root.querySelector('.about-modal__panel'));
   let animGen = 0;
+  /** @type {HTMLElement | null} */
+  let returnFocus = null;
 
-  function close() {
+  /**
+   * @param {{ restoreFocus?: boolean }} [closeOpts]
+   */
+  function close(closeOpts = {}) {
     if (root.hidden) return;
+    const restoreFocus = closeOpts.restoreFocus !== false;
     const gen = ++animGen;
+    const focusEl = returnFocus;
+    returnFocus = null;
     void (async () => {
       await Promise.all([
         runUiMotion(backdrop, { opacity: [1, 0] }, { duration: CLOSE_S }),
@@ -57,12 +71,20 @@ export function createAboutModal(opts = {}) {
       backdrop.style.opacity = '';
       panel.style.opacity = '';
       panel.style.transform = '';
+      if (restoreFocus) focusEl?.focus?.();
       opts.onClose?.();
     })();
   }
 
-  function open() {
+  /**
+   * @param {HTMLElement | null | undefined} [returnFocusEl]
+   */
+  function open(returnFocusEl) {
     const gen = ++animGen;
+    if (returnFocusEl instanceof HTMLElement) returnFocus = returnFocusEl;
+    else if (!returnFocus && document.activeElement instanceof HTMLElement) {
+      returnFocus = document.activeElement;
+    }
     applyDom(root);
     root.hidden = false;
     backdrop.style.opacity = '0';

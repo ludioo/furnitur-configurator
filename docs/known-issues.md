@@ -11,6 +11,7 @@
 | 2026-11-02 | T1.2 | Safari/iOS &lt; 18.2 tidak support initial snap lib | `html.sheet-fallback` + CSS scroll-snap peek 120px; desktop tetap rail kanan |
 
 | 2026-11-02 | T1.5 | Panel Saved `aria-modal` tanpa focus-trap penuh (hanya fokus Close) | Cukup untuk MVP; trap/inert ditunda (bukan AC T1.7) — boleh About/Saved nanti |
+| 2026-11-02 | T3.1 | About juga tanpa focus trap penuh; fokus return ke tombol About sudah ada (D-UI-17) | Trap/inert tetap deferred seperti Saved; AC T3.1 lolos tanpa trap |
 | 2026-11-02 | T1.6 | Windows desktop Share sheet (Chrome/Edge) sering hang saat load target apps; dialog tidak bisa ditutup, scene 3D tetap animasi di belakang | Skip `navigator.share` di non-mobile UA → unduh PNG langsung (D-SHOT-02). Share tetap di Android/iPhone |
 | 2026-11-02 | T1.7 | Tombol AR selalu disabled (stub) sampai T2.1 | Selesai T2.1 — capability detect (D-AR-04) |
 | 2026-11-02 | T1.8 | Di mobile native sheet, langkah swatch/save bisa highlight elemen di luar snap terlihat meski `scrollIntoView` | Sengaja D-UI-14 (tanpa API expand); user bisa geser sheet / Next. Upgrade: expand snap sebelum step bila lib expose API |

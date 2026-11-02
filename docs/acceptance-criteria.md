@@ -90,8 +90,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Build produksi: AI konfirmasi debug di-dynamic-import (bukan di entry kritis).
 
 ## T3.1
-- [ ] About: kredit Poly Haven, disclaimer harga, Close/Esc/backdrop.
-- [ ] Fokus kembali ke pemicu setelah tutup.
+- [x] About: kredit Poly Haven, disclaimer harga, Close/Esc/backdrop.
+- [x] Fokus kembali ke pemicu setelah tutup.
 
 ## T3.2
 - [ ] Umami events muncul untuk ganti warna, save, AR, bahasa (tanpa adblock).
