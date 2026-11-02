@@ -127,6 +127,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-14 | Tour visibility mobile = `scrollIntoView` pada step target; tidak menambah API expand bottom-sheet | `mountBottomSheet` belum expose expand; scrollIntoView cukup tanpa dep baru | UF6 · Grill T1.8 · architecture |
 | D-UI-15 | `maybeStartTour` di-dynamic-import dari `app.js` setelah `hideSplash`; flag `furncfg:onboarded` via `storage` `set('onboarded','1')` pada Skip/Done (`onDestroyed`) | Jaga critical path bersih; Skip dan selesai sama-sama once | D-UI-03 · prompts T1.8 · acceptance T1.8 |
 
+## 2026-11-02 — T2.1 AR capability states
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AR-04 | Deteksi AR di `src/ar/capability.js`: WebXR `immersive-ar` menang; else Safari iOS (iPhone/iPad/iPod + iPadOS MacIntel `maxTouchPoints>1`, exclude CriOS/FxiOS/EdgiOS/OPiOS) = Quick Look; desktop/unsupported tetap `aria-disabled` + tooltip. Klik belum start session/export | T2.1 hanya state CTA; WebXR/USDZ di T2.2–T2.3; heuristic Quick Look tanpa API native | D-AR-01 · UF2 · prompts T2.1 · D-UI-13 |
+| D-UI-16 | Tema tour di `src/styles/onboarding.css`, di-`import()` **setelah** `driver.js/dist/driver.css` | CSS driver load belakangan + `all:unset` mengalahkan tema di `components.css` → teks terang di latar putih | T1.8 · driver.js · validasi Barkah |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

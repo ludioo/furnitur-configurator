@@ -12,10 +12,12 @@
 
 | 2026-11-02 | T1.5 | Panel Saved `aria-modal` tanpa focus-trap penuh (hanya fokus Close) | Cukup untuk MVP; trap/inert ditunda (bukan AC T1.7) — boleh About/Saved nanti |
 | 2026-11-02 | T1.6 | Windows desktop Share sheet (Chrome/Edge) sering hang saat load target apps; dialog tidak bisa ditutup, scene 3D tetap animasi di belakang | Skip `navigator.share` di non-mobile UA → unduh PNG langsung (D-SHOT-02). Share tetap di Android/iPhone |
-| 2026-11-02 | T1.7 | Tombol AR selalu disabled (stub) sampai T2.1 | Sengaja (D-UI-13); tooltip `ar.unsupported` sudah aktif untuk acceptance T1.7 |
+| 2026-11-02 | T1.7 | Tombol AR selalu disabled (stub) sampai T2.1 | Selesai T2.1 — capability detect (D-AR-04) |
 | 2026-11-02 | T1.8 | Di mobile native sheet, langkah swatch/save bisa highlight elemen di luar snap terlihat meski `scrollIntoView` | Sengaja D-UI-14 (tanpa API expand); user bisa geser sheet / Next. Upgrade: expand snap sebelum step bila lib expose API |
+| 2026-11-02 | T2.1 | State “siap” Android Chrome / iPhone Safari tidak diverifikasi di perangkat nyata (hanya Vitest + desktop headless) | Desktop + tooltip OK Barkah; cek tombol aktif di HP teman/keluarga bila ada |
+| 2026-11-02 | T1.8/T2.1 | Teks tour driver.js hampir tak terbaca (putih/abu di latar putih) | `onboarding.css` diimpor setelah `driver.css` (D-UI-16); kontras OK Barkah |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4 / T1.1 / T1.2 / T1.3 / T1.4 / T1.5 / T1.6 / T1.7 / T1.8.
+Belum ada isu terbuka yang memblokir acceptance T0.1 / T0.5 / T0.2 / T0.3 / T0.4 / T1.1 / T1.2 / T1.3 / T1.4 / T1.5 / T1.6 / T1.7 / T1.8 / T2.1 desktop. Device AR (Android/iPhone) tetap deferred.
 
 Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 

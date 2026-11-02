@@ -74,7 +74,12 @@ export function attachTooltip(anchor, getText) {
 
   return {
     updateText() {
-      if (tip) tip.textContent = getText();
+      const text = getText();
+      if (!text) {
+        hide();
+        return;
+      }
+      if (tip) tip.textContent = text;
     },
     destroy() {
       hide();

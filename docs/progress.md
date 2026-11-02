@@ -16,7 +16,7 @@
 | T1.6 | done | 2026-11-02 | Screenshot PNG render-once; desktop unduh, mobile Web Share (D-SHOT-02); analytics `screenshot`; acceptance OK Barkah |
 | T1.7 | done | 2026-11-02 | motion/mini + toast/modal polish + floating-ui tooltip; AR CTA stub disabled; +~10 KB gzip JS; acceptance OK Barkah |
 | T1.8 | done | 2026-11-02 | Lazy driver.js tour 4 langkah + `furncfg:onboarded`; chunk terpisah di build; acceptance OK Barkah |
-| T2.1 | pending | — | — |
+| T2.1 | done | 2026-11-02 | Capability WebXR + Safari iOS heuristic; tombol disabled/ready; Vitest arCapability; desktop + tooltip OK Barkah; HP device deferred; tour CSS after driver.css (kontras) |
 | T2.2 | pending | — | — |
 | T2.3 | pending | — | — |
 | T2.4 | pending | — | — |

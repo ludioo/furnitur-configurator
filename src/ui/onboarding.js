@@ -36,6 +36,8 @@ export async function maybeStartTour() {
       import('driver.js'),
       import('driver.js/dist/driver.css'),
     ]);
+    // Theme must load after driver.css so dark tokens beat the white default.
+    await import('../styles/onboarding.css');
 
     const reduceMotion = prefersReducedMotion();
 

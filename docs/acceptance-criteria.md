@@ -62,7 +62,7 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Network: `driver.js` tidak ke-load sebelum tour mulai.
 
 ## T2.1
-- [ ] Desktop: tombol AR disabled + pesan/tooltip.
+- [x] Desktop: tombol AR disabled + pesan/tooltip.
 - [ ] Android Chrome support: tombol aktif.
 - [ ] iPhone Safari: tombol aktif (jalur Quick Look).
 
