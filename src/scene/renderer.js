@@ -1,4 +1,9 @@
 import * as THREE from 'three';
+import {
+  isDesktopLayout,
+  pixelRatioCap,
+  subscribeLayoutMode,
+} from '../core/layoutMode.js';
 
 const CLEAR_COLOR = 0x12151c;
 
@@ -41,8 +46,8 @@ export function createRenderer(container) {
   }
 
   function setPixelRatio(r) {
-    const mobile = window.matchMedia('(max-width: 768px)').matches;
-    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2));
+    const cap = pixelRatioCap(isDesktopLayout());
+    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, cap));
   }
 
   function schedule() {
@@ -82,7 +87,7 @@ export function createRenderer(container) {
     invalidate();
   }
 
-  function onWindowResize() {
+  function syncSize() {
     setPixelRatio(renderer);
     const { width, height } = resize();
     renderer.domElement.dispatchEvent(
@@ -92,17 +97,9 @@ export function createRenderer(container) {
   }
 
   resize();
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('resize', syncSize);
   document.addEventListener('visibilitychange', onVisibility);
-
-  function syncSize() {
-    setPixelRatio(renderer);
-    const { width, height } = resize();
-    renderer.domElement.dispatchEvent(
-      new CustomEvent('furncfg:resize', { detail: { width, height } }),
-    );
-    invalidate();
-  }
+  subscribeLayoutMode(syncSize);
 
   /**
    * Clear scene background for camera passthrough (AR). Studio restores solid clear.

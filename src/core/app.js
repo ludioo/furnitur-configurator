@@ -10,7 +10,7 @@ import { createProductController } from '../scene/product.js';
 import { capturePng, shareOrDownloadPng } from '../scene/screenshot.js';
 import { initShell, setHash } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
-import { subscribeLayoutMode } from '../ui/bottomSheet.js';
+import { subscribeLayoutMode } from './layoutMode.js';
 import { initSavedList } from '../ui/savedList.js';
 import { initArButton } from '../ui/arButton.js';
 import { showToast } from '../ui/toast.js';

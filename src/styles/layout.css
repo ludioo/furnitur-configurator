@@ -29,6 +29,13 @@
   pointer-events: none;
 }
 
+/* Sheet layouts: skip blur — cheaper paint on mobile GPU (M5). */
+html[data-layout='mobile'] .top-bar,
+html[data-layout='short-landscape'] .top-bar {
+  backdrop-filter: none;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+}
+
 .top-bar > * {
   pointer-events: auto;
 }

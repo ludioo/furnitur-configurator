@@ -441,7 +441,6 @@ html[data-sheet-snap='full'] .toast-host {
   color: var(--text);
   font-size: 0.9rem;
   box-shadow: 0 8px 24px color-mix(in srgb, #000 45%, transparent);
-  will-change: opacity, transform;
 }
 
 .ar-cta {

@@ -215,6 +215,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-UI-20 | Meta `viewport-fit=cover`; Saved `max-height` pakai `dvh`; rail hanya `min-width:768` **dan bukan** short-landscape `(orientation:landscape) and (max-height:500px)`; peek short-landscape `18svh` / snap 18%; CSS undo rail chrome di media yang sama; `subscribeLayoutMode` → destroy+`initConfigPanel` ulang | HP landscape lebar ≥768 (844×390) kena rail & padding kosong; remount perlu karena DOM rail ≠ sheet; FAB ditunda | mobile-ux-spec · prompts M4 · M0 landscape temuan |
 
+## 2026-11-03 — M5 mobile DPR + light jank
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-PERF-01 | Cap DPR lewat `pixelRatioCap(!isDesktopLayout())` di `layoutMode.js` (sheet/short-landscape ≤1.5, rail ≤2); subscribe layout → `syncSize`; top bar sheet tanpa `backdrop-filter`; hapus `will-change` permanen di toast | Max-width 768 saja salah di landscape lebar; scene jangan import UI; blur/`will-change` jank ringan tanpa rewrite three; skor LHCI tetap M8 | performance-budget · prompts M5 · D-UI-20 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

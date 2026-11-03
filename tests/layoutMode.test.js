@@ -3,9 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const {
   isDesktopLayout,
   isShortLandscape,
+  pixelRatioCap,
   subscribeLayoutMode,
-  syncSheetPeekHeight,
-} = await import('../src/ui/bottomSheet.js');
+} = await import('../src/core/layoutMode.js');
+const { syncSheetPeekHeight } = await import('../src/ui/bottomSheet.js');
 
 function stubDocumentElement() {
   const style = new Map();
@@ -77,6 +78,12 @@ describe('layoutMode', () => {
   it('isDesktopLayout is false for wide short-landscape (phone landscape)', () => {
     mockMatchMedia({ wide: true, shortLandscape: true });
     expect(isDesktopLayout()).toBe(false);
+    expect(pixelRatioCap(isDesktopLayout())).toBe(1.5);
+  });
+
+  it('pixelRatioCap is 1.5 for sheet and 2 for desktop rail', () => {
+    expect(pixelRatioCap(false)).toBe(1.5);
+    expect(pixelRatioCap(true)).toBe(2);
   });
 
   it('isDesktopLayout is true for wide portrait / tall landscape', () => {

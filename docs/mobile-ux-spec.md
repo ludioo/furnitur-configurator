@@ -79,7 +79,7 @@ Jangan mengandalkan hanya `matchMedia` sekali saat mount — rotasi melewati 768
 
 Ikuti `.cursor/rules/performance-budget.mdc` + tambahan:
 
-- `renderer.setPixelRatio` cap mobile **≤ 1.5** (sudah di `renderer.js`) — jangan naikkan.
+- `renderer.setPixelRatio` cap sheet/mobile **≤ 1.5** lewat `isDesktopLayout()` / `pixelRatioCap` (`layoutMode.js`) — jangan naikkan; short-landscape ikut 1.5.
 - Tekstur GLB tetap ≤ 1024; jangan naikkan resolusi demi "tajam di Retina".
 - Hormati `prefers-reduced-motion`.
 - Target: ≥ 30 fps mid-range; transfer awal < 3 MB; LHCI mobile Perf stretch tetap 80 (blocker sudah dicatat T3.4).
@@ -105,7 +105,7 @@ Temuan read-only 2026-11-03 — status diperbarui setelah M0–M4:
 9. **Peek/CTA drift** — **ditutup M2** (satu token `--sheet-peek-height`; native short-landscape `18svh` di M4).
 10. **Landscape CSS** — **ditutup M4** (peek rendah + undo rail chrome di short-landscape).
 11. **`playwright.config.js` matrix** — **masih terbuka → M7** (baseline ada di `e2e:baseline`; suite utama belum SE/Pixel7/landscape).
-12. **`lighthouserc.cjs` / Perf mobile** — **masih terbuka → M5/M8** (Perf ~59 blocker).
-13. **Fase M task** — **berjalan** (M0–M4 done; lanjut M5+).
+12. **`lighthouserc.cjs` / Perf mobile** — **masih terbuka → M8** (Perf ~59 blocker; M5 = DPR/jank saja, bukan skor LHCI).
+13. **Fase M task** — **berjalan** (M0–M5 done; lanjut M6+).
 
-Prioritas sisa: `M5`–`M8` di `docs/implementation-plan.md`.
+Prioritas sisa: `M6`–`M8` di `docs/implementation-plan.md`.

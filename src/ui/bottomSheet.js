@@ -1,5 +1,14 @@
-const MQ_WIDE = '(min-width: 768px)';
-const MQ_SHORT_LANDSCAPE = '(orientation: landscape) and (max-height: 500px)';
+import {
+  MQ_SHORT_LANDSCAPE,
+  isDesktopLayout,
+  isShortLandscape,
+} from '../core/layoutMode.js';
+
+export {
+  isDesktopLayout,
+  isShortLandscape,
+  subscribeLayoutMode,
+} from '../core/layoutMode.js';
 
 /**
  * Detect whether pure-web-bottom-sheet is usable (Chrome/Edge 121+, FF 123+, Safari/iOS 18.2+).
@@ -31,25 +40,6 @@ export function supportsNativeBottomSheet() {
   return true;
 }
 
-function mqMatches(query) {
-  return (
-    typeof globalThis.matchMedia === 'function' && globalThis.matchMedia(query).matches
-  );
-}
-
-/** Phone landscape short enough that a desktop rail would crush the canvas. */
-export function isShortLandscape() {
-  return mqMatches(MQ_SHORT_LANDSCAPE);
-}
-
-/**
- * Desktop rail when wide enough and not short-landscape (844×390 stays sheet).
- * @returns {boolean}
- */
-export function isDesktopLayout() {
-  return mqMatches(MQ_WIDE) && !isShortLandscape();
-}
-
 /**
  * @param {'desktop' | 'native' | 'fallback'} kind
  * @param {HTMLElement | null} [peekSnapEl] native peek snap slot
@@ -75,35 +65,6 @@ export function syncSheetPeekHeight(kind, peekSnapEl = null) {
 
   // Fallback: let CSS media set --sheet-peek-height (7.5rem / 18svh).
   root.style.removeProperty('--sheet-peek-height');
-}
-
-/**
- * Fire when desktop vs mobile sheet mode should change (not peek-only).
- * @param {(desktop: boolean) => void} onChange
- * @returns {() => void} unsubscribe
- */
-export function subscribeLayoutMode(onChange) {
-  if (typeof globalThis.matchMedia !== 'function') {
-    return () => {};
-  }
-
-  const wide = globalThis.matchMedia(MQ_WIDE);
-  const short = globalThis.matchMedia(MQ_SHORT_LANDSCAPE);
-  let last = isDesktopLayout();
-
-  const check = () => {
-    const next = isDesktopLayout();
-    if (next === last) return;
-    last = next;
-    onChange(next);
-  };
-
-  wide.addEventListener('change', check);
-  short.addEventListener('change', check);
-  return () => {
-    wide.removeEventListener('change', check);
-    short.removeEventListener('change', check);
-  };
 }
 
 /**
