@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-const OUT_DIR = path.join('docs', '_mobile-baselines', 'm0');
+const OUT_DIR = path.join('docs', '_mobile-baselines', process.env.BASELINE_TAG || 'm0');
 
 test('mobile UI baseline screenshot after splash', async ({ page }, testInfo) => {
   await mkdir(OUT_DIR, { recursive: true });

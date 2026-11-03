@@ -27,6 +27,7 @@ export function initShell(mountParent, options = {}) {
         <button type="button" class="top-bar__lang-btn" data-lang="id" data-i18n="lang.id"></button>
       </div>
       <button type="button" class="top-bar__saved" data-i18n-aria="nav.savedAria">
+        ${iconHtml(icons.save)}
         <span data-i18n="nav.saved"></span>
       </button>
       <button type="button" class="top-bar__about" data-i18n-aria="nav.aboutAria">

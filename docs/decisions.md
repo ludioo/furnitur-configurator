@@ -190,6 +190,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-QA-07 | Baseline M0 = `playwright.baseline.config.js` + `npm run e2e:baseline` (Chromium, 4 viewport, `video: on`); artefak di `docs/_mobile-baselines/m0/`; **tidak** menambah project ke `playwright.config.js` | Agar `npm run e2e` / CI tidak menggandakan smoke; M7 baru perluasan project permanen | mobile-testing.md · prompts M0 · D-QA-06 |
 
+## 2026-11-03 — M1 Top bar density
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-18 | Top bar mobile (`max-width: 767px`): brand visually hidden; Saved/About icon-first (label clip); lang `min-width: var(--touch-min)`; tabs tetap berlabel `flex-shrink: 0`. Desktop ≥768 tetap logo + label teks | Di 360–480 logo+teks Saved/About menekan tab Chair/Sofa (scrollWidth terpotong); spek prioritas tabs + tap ≥44 | mobile-ux-spec · prompts M1 · isu #6 |
+| D-QA-08 | `e2e/mobile-baseline.spec.js` tulis ke `docs/_mobile-baselines/${BASELINE_TAG\|\|'m0'}` | Banding M0 vs M1 tanpa menimpa artefak; M7 tetap project terpisah | prompts M1 · D-QA-07 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

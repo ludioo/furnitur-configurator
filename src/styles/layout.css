@@ -89,7 +89,7 @@
 
 .top-bar__lang-btn {
   min-height: var(--touch-min);
-  min-width: 2rem;
+  min-width: var(--touch-min);
   padding: 0 0.35rem;
   border: none;
   background: transparent;
@@ -119,6 +119,7 @@
 
 .top-bar__saved,
 .top-bar__about {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -145,12 +146,53 @@
   }
 }
 
-@media (max-width: 420px) {
+/* Mobile sheet range: keep labeled tabs + ≥44 actions without horizontal clip */
+@media (max-width: 767px) {
+  .top-bar {
+    gap: 0.35rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .top-bar__brand {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .top-bar__tabs {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .top-bar__tab {
+    flex-shrink: 0;
+    padding: 0 0.5rem;
+  }
+
+  .top-bar__actions {
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+
+  .top-bar__saved,
+  .top-bar__about {
+    gap: 0;
+    justify-content: center;
+    padding: 0;
+    width: var(--touch-min);
+  }
+
+  .top-bar__saved span,
   .top-bar__about span {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 }
