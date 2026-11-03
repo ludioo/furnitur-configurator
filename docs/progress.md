@@ -1,6 +1,6 @@
 # Progress
 
-MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M3 done**. **Berikutnya: M4** (viewport-fit, safe-area, dvh/svh, landscape) — spek di `docs/mobile-ux-spec.md` / `mobile-testing.md`.
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M4 done**. **Berikutnya: M5** (perf pass fokus mobile).
 
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
@@ -33,7 +33,7 @@ MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M3 done**. 
 | M1 | done | 2026-11-03 | Top bar densitas &lt;768: brand hide + Saved/About icon-first; lang ≥44; bukti `docs/_mobile-baselines/m1/` (360/375); `BASELINE_TAG` di e2e baseline |
 | M2 | done | 2026-11-03 | Grabber native + footer slot; `--sheet-peek-height`; CTA hide / toast naik saat mid/full; bukti `docs/_mobile-baselines/m2/` + `e2e/sheet-cta.spec.js`; `npx playwright test --project=mobile` 3 passed / 1 skipped |
 | M3 | done | 2026-11-03 | Tap AR unsupported → `showToast(ar.unsupported)` (aria-live); tooltip hover desktop tetap; e2e mobile tap + desktop hover/click (`force` karena aria-disabled) |
-| M4 | pending | - | viewport-fit, safe-area, dvh/svh, landscape |
+| M4 | done | 2026-11-03 | `viewport-fit=cover`; Saved `80dvh`; short-landscape = sheet + peek `18svh` (bukan rail); remount rail↔sheet via `subscribeLayoutMode`; bukti `docs/_mobile-baselines/m4/` (+ se-landscape); Vitest `layoutMode` |
 | M5 | pending | - | Perf pass fokus mobile |
 | M6 | pending | - | AR entry UX mobile |
 | M7 | pending | - | Playwright mobile projects + video |

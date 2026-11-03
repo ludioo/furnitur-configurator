@@ -516,7 +516,7 @@ html[data-sheet-snap='full'] .ar-cta {
 
 .saved-panel__dialog {
   width: min(100%, 420px);
-  max-height: min(80vh, 560px);
+  max-height: min(80dvh, 560px);
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border);
@@ -666,6 +666,30 @@ html[data-sheet-snap='full'] .ar-cta {
     bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     visibility: visible;
     pointer-events: auto;
+  }
+}
+
+/* Wide but short landscape: sheet mode (not rail) — undo desktop rail chrome. */
+@media (min-width: 768px) and (orientation: landscape) and (max-height: 500px) {
+  #app {
+    padding-right: 0;
+  }
+
+  .toast-host {
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(var(--sheet-peek-height) + 0.5rem + env(safe-area-inset-bottom, 0px));
+    justify-content: flex-start;
+  }
+
+  html[data-sheet-snap='mid'] .toast-host,
+  html[data-sheet-snap='full'] .toast-host {
+    bottom: auto;
+    top: calc(3.25rem + env(safe-area-inset-top, 0px));
+  }
+
+  .ar-cta {
+    bottom: calc(var(--sheet-peek-height) + 0.75rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

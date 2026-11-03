@@ -47,6 +47,15 @@ export default defineConfig({
         hasTouch: true,
       },
     },
+    {
+      name: 'baseline-se-landscape',
+      use: {
+        ...devices['Pixel 5'],
+        viewport: { width: 667, height: 375 },
+        isMobile: true,
+        hasTouch: true,
+      },
+    },
   ],
   webServer: {
     command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4173',

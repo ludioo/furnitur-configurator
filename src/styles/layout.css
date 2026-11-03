@@ -146,8 +146,14 @@
   }
 }
 
+@media (min-width: 768px) and (orientation: landscape) and (max-height: 500px) {
+  .top-bar {
+    right: 0;
+  }
+}
+
 /* Mobile sheet range: keep labeled tabs + ≥44 actions without horizontal clip */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .top-bar {
     gap: 0.35rem;
     padding-left: 0.5rem;

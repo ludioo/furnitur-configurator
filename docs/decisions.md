@@ -209,6 +209,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-A11Y-01 | Klik CTA AR saat unsupported → `showToast(t('ar.unsupported'))` (host toast sudah `aria-live`); `tooltip.js` hover/focus desktop tidak diubah; `aria-disabled` tetap (D-AR-04) | Spek mobile: info AR tanpa hover; toast reuse key + live region; ubah tooltip generik / lepaskan aria-disabled = scope lebih besar | mobile-ux-spec a11y · prompts M3 · D-AR-04 |
 
+## 2026-11-03 — M4 viewport / landscape / remount
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-20 | Meta `viewport-fit=cover`; Saved `max-height` pakai `dvh`; rail hanya `min-width:768` **dan bukan** short-landscape `(orientation:landscape) and (max-height:500px)`; peek short-landscape `18svh` / snap 18%; CSS undo rail chrome di media yang sama; `subscribeLayoutMode` → destroy+`initConfigPanel` ulang | HP landscape lebar ≥768 (844×390) kena rail & padding kosong; remount perlu karena DOM rail ≠ sheet; FAB ditunda | mobile-ux-spec · prompts M4 · M0 landscape temuan |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

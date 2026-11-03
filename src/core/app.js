@@ -10,6 +10,7 @@ import { createProductController } from '../scene/product.js';
 import { capturePng, shareOrDownloadPng } from '../scene/screenshot.js';
 import { initShell, setHash } from '../ui/shell.js';
 import { initConfigPanel } from '../ui/configPanel.js';
+import { subscribeLayoutMode } from '../ui/bottomSheet.js';
 import { initSavedList } from '../ui/savedList.js';
 import { initArButton } from '../ui/arButton.js';
 import { showToast } from '../ui/toast.js';
@@ -65,15 +66,41 @@ export function init() {
 
   /** @type {(() => Promise<void>) | null} */
   let runScreenshot = null;
-  const configPanelReady = initConfigPanel(document.body, {
+  const panelOpts = {
     onSaved() {
       saved.render();
     },
     onScreenshot() {
       return runScreenshot?.();
     },
-  }).catch((err) => {
+  };
+
+  /** @type {Awaited<ReturnType<typeof initConfigPanel>> | null} */
+  let configPanel = null;
+  let remountSeq = 0;
+
+  async function mountConfigPanel() {
+    configPanel = await initConfigPanel(document.body, panelOpts);
+    return configPanel;
+  }
+
+  const configPanelReady = mountConfigPanel().catch((err) => {
     console.error('[configPanel]', err);
+  });
+
+  subscribeLayoutMode(() => {
+    const seq = ++remountSeq;
+    void (async () => {
+      try {
+        await configPanelReady;
+        if (seq !== remountSeq) return;
+        configPanel?.destroy();
+        configPanel = null;
+        await mountConfigPanel();
+      } catch (err) {
+        console.error('[configPanel remount]', err);
+      }
+    })();
   });
 
   let storageFailToasted = false;

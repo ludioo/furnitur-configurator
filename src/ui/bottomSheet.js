@@ -1,3 +1,6 @@
+const MQ_WIDE = '(min-width: 768px)';
+const MQ_SHORT_LANDSCAPE = '(orientation: landscape) and (max-height: 500px)';
+
 /**
  * Detect whether pure-web-bottom-sheet is usable (Chrome/Edge 121+, FF 123+, Safari/iOS 18.2+).
  * @returns {boolean}
@@ -28,8 +31,79 @@ export function supportsNativeBottomSheet() {
   return true;
 }
 
-function isDesktop() {
-  return typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 768px)').matches;
+function mqMatches(query) {
+  return (
+    typeof globalThis.matchMedia === 'function' && globalThis.matchMedia(query).matches
+  );
+}
+
+/** Phone landscape short enough that a desktop rail would crush the canvas. */
+export function isShortLandscape() {
+  return mqMatches(MQ_SHORT_LANDSCAPE);
+}
+
+/**
+ * Desktop rail when wide enough and not short-landscape (844×390 stays sheet).
+ * @returns {boolean}
+ */
+export function isDesktopLayout() {
+  return mqMatches(MQ_WIDE) && !isShortLandscape();
+}
+
+/**
+ * @param {'desktop' | 'native' | 'fallback'} kind
+ * @param {HTMLElement | null} [peekSnapEl] native peek snap slot
+ */
+export function syncSheetPeekHeight(kind, peekSnapEl = null) {
+  const root = document.documentElement;
+  if (kind === 'desktop') {
+    root.style.removeProperty('--sheet-peek-height');
+    root.dataset.layout = 'desktop';
+    return;
+  }
+
+  const short = isShortLandscape();
+  root.dataset.layout = short ? 'short-landscape' : 'mobile';
+
+  if (kind === 'native') {
+    root.style.setProperty('--sheet-peek-height', short ? '18svh' : '25dvh');
+    if (peekSnapEl) {
+      peekSnapEl.style.setProperty('--snap', short ? '18%' : '25%');
+    }
+    return;
+  }
+
+  // Fallback: let CSS media set --sheet-peek-height (7.5rem / 18svh).
+  root.style.removeProperty('--sheet-peek-height');
+}
+
+/**
+ * Fire when desktop vs mobile sheet mode should change (not peek-only).
+ * @param {(desktop: boolean) => void} onChange
+ * @returns {() => void} unsubscribe
+ */
+export function subscribeLayoutMode(onChange) {
+  if (typeof globalThis.matchMedia !== 'function') {
+    return () => {};
+  }
+
+  const wide = globalThis.matchMedia(MQ_WIDE);
+  const short = globalThis.matchMedia(MQ_SHORT_LANDSCAPE);
+  let last = isDesktopLayout();
+
+  const check = () => {
+    const next = isDesktopLayout();
+    if (next === last) return;
+    last = next;
+    onChange(next);
+  };
+
+  wide.addEventListener('change', check);
+  short.addEventListener('change', check);
+  return () => {
+    wide.removeEventListener('change', check);
+    short.removeEventListener('change', check);
+  };
 }
 
 /**
@@ -70,7 +144,7 @@ function createGrabberHandle() {
 function mountDesktopRail(mountParent, content) {
   document.documentElement.classList.remove('sheet-fallback');
   setSheetSnap(null);
-  document.documentElement.style.removeProperty('--sheet-peek-height');
+  syncSheetPeekHeight('desktop');
 
   const host = document.createElement('aside');
   host.className = 'config-rail';
@@ -90,7 +164,7 @@ export async function mountBottomSheet(mountParent, opts = {}) {
   const content = document.createElement('div');
   content.className = 'config-panel__body';
 
-  if (opts.forceDesktop ?? isDesktop()) {
+  if (opts.forceDesktop ?? isDesktopLayout()) {
     return mountDesktopRail(mountParent, content);
   }
 
@@ -98,7 +172,6 @@ export async function mountBottomSheet(mountParent, opts = {}) {
 
   if (useNative) {
     document.documentElement.classList.remove('sheet-fallback');
-    document.documentElement.style.setProperty('--sheet-peek-height', '25dvh');
     setSheetSnap('peek');
 
     const { registerSheetElements } = await import('pure-web-bottom-sheet');
@@ -121,8 +194,9 @@ export async function mountBottomSheet(mountParent, opts = {}) {
 
     const snap25 = document.createElement('div');
     snap25.slot = 'snap';
-    snap25.style.setProperty('--snap', '25%');
     snap25.className = 'initial';
+
+    syncSheetPeekHeight('native', snap25);
 
     const header = document.createElement('div');
     header.slot = 'header';
@@ -138,6 +212,13 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     };
     sheet.addEventListener('snap-position-change', onSnapChange);
 
+    const shortMq =
+      typeof globalThis.matchMedia === 'function'
+        ? globalThis.matchMedia(MQ_SHORT_LANDSCAPE)
+        : null;
+    const onShortChange = () => syncSheetPeekHeight('native', snap25);
+    shortMq?.addEventListener('change', onShortChange);
+
     sheet.append(snap90, snap55, snap25, header, content, footerHost);
     mountParent.append(sheet);
 
@@ -147,17 +228,19 @@ export async function mountBottomSheet(mountParent, opts = {}) {
       footerHost,
       mode: /** @type {const} */ ('native'),
       destroy() {
+        shortMq?.removeEventListener('change', onShortChange);
         sheet.removeEventListener('snap-position-change', onSnapChange);
         setSheetSnap(null);
         document.documentElement.style.removeProperty('--sheet-peek-height');
+        delete document.documentElement.dataset.layout;
         sheet.remove();
       },
     };
   }
 
   document.documentElement.classList.add('sheet-fallback');
-  document.documentElement.style.removeProperty('--sheet-peek-height');
   setSheetSnap('peek');
+  syncSheetPeekHeight('fallback');
 
   const host = document.createElement('div');
   host.className = 'config-sheet config-sheet--fallback';
@@ -189,6 +272,19 @@ export async function mountBottomSheet(mountParent, opts = {}) {
 
   scroller.addEventListener('scroll', syncFallbackSnap, { passive: true });
 
+  const shortMq =
+    typeof globalThis.matchMedia === 'function'
+      ? globalThis.matchMedia(MQ_SHORT_LANDSCAPE)
+      : null;
+  const onShortChange = () => {
+    syncSheetPeekHeight('fallback');
+    requestAnimationFrame(() => {
+      scroller.scrollTop = spacer.offsetHeight;
+      syncFallbackSnap();
+    });
+  };
+  shortMq?.addEventListener('change', onShortChange);
+
   requestAnimationFrame(() => {
     scroller.scrollTop = spacer.offsetHeight;
     syncFallbackSnap();
@@ -200,8 +296,10 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     footerHost: null,
     mode: /** @type {const} */ ('fallback'),
     destroy() {
+      shortMq?.removeEventListener('change', onShortChange);
       scroller.removeEventListener('scroll', syncFallbackSnap);
       setSheetSnap(null);
+      delete document.documentElement.dataset.layout;
       host.remove();
     },
   };

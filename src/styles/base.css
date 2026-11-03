@@ -18,6 +18,13 @@
   --sheet-peek-height: 7.5rem;
 }
 
+/* Short phone landscape: lower peek so canvas stays usable (~≥40% height). */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --sheet-peek-height: 18svh;
+  }
+}
+
 *,
 *::before,
 *::after {
