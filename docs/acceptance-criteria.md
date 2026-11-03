@@ -119,3 +119,11 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Isu di `mobile-ux-spec` "Current issues found" diaudit vs kode; yang masih valid tercatat di known-issues.
 - [x] Folder `docs/_mobile-baselines/m0/` berisi PNG + WEBM untuk 360 / 390 / 375 / landscape.
 - [x] Perintah: `npm run e2e:baseline` (tidak mengubah hasil `npm run e2e`).
+
+## M4 (safe-area, viewport, landscape)
+- [x] Meta viewport berisi `viewport-fit=cover`.
+- [x] Panel Saved memakai `dvh`/`svh` (bukan `80vh`).
+- [x] Landscape phone pendek (mis. 844×390 / SE 667×375): bottom sheet + peek rendah, bukan rail desktop; canvas usable.
+- [x] Ubah breakpoint/orientasi meremount rail↔sheet tanpa reload penuh.
+- [x] Bukti: `docs/_mobile-baselines/m4/` (375 + landscape + se-landscape); `npm run build` hijau.
+- [ ] Notch/safe-area padding di iPhone Safari nyata (Chromium baseline tidak mengisi `env(safe-area-inset-*)`) — cek manual Barkah.

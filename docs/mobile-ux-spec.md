@@ -92,20 +92,20 @@ Ikuti `.cursor/rules/performance-budget.mdc` + tambahan:
 
 ## Current issues found (kode)
 
-Temuan read-only 2026-11-03 — file path relatif root repo:
+Temuan read-only 2026-11-03 — status diperbarui setelah M0–M4:
 
-1. **`index.html`** — meta viewport tanpa `viewport-fit=cover`; safe-area insets di CSS bisa tidak penuh di iPhone notch.
-2. **`src/styles/components.css` (`.ar-cta`)** — `bottom: calc(7.5rem + env(safe-area-inset-bottom))` hardcode; tidak ikut tinggi snap sheet 55%/90% → overlap / CTA "mengambang salah".
-3. **`src/styles/components.css` (`.toast-host`)** — toast fixed bottom; bentrok visual dengan sheet expanded (z-index 60 di atas sheet 12).
-4. **`src/styles/components.css` (`.saved-panel__dialog`)** — `max-height: min(80vh, 560px)` memakai `vh`, rawan terpotong saat chrome browser mobile.
-5. **`src/ui/tooltip.js`** — hanya `pointerenter` / `pointerleave` / focus; di touch, pesan AR unsupported hampir tidak discoverable (e2e AR hanya `.hover()` di desktop).
-6. **`src/styles/layout.css` (`.top-bar__lang-btn`)** — `min-width: 2rem` (< 44px); top bar overcrowded di 360px (logo + 2 tabs + EN|ID + Saved teks + About).
-7. **`src/ui/bottomSheet.js`** — mode desktop/sheet dipilih sekali di mount via `matchMedia('(min-width: 768px)')`; rotasi tablet melewati breakpoint tidak meremount.
-8. **`src/ui/bottomSheet.js` native path** — tidak menyuntik grabber visual; hanya fallback CSS yang punya `.config-sheet__grabber` → native sheet kurang affordance.
-9. **`src/styles/bottom-sheet-fallback.css` + `.ar-cta`** — peek `7.5rem` / spacer `100% - 7.5rem` harus selaras dengan CTA; rentan drift.
-10. **Tidak ada aturan landscape** di CSS — sheet peek + top bar + CTA menghancurkan tinggi canvas di SE landscape.
-11. **`playwright.config.js`** — hanya project `mobile` 390×844 + desktop; belum iPhone SE, Pixel 7 device descriptor, landscape, `recordVideo`, atau screenshot baseline.
-12. **`lighthouserc.cjs`** — collect static dist; belum terdokumentasikan form factor / throttle mobile secara eksplisit di docs testing mobile; Perf mobile masih blocker (~59).
-13. **`docs/known-issues.md`** — sudah mencatat "UI mobile overall masih jelek" pasca T2.3; belum ada fase task khusus sampai Fase M.
+1. **`index.html`** — **ditutup M4** (`viewport-fit=cover`). Notch nyata: cek manual Safari.
+2. **`src/styles/components.css` (`.ar-cta`)** — **ditutup M2** (`--sheet-peek-height` + hide mid/full).
+3. **`src/styles/components.css` (`.toast-host`)** — **ditutup M2** (naik saat sheet mid/full).
+4. **`src/styles/components.css` (`.saved-panel__dialog`)** — **ditutup M4** (`80dvh`).
+5. **`src/ui/tooltip.js` / AR tap** — **ditutup M3** (tap → toast `ar.unsupported`).
+6. **`src/styles/layout.css` (top bar)** — **ditutup M1** (densitas &lt;768, lang ≥44).
+7. **`src/ui/bottomSheet.js` remount** — **ditutup M4** (`subscribeLayoutMode` + short-landscape = sheet).
+8. **`src/ui/bottomSheet.js` native grabber** — **ditutup M2** (`slot=header`).
+9. **Peek/CTA drift** — **ditutup M2** (satu token `--sheet-peek-height`; native short-landscape `18svh` di M4).
+10. **Landscape CSS** — **ditutup M4** (peek rendah + undo rail chrome di short-landscape).
+11. **`playwright.config.js` matrix** — **masih terbuka → M7** (baseline ada di `e2e:baseline`; suite utama belum SE/Pixel7/landscape).
+12. **`lighthouserc.cjs` / Perf mobile** — **masih terbuka → M5/M8** (Perf ~59 blocker).
+13. **Fase M task** — **berjalan** (M0–M4 done; lanjut M5+).
 
-Prioritas perbaikan mengikuti task `M0`–`M8` di `docs/implementation-plan.md`.
+Prioritas sisa: `M5`–`M8` di `docs/implementation-plan.md`.
