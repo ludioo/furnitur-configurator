@@ -203,6 +203,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-UI-19 | Satu token `--sheet-peek-height` (fallback `7.5rem`, native override `25dvh`); `data-sheet-snap` peek/mid/full dari `snap-position-change` (index lib 1=peek) / scroll fallback; mid/full sembunyikan `.ar-cta`, toast ke bawah top bar; native: grabber `slot=header`, price/actions `slot=footer`, `nested-scroll` | Hindari hardcode `7.5rem` tersebar; CTA di atas sheet tinggi bentrok konten; footer slot mencegah potong Save di peek | mobile-ux-spec · prompts M2 · pure-web-bottom-sheet README |
 
+## 2026-11-03 — M3 AR message tanpa hover-only
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-A11Y-01 | Klik CTA AR saat unsupported → `showToast(t('ar.unsupported'))` (host toast sudah `aria-live`); `tooltip.js` hover/focus desktop tidak diubah; `aria-disabled` tetap (D-AR-04) | Spek mobile: info AR tanpa hover; toast reuse key + live region; ubah tooltip generik / lepaskan aria-disabled = scope lebih besar | mobile-ux-spec a11y · prompts M3 · D-AR-04 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

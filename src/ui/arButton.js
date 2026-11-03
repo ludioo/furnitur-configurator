@@ -65,6 +65,10 @@ export function initArButton(mountParent) {
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
+    if (mode === 'unsupported') {
+      showToast(t('ar.unsupported'));
+      return;
+    }
     if (mode === 'webxr') {
       runAr(onWebxr);
       return;

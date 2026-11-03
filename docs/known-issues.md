@@ -3,7 +3,8 @@
 ## Bug / catatan implementasi
 | Tanggal | Task | Gejala | Solusi |
 |---|---|---|---|
-| 2026-11-03 | M2 | Sheet native tanpa grabber; CTA/toast hardcode `7.5rem` / overlap sheet tinggi; Save null setelah footer di-slot — **ditutup** (D-UI-19); bukti `docs/_mobile-baselines/m2/` + e2e sheet-cta. Sisa M0: landscape/rail (**M4**), remount breakpoint (**M4**) | Lanjut M3 (AR tap tanpa hover) |
+| 2026-11-03 | M3 | Tooltip AR hover-only di touch — **ditutup** (D-A11Y-01): tap → toast `ar.unsupported`; e2e `ar-fallback` mobile+desktop. Playwright butuh `click({ force: true })` karena `aria-disabled` (pola D-AR-04). Flake jarang: `sheet-cta` expand kadang tetap `peek` (re-run hijau; bukan regresi M3) | Lanjut M4 |
+| 2026-11-03 | M2 | Sheet native tanpa grabber; CTA/toast hardcode `7.5rem` / overlap sheet tinggi; Save null setelah footer di-slot — **ditutup** (D-UI-19); bukti `docs/_mobile-baselines/m2/` + e2e sheet-cta. Sisa M0: landscape/rail (**M4**), remount breakpoint (**M4**) | M3 ditutup; sisa M4 |
 | 2026-11-03 | M1 | Top bar 360/SE: overflow + lang &lt;44 + Saved teks — **ditutup** (D-UI-18); bukti `docs/_mobile-baselines/m1/`. Sisa isu M0: CTA/sheet (**M2 ditutup**), landscape ≥768 = rail (**M4**) | Bandingkan m0 vs m1 |
 | 2026-11-03 | M0 | Audit kode vs `mobile-ux-spec` isu 1–12: #6 top-bar **M1**; #2/#8/#9 sheet/CTA **M2**; sisa landscape/viewport (**M4**), e2e matrix (**M7**). Baseline `docs/_mobile-baselines/m0/` | M4 / M7; bandingkan ulang |
 | 2026-11-03 | Fase M docs | Katalog isu mobile di `mobile-ux-spec.md` (viewport-fit, CTA/toast vs sheet, tooltip hover-only, tap lang <44, sheet tidak re-mount, native grabber, 80vh, e2e/LHCI mobile) | Jalankan task M0–M8; backup docs di `docs/_backup/pre-mobile/` |
