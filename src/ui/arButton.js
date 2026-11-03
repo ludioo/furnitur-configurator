@@ -1,8 +1,12 @@
-import { detectArCapability } from '../ar/capability.js';
+import { detectArCapability, isIosNonSafari } from '../ar/capability.js';
 import { applyDom, subscribe, t } from '../core/i18n.js';
 import { iconHtml, icons } from './icons.js';
 import { showToast } from './toast.js';
 import { attachTooltip } from './tooltip.js';
+
+function unsupportedMessage() {
+  return t(isIosNonSafari() ? 'ar.openSafari' : 'ar.unsupported');
+}
 
 /**
  * AR CTA with capability states (WebXR / Quick Look / unsupported).
@@ -36,7 +40,7 @@ export function initArButton(mountParent) {
   /** @type {(() => void | Promise<void>) | null} */
   let onQuicklook = null;
 
-  const tip = attachTooltip(btn, () => (mode === 'unsupported' ? t('ar.unsupported') : ''));
+  const tip = attachTooltip(btn, () => (mode === 'unsupported' ? unsupportedMessage() : ''));
 
   function applyMode(next) {
     mode = next;
@@ -66,7 +70,7 @@ export function initArButton(mountParent) {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
     if (mode === 'unsupported') {
-      showToast(t('ar.unsupported'));
+      showToast(unsupportedMessage());
       return;
     }
     if (mode === 'webxr') {

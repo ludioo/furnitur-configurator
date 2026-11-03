@@ -1,6 +1,6 @@
 # Progress
 
-MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M5 done**. **Berikutnya: M6** (AR entry UX mobile).
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M6 done**. **Berikutnya: M7** (Playwright mobile projects + video).
 
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
@@ -35,7 +35,7 @@ MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M5 done**. 
 | M3 | done | 2026-11-03 | Tap AR unsupported → `showToast(ar.unsupported)` (aria-live); tooltip hover desktop tetap; e2e mobile tap + desktop hover/click (`force` karena aria-disabled) |
 | M4 | done | 2026-11-03 | `viewport-fit=cover`; Saved `80dvh`; short-landscape = sheet + peek `18svh` (bukan rail); remount rail↔sheet via `subscribeLayoutMode`; bukti `docs/_mobile-baselines/m4/` (+ se-landscape); Vitest `layoutMode` |
 | M5 | done | 2026-11-03 | DPR cap `!isDesktopLayout()` → ≤1.5 (short-landscape termasuk); top bar sheet tanpa blur; toast tanpa `will-change` permanen; `layoutMode.js` + Vitest `pixelRatioCap`. Build: main JS **863.61 KB / 229.10 KB gzip** (baseline T3.3 ~861 / 228) — no meaningful regression. LHCI Perf ≥80 tetap → M8 |
-| M6 | pending | - | AR entry UX mobile |
+| M6 | done | 2026-11-03 | CTA peek + busy CSS; iOS non-Safari toast `ar.openSafari` (tanpa deep link); e2e `ar-cta-states` + baseline `docs/_mobile-baselines/m6/` (disabled/ready/busy emulasi). WebXR/QL device tetap deferred |
 | M7 | pending | - | Playwright mobile projects + video |
 | M8 | pending | - | LHCI mobile + docs |
 

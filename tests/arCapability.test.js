@@ -1,9 +1,13 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
+  isIosNonSafari,
   isIosSafari,
   queryImmersiveAr,
   resolveArCapability,
 } from '../src/ar/capability.js';
+
+const IPHONE_FIREFOX =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/120.0 Mobile/15E148 Safari/605.1.15';
 
 const IPHONE_SAFARI =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
@@ -57,6 +61,36 @@ describe('isIosSafari', () => {
 
   it('rejects Android Chrome', () => {
     expect(isIosSafari({ userAgent: ANDROID_CHROME, platform: 'Linux armv8l' })).toBe(false);
+  });
+});
+
+describe('isIosNonSafari', () => {
+  it('accepts iPhone Chrome (CriOS)', () => {
+    expect(isIosNonSafari({ userAgent: IPHONE_CHROME, vendor: 'Apple Computer, Inc.' })).toBe(
+      true,
+    );
+  });
+
+  it('accepts iPhone Firefox (FxiOS)', () => {
+    expect(isIosNonSafari({ userAgent: IPHONE_FIREFOX, vendor: 'Apple Computer, Inc.' })).toBe(
+      true,
+    );
+  });
+
+  it('rejects iPhone Safari', () => {
+    expect(isIosNonSafari({ userAgent: IPHONE_SAFARI, vendor: 'Apple Computer, Inc.' })).toBe(
+      false,
+    );
+  });
+
+  it('rejects Windows desktop', () => {
+    expect(
+      isIosNonSafari({ userAgent: DESKTOP_WIN, platform: 'Win32', maxTouchPoints: 0 }),
+    ).toBe(false);
+  });
+
+  it('rejects Android Chrome', () => {
+    expect(isIosNonSafari({ userAgent: ANDROID_CHROME, platform: 'Linux armv8l' })).toBe(false);
   });
 });
 

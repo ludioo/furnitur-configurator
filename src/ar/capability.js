@@ -4,6 +4,19 @@
  */
 
 /**
+ * iPhone/iPad/iPod or iPadOS desktop-UA with touch (any browser).
+ * @param {{ userAgent?: string, platform?: string, maxTouchPoints?: number }} [nav]
+ * @returns {boolean}
+ */
+function isIosDevice(nav = {}) {
+  const ua = nav.userAgent ?? '';
+  const appleMobile = /iPhone|iPad|iPod/i.test(ua);
+  const iPadOsDesktopUa =
+    nav.platform === 'MacIntel' && (nav.maxTouchPoints ?? 0) > 1;
+  return appleMobile || iPadOsDesktopUa;
+}
+
+/**
  * Safari on iPhone/iPad (incl. desktop-UA iPad), excluding Chrome/Firefox/Edge/Opera iOS.
  * @param {{ userAgent?: string, platform?: string, maxTouchPoints?: number, vendor?: string }} [nav]
  * @returns {boolean}
@@ -11,15 +24,22 @@
 export function isIosSafari(nav = {}) {
   const ua = nav.userAgent ?? '';
   if (/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua)) return false;
-
-  const appleMobile = /iPhone|iPad|iPod/i.test(ua);
-  const iPadOsDesktopUa =
-    nav.platform === 'MacIntel' && (nav.maxTouchPoints ?? 0) > 1;
-  if (!appleMobile && !iPadOsDesktopUa) return false;
+  if (!isIosDevice(nav)) return false;
 
   // WebKit Safari: Apple vendor and/or Safari token without Chromium brands
   if (/Chrome|Chromium|Edg\//i.test(ua) && !/Safari/i.test(ua)) return false;
   return /Safari/i.test(ua) || (nav.vendor ?? '').includes('Apple');
+}
+
+/**
+ * iOS (or iPadOS) but not Safari — e.g. Chrome/Firefox/Edge/Opera on iPhone.
+ * @param {{ userAgent?: string, platform?: string, maxTouchPoints?: number, vendor?: string }} [nav]
+ * @returns {boolean}
+ */
+export function isIosNonSafari(
+  nav = typeof navigator !== 'undefined' ? navigator : {},
+) {
+  return isIosDevice(nav) && !isIosSafari(nav);
 }
 
 /**

@@ -476,6 +476,12 @@ html[data-sheet-snap='full'] .ar-cta {
   cursor: not-allowed;
 }
 
+.ar-cta[aria-busy='true'] {
+  opacity: 0.72;
+  cursor: wait;
+  pointer-events: none;
+}
+
 .ar-cta:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;

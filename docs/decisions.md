@@ -221,6 +221,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-PERF-01 | Cap DPR lewat `pixelRatioCap(!isDesktopLayout())` di `layoutMode.js` (sheet/short-landscape ≤1.5, rail ≤2); subscribe layout → `syncSize`; top bar sheet tanpa `backdrop-filter`; hapus `will-change` permanen di toast | Max-width 768 saja salah di landscape lebar; scene jangan import UI; blur/`will-change` jank ringan tanpa rewrite three; skor LHCI tetap M8 | performance-budget · prompts M5 · D-UI-20 |
 
+## 2026-11-03 — M6 AR CTA entry UX mobile
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-AR-08 | iOS non-Safari (CriOS/FxiOS/…): CTA tetap `aria-disabled` + toast/tooltip `ar.openSafari` (tanpa deep link); busy = `aria-busy` + CSS opacity/`cursor:wait` (tanpa spinner loop); bukti state lewat e2e emulasi `docs/_mobile-baselines/m6/` — bukan klaim WebXR/QL device | Known-issues mitigasi “buka Safari”; deep link tidak andal; headless tidak bisa certify hit-test/QL | prompts M6 · UF2 · D-AR-04 · D-A11Y-01 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

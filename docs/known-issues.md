@@ -3,7 +3,8 @@
 ## Bug / catatan implementasi
 | Tanggal | Task | Gejala | Solusi |
 |---|---|---|---|
-| 2026-11-03 | M5 | DPR mobile pakai `max-width:768` saja → short-landscape lebar bisa cap 2; top bar `backdrop-filter` + toast `will-change` permanen — **ditutup** (D-PERF-01). Build JS gzip **229.10 KB** (~baseline 228). LHCI Perf ~59 **tetap terbuka → M8** (bukan AC M5) | M6; LHCI M8 |
+| 2026-11-03 | M6 | Entry CTA AR: iOS Chrome toast generik; busy tanpa indikasi visual; bukti state kurang — **ditutup** (D-AR-08): `ar.openSafari`, busy CSS, e2e + `docs/_mobile-baselines/m6/`. Screenshot ready/busy = emulasi ARIA di Chromium, **bukan** lulus WebXR/Quick Look device | Checklist device: `mobile-testing.md`; M7 matrix |
+| 2026-11-03 | M5 | DPR mobile pakai `max-width:768` saja → short-landscape lebar bisa cap 2; top bar `backdrop-filter` + toast `will-change` permanen — **ditutup** (D-PERF-01). Build JS gzip **229.10 KB** (~baseline 228). LHCI Perf ~59 **tetap terbuka → M8** (bukan AC M5) | M6 ditutup; LHCI M8 |
 | 2026-11-03 | M4 | viewport tanpa `viewport-fit`; Saved `80vh`; landscape 844×390 = rail + padding kosong; mount-once — **ditutup** (D-UI-20); bukti `docs/_mobile-baselines/m4/` (375 + landscape + se-landscape). Notch padding nyata butuh device iOS (Playwright Chromium tidak isi `env(safe-area-inset-*)`) | M5 ditutup; notch = cek manual Safari |
 | 2026-11-03 | M3 | Tooltip AR hover-only di touch — **ditutup** (D-A11Y-01): tap → toast `ar.unsupported`; e2e `ar-fallback` mobile+desktop. Playwright butuh `click({ force: true })` karena `aria-disabled` (pola D-AR-04). Flake jarang: `sheet-cta` expand kadang tetap `peek` (re-run hijau; bukan regresi M3) | M4 ditutup |
 | 2026-11-03 | M2 | Sheet native tanpa grabber; CTA/toast hardcode `7.5rem` / overlap sheet tinggi; Save null setelah footer di-slot — **ditutup** (D-UI-19); bukti `docs/_mobile-baselines/m2/` + e2e sheet-cta. Landscape/rail + remount → **M4 ditutup** | — |
@@ -42,7 +43,7 @@ Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama
 | Gejala | Penyebab mungkin | Mitigasi |
 |---|---|---|
 | Warna di Quick Look beda dari viewer | USDZ/iOS handle color×map | Bake tint ke texture sebelum export (T2.3) |
-| Tombol AR mati di Chrome iOS | Quick Look hanya andal di Safari | Deep link / instruksi "Buka di Safari" |
+| Tombol AR mati di Chrome iOS | Quick Look hanya andal di Safari | Toast `ar.openSafari` (D-AR-08); deep link ditolak M6 |
 | Hit-test tidak ada | Device/browser tanpa WebXR AR | Disabled state + pesan |
 | GLB masih besar | Belum optimize | Wajib `optimize:model` di T0.3 |
 | Material name salah | Tebak nama | Inspeksi di T0.3, tulis ke products.json |
