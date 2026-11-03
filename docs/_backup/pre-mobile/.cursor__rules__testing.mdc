@@ -1,0 +1,22 @@
+---
+description: Vitest unit, Playwright e2e, ESLint flat, Prettier, Lighthouse CI, GitHub Actions — quality toolchain
+globs: tests/**,e2e/**,eslint.config.js,vitest.config.js,playwright.config.js,lighthouserc.js,.github/workflows/**,package.json
+alwaysApply: false
+---
+
+# Testing & quality
+
+## Tools (lihat `docs/tech-stack.md`)
+- **Vitest** — unit: `pricing`, `storage`, `i18n`, config snapshot. Command: `npm test` / `npm run test:watch`.
+- **Playwright** — e2e smoke mobile (~390) + desktop; AR unsupported di desktop. Command: `npm run e2e` (setelah `npx playwright install chromium` sekali).
+- **ESLint flat** (`eslint.config.js`) + **Prettier** — `npm run lint` / `npm run format`.
+- **@lhci/cli** — `npm run lhci` + budgets di `lighthouserc.js` (Perf ≥ 80, A11y ≥ 90).
+- **GitHub Actions** — `.github/workflows/ci.yml`: lint → test → build pada push/PR `main`.
+
+## Aturan
+- Jangan menambah Jest, Cypress, atau Storybook.
+- Tes unit **tanpa** WebGL/DOM berat; mock `localStorage` / pure functions.
+- E2E jangan flaky: pakai locator + assert Playwright, bukan `sleep` panjang.
+- Setiap task yang mengubah pricing/storage/i18n **wajib** update/ tambah tes Vitest terkait.
+- Jelaskan ke Barkah dalam Bahasa Indonesia: beda `npm test` (cepat) vs `npm run e2e` (browser).
+- CI merah = jangan bilang task selesai sebelum diperbaiki atau blocker dicatat di `known-issues.md`.

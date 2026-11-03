@@ -3,6 +3,8 @@
 ## Bug / catatan implementasi
 | Tanggal | Task | Gejala | Solusi |
 |---|---|---|---|
+| 2026-11-03 | M0 | Audit kode vs `mobile-ux-spec` isu 1–12: **masih valid** (#6 lang width + density partial; #13 Fase M sudah ada). Baseline PNG/WEBM di `docs/_mobile-baselines/m0/`. Visual: 360 top bar Chair/Sofa/EN overlap + CTA menutupi COLOR; landscape 844×390 tampil **rail desktop** karena lebar ≥768 | M1 (top bar), M2 (CTA/sheet), M4 (landscape &lt;768 sheet); bandingkan ulang di M7 |
+| 2026-11-03 | Fase M docs | Katalog isu mobile di `mobile-ux-spec.md` (viewport-fit, CTA/toast vs sheet, tooltip hover-only, tap lang <44, sheet tidak re-mount, native grabber, 80vh, e2e/LHCI mobile) | Jalankan task M0–M8; backup docs di `docs/_backup/pre-mobile/` |
 | 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | T3.3: on-demand RAF (D-SCENE-02); chunk utama ~861 KB / **228 KB gzip** (&lt; ~300 KB budget); warning Vite &gt;500 KB tetap ada (three critical path) |
 | 2026-11-02 | T3.3 | Tidak ada HDRI mati di `public/`; `draco_decoder.js` (~512 KB) tetap di repo sebagai fallback Draco | Tidak dihapus tanpa bukti unused di semua browser; path awal pakai wasm + wrapper (~251 KB) |
@@ -20,7 +22,7 @@
 | 2026-11-02 | T1.8/T2.1 | Teks tour driver.js hampir tak terbaca (putih/abu di latar putih) | `onboarding.css` diimpor setelah `driver.css` (D-UI-16); kontras OK Barkah |
 | 2026-11-02 | T2.2 | Hit-test place/exit tidak diverifikasi di Android Chrome HTTPS (mesin AI Windows; emulator tanpa hit-test) | Kode + Vitest pose + desktop no-regression OK; tes HP: Chrome Android ke HTTPS (deploy atau `chrome://inspect` port-forward) |
 | 2026-11-02 | T2.3 | Export USDZ masih `await parseAsync` di dalam tap — model besar bisa habiskan user-activation sebelum `a.click()` | Warm-import chunk sudah; Quick Look OK Barkah di iPhone live. Upgrade dua-ketukan hanya bila gagal buka di device lambat |
-| 2026-11-02 | UI | Layout/UX mobile (sheet, CTA, hierarchy) terasa buruk di iPhone meski fitur AR jalan | Spec mobile-first ada di design-system; implementasi Fase 1 lebih “desktop ok + sheet ada”. Polish UI mobile = task terpisah (bukan T2.4) |
+| 2026-11-02 | UI | Layout/UX mobile (sheet, CTA, hierarchy) terasa buruk di iPhone meski fitur AR jalan | Spec rinci + temuan kode: `docs/mobile-ux-spec.md`. Dikerjakan **Fase M** (M0–M8) di implementation-plan / prompts |
 | 2026-11-02 | T2.4 | AC “modul AR tidak ke-load sebelum CTA” vs warm-import USDZ Quick Look | Sengaja D-AR-07 / D-AR-06: WebXR strict lazy; `usdz` boleh warm di iOS Safari saja |
 | 2026-11-02 | T3.2 | AC “Umami events muncul” belum diverifikasi live; Hobby Cloud limit **1 website** (slot sudah terpakai) | Kode wired + no-op tanpa env ID (D-AN-01/D-AN-02). Nanti: reuse situs Hobby (tambah domain configurator) atau slot baru; set `VITE_UMAMI_WEBSITE_ID` + redeploy |
 | 2026-11-02 | T3.4 | Lighthouse mobile Performance **~46–72** (Barkah **59**) &lt; budget **80**; A11y **100**, BP 100, SEO ~91 | Assert tetap Perf ≥80 (D-QA-02). Gap utama: JS three.js critical path (~228 KB gzip) + main-thread/bootup — bukan regresi fitur. AC T3.4: skor dilampirkan + blocker dicatat. Upgrade: code-split three lebih agresif / self-host font (Later) |

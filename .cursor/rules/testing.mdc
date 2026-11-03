@@ -1,6 +1,6 @@
 ---
 description: Vitest unit, Playwright e2e, ESLint flat, Prettier, Lighthouse CI, GitHub Actions — quality toolchain
-globs: tests/**,e2e/**,eslint.config.js,vitest.config.js,playwright.config.js,lighthouserc.js,.github/workflows/**,package.json
+globs: tests/**,e2e/**,eslint.config.js,vitest.config.js,playwright.config.js,lighthouserc.js,lighthouserc.cjs,.github/workflows/**,package.json,docs/mobile-testing.md
 alwaysApply: false
 ---
 
@@ -20,3 +20,8 @@ alwaysApply: false
 - Setiap task yang mengubah pricing/storage/i18n **wajib** update/ tambah tes Vitest terkait.
 - Jelaskan ke Barkah dalam Bahasa Indonesia: beda `npm test` (cepat) vs `npm run e2e` (browser).
 - CI merah = jangan bilang task selesai sebelum diperbaiki atau blocker dicatat di `known-issues.md`.
+
+## Mobile (Fase M)
+- Ikuti `docs/mobile-testing.md`: project Pixel 7 / iPhone 13 / iPhone SE / landscape, `video` untuk review, baseline screenshot.
+- LHCI dianggap **mobile**; skor + blocker di `known-issues.md`.
+- Jangan anggap WebXR/Quick Look lulus dari headless saja — checklist device di mobile-testing.

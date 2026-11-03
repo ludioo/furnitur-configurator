@@ -184,6 +184,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-QA-06 | E2E = `@playwright/test` Chromium only; `webServer` = `build && vite preview`; projects mobile 390 + desktop; `locale: en-US`; **tidak** di GHA (D-QA-03 tetap) | Smoke lokal untuk Barkah; hindari install browser di CI gratis dulu; EN stabil di mesin ID | prompts T3.6 · testing.mdc · D-QA-01 |
 
+## 2026-11-03 — M0 Mobile baseline
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-QA-07 | Baseline M0 = `playwright.baseline.config.js` + `npm run e2e:baseline` (Chromium, 4 viewport, `video: on`); artefak di `docs/_mobile-baselines/m0/`; **tidak** menambah project ke `playwright.config.js` | Agar `npm run e2e` / CI tidak menggandakan smoke; M7 baru perluasan project permanen | mobile-testing.md · prompts M0 · D-QA-06 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

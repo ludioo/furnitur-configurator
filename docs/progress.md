@@ -1,5 +1,7 @@
 # Progress
 
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0 done** (baseline di `docs/_mobile-baselines/m0/`). **Berikutnya: M1** (top bar densitas) — spek di `docs/mobile-ux-spec.md` / `mobile-testing.md`.
+
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
 | Doc pack | done | 2026-11-02 | Pack dibuat Neo; UI/QA libs ditambahkan 2 Nov 2026 |
@@ -27,5 +29,14 @@
 | T3.4 | done | 2026-11-02 | `@lhci/cli` 0.15.1 + `lighthouserc.cjs` (`staticDistDir: ./dist`); Barkah verify: tanpa timeout server, Perf **59** (&lt;80 blocker), A11y assert OK sebelumnya **100**; fix aman: meta description, favicon.svg, skip tour `navigator.webdriver` |
 | T3.6 | done | 2026-11-02 | `@playwright/test` 1.64 + smoke (390+desktop) + AR fallback desktop; `npm run e2e` 3 passed / 1 skipped |
 | T3.5 | pending | — | Repo situs utama |
+| M0 | done | 2026-11-03 | Audit isu 1–12 masih valid (#6/#13 partial). Baseline: `npm run e2e:baseline` → `docs/_mobile-baselines/m0/` (360/390/375/landscape `.png`+`.webm`). Temuan visual: top bar + CTA overlap di 360; landscape 844px kena rail desktop (≥768) |
+| M1 | pending | - | Top bar density + breakpoints |
+| M2 | pending | - | Sheet snap / grabber / CTA+toast offset |
+| M3 | pending | - | Touch + AR message tanpa hover-only |
+| M4 | pending | - | viewport-fit, safe-area, dvh/svh, landscape |
+| M5 | pending | - | Perf pass fokus mobile |
+| M6 | pending | - | AR entry UX mobile |
+| M7 | pending | - | Playwright mobile projects + video |
+| M8 | pending | - | LHCI mobile + docs |
 
 Status: `pending` | `in_progress` | `done` | `blocked`

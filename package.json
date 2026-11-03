@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:baseline": "playwright test -c playwright.baseline.config.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "lhci": "npm run build && lhci autorun --config=./lighthouserc.cjs",

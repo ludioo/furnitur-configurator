@@ -68,3 +68,6 @@ Sumber: **`import { animate } from "motion/mini"`** (~3.2 KB) — https://motion
 - `aria-label` pada swatch warna (nama warna, bukan hanya hex).
 - Tombol AR `aria-disabled` + tooltip penjelasan saat tidak support.
 - Tour driver.js bisa di-Skip; jangan blokir keyboard trap permanen.
+
+## Mobile polish
+Detail viewport, sheet/CTA, safe-area, gesture, dan temuan kode: **`docs/mobile-ux-spec.md`**. Cara tes: **`docs/mobile-testing.md`**. Task: Fase M di `implementation-plan.md`.

@@ -1,6 +1,6 @@
 # Prompts — copy-paste ke Cursor / Codex
 
-Setiap prompt = **satu task ID**. Alur wajib di dalam setiap prompt: **VALIDASI → PLANNING (tunggu persetujuan) → IMPLEMENTASI → verifikasi → update docs**. Minta agent memakai skills/subagent Cursor yang tersedia (explore untuk investigasi, dll).
+Setiap prompt = **satu task ID**. Di Cursor: awali dengan `/ship <ID>` (skill global) agar triage→grill→validate→plan→implement→verify→record + gate persetujuan. Alur wajib: **VALIDASI → PLANNING (tunggu persetujuan) → IMPLEMENTASI → verifikasi → update docs**. Minta agent memakai skills/subagent Cursor yang tersedia (explore untuk investigasi, dll).
 
 Ganti hanya jika AI minta klarifikasi; jangan gabung dua ID.
 
@@ -257,4 +257,114 @@ Jangan perluas scope. Repro dulu, lalu perbaikan minimal, lalu npm run build (da
 ## Prompt "lanjut dari terakhir"
 ```
 Baca AGENTS.md dan docs/progress.md. Kerjakan task pending berikutnya sesuai implementation-plan.md dengan alur VALIDASI → PLANNING (tunggu persetujuan) → IMPLEMENTASI. Pakai skills/subagent Cursor yang relevan.
+```
+
+
+---
+
+## Fase M - Mobile polish
+
+Baca dulu `docs/mobile-ux-spec.md`, `docs/mobile-testing.md`, `.cursor/rules/mobile.mdc`. Di Cursor ketik `/ship <ID>` + tempel isi prompt (atau cukup `/ship M0` lalu arahkan agent baca prompt ID ini).
+
+**Codex / non-Cursor:** tidak ada `/ship`. Ikuti sendiri: **VALIDATE** (jangan ubah file) → **PLAN** (daftar file + tes; berhenti sampai Barkah bilang `lanjut`) → **IMPLEMENT** → **VERIFY** (bukti perintah + screenshot/video) → **RECORD** (progress / decisions / known-issues). Pakai subagent/skills yang relevan bila tersedia.
+
+### M0 - Audit + baseline
+```
+/ship M0
+
+Baca AGENTS.md, docs/progress.md, docs/known-issues.md, docs/mobile-ux-spec.md, docs/mobile-testing.md, docs/implementation-plan.md (Fase M), .cursor/rules/mobile.mdc, testing.mdc. Gunakan skills/subagent Cursor: explore, antislop-ui / antislop-layoutmobile bila ada, diagnosing-bugs. JANGAN mengubah src UI dulu kecuali menambah folder baseline/artefak tes yang diminta.
+
+VALIDASI: bandingkan isu di mobile-ux-spec "Current issues found" dengan kode aktual (layout.css, components.css, bottomSheet.js, tooltip.js, index.html, playwright.config.js). Laporkan yang masih valid / sudah tidak relevan.
+PLAN: cara generate baseline Playwright (video on) untuk 360×800, 390×844, 375×667, landscape; lokasi folder artefak; update singkat known-issues. BERHENTI tunggu "lanjut".
+IMPLEMENT: tambah/adjust config sementara atau script e2e baseline; jalankan dan simpan path video/screenshot; jangan polish UI besar.
+
+VERIFY: lampirkan daftar file artefak + 1-2 temuan visual. Update progress.md, decisions bila ada, known-issues. Ringkas Bahasa Indonesia. Commit saran: "docs/test: mobile UI baseline screenshots and videos".
+```
+
+### M1 - Top bar + breakpoints
+```
+/ship M1
+
+Baca mobile-ux-spec, design-system, shell.js, layout.css, task M1. Skills: antislop-ui / antislop-layoutmobile, explore, code-review. Alur validate → plan (tunggu) → implement.
+
+Tujuan: top bar mobile (360 & SE) tidak overflow; tap ≥44px; Saved/About icon-first di sempit; tabs Chair/Sofa tetap jelas. Jangan ubah sheet/CTA (M2).
+
+VERIFY: Playwright screenshot mobile-pixel/SE + npm run build. Update progress/decisions/known-issues. Commit: "fix(ui): densify mobile top bar hierarchy".
+```
+
+### M2 - Sheet, grabber, CTA & toast offset
+```
+/ship M2
+
+Baca mobile-ux-spec (sheet/CTA/toast), bottomSheet.js, configPanel.js, components.css, bottom-sheet-fallback.css. Skills: antislop-layoutmobile, antislop-ui, explore. Validate → plan (tunggu) → implement.
+
+Tujuan: grabber affordance di native sheet; peek/mid/full usable; footer tidak potong; AR CTA & toast offset mengikuti tinggi peek / menghindari overlap saat sheet tinggi. Jangan hardcode 7.5rem tanpa sumber tunggal (CSS variable OK).
+
+VERIFY: video/screenshot peek+expanded; npm run e2e subset mobile. Update docs. Commit: "fix(ui): sync mobile sheet snaps with AR CTA and toast".
+```
+
+### M3 - Touch, gesture, no hover-only
+```
+/ship M3
+
+Baca tooltip.js, arButton.js, mobile-ux-spec gesture/a11y, e2e ar-fallback. Skills: tdd, antislop-ui, diagnosing-bugs. Validate → plan (tunggu) → implement.
+
+Tujuan: AR unsupported discoverable di touch (tap → toast dan/atau aria-live); tooltip hover boleh tetap di desktop; canvas touch-action & sheet overscroll aman; sesuaikan e2e yang mengandalkan hover-only.
+
+VERIFY: spek mobile tap + desktop regress; npm test bila logic; build. Update docs. Commit: "fix(a11y): mobile AR message without hover".
+```
+
+### M4 - Safe-area, viewport, landscape, resize
+```
+/ship M4
+
+Baca index.html viewport, layout/components (vh), bottomSheet isDesktop mount, mobile-ux-spec safe-area/landscape. Skills: antislop-layoutmobile, explore. Validate → plan (tunggu) → implement.
+
+Tujuan: viewport-fit=cover; ganti 80vh panel ke dvh/svh; landscape phone usable; merespon perubahan breakpoint/orientasi (remount atau class) tanpa reload penuh bila praktis.
+
+VERIFY: screenshot SE landscape + portrait notch padding; build. Update docs. Commit: "fix(ui): safe-area viewport-fit and landscape mobile".
+```
+
+### M5 - Performance mobile
+```
+/ship M5
+
+Baca performance-budget.mdc, renderer.js DPR, known-issues T3.4 Perf, task M5. Skills: explore, diagnosing-bugs. Validate → plan (tunggu) → implement.
+
+Tujuan: pastikan DPR cap mobile ≤1.5; tidak ada regresi bundle/transfer; perbaikan jank UI ringan saja (hindari rewrite three). Laporkan ukuran build.
+
+VERIFY: npm run build (+ lhci opsional); angka di progress. Commit: "perf: reinforce mobile DPR and UI jank fixes".
+```
+
+### M6 - AR entry UX mobile
+```
+/ship M6
+
+Baca arButton.js, user-flows UF2, mobile-ux-spec AR CTA, known-issues WebXR/QL. Skills: antislop-ui, explore. Validate → plan (tunggu) → implement.
+
+Tujuan: CTA jelas di atas peek; state busy/disabled/ready; error toast; copy i18n jika perlu "buka di Safari" untuk iOS non-Safari. JANGAN klaim hit-test/Quick Look lulus tanpa checklist device / laporan Barkah.
+
+VERIFY: screenshot CTA states emulasi + langkah manual untuk Barkah. Update docs. Commit: "fix(ar): mobile AR CTA entry UX".
+```
+
+### M7 - Playwright mobile suite + video
+```
+/ship M7
+
+Baca mobile-testing.md, playwright.config.js, e2e/*, testing.mdc, task M7. Skills: tdd, explore, code-review. Validate → plan (tunggu) → implement.
+
+Tujuan: projects Pixel 7, iPhone 13, iPhone SE, landscape (+ desktop); recordVideo on (atau retain-on-failure + on lokal); spek topbar/sheet/CTA/landscape; script e2e:mobile; update env-setup bila perlu.
+
+VERIFY: npm run e2e dan/atau e2e:mobile hijau; sebut folder webm. Update progress + testing docs. Commit: "test: playwright mobile projects with video".
+```
+
+### M8 - LHCI mobile + notes
+```
+/ship M8
+
+Baca lighthouserc.cjs, mobile-testing.md, known-issues T3.4, task M8. Skills: explore, diagnosing-bugs. Validate → plan (tunggu) → implement.
+
+Tujuan: pastikan audit mobile tersurat; npm run lhci; lampirkan skor; perbaikan a11y/perf aman tanpa longgarkan budget diam-diam; selaraskan testing.mdc + mobile-testing.
+
+VERIFY: skor di progress/known-issues. Commit: "chore: lighthouse mobile assert and docs".
 ```

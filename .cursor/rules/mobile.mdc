@@ -1,0 +1,22 @@
+---
+description: Mobile-first UI - sheet, safe-area, tap 44px, no hover-only, Playwright mobile evidence
+globs:
+alwaysApply: true
+---
+
+# Mobile-first (Fase M)
+
+Baca `docs/mobile-ux-spec.md` dan `docs/mobile-testing.md` sebelum mengubah UI shell/sheet/CTA/toast atau e2e.
+
+## Wajib
+- Layout `< 768px` = bottom sheet; `≥ 768px` = rail. Respon ke perubahan viewport/orientasi, jangan hanya cek sekali di mount.
+- Tap target ≥ 44px (`--touch-min`). Jangan info penting hanya via `:hover` / `pointerenter`.
+- Meta viewport + `viewport-fit=cover`; pakai `env(safe-area-inset-*)` dan `dvh`/`svh` (hindari `100vh`/`80vh` untuk panel).
+- AR CTA & toast **jangan** overlap konten sheet; offset mengikuti tinggi peek/snap.
+- Canvas: `touch-action: none`; body tidak ikut scroll.
+- Pixel ratio mobile cap ≤ 1.5; jangan naikkan tekstur di luar performance-budget.
+- Setiap task UI mobile: bukti Playwright (screenshot/video project mobile) + update `docs/progress.md`, `decisions.md`, `known-issues.md`.
+
+## Dilarang
+- Menambah framework UI / Tailwind / dependency di luar tech-stack.
+- Menganggap WebXR / Quick Look "lulus" hanya dari desktop headless.

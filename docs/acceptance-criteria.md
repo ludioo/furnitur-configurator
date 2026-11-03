@@ -114,3 +114,8 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [ ] Kartu Furniture Configurator muncul di portofolio barkahmauludi.com (tahun 2026).
 - [ ] Link live ke https://configurator.barkahmauludi.com berfungsi.
 - [ ] Entri APAR tidak rusak.
+
+## M0 (baseline mobile)
+- [x] Isu di `mobile-ux-spec` "Current issues found" diaudit vs kode; yang masih valid tercatat di known-issues.
+- [x] Folder `docs/_mobile-baselines/m0/` berisi PNG + WEBM untuk 360 / 390 / 375 / landscape.
+- [x] Perintah: `npm run e2e:baseline` (tidak mengubah hasil `npm run e2e`).
