@@ -33,17 +33,52 @@ function isDesktop() {
 }
 
 /**
+ * @param {'peek' | 'mid' | 'full' | null} snap
+ */
+function setSheetSnap(snap) {
+  const root = document.documentElement;
+  if (!snap) {
+    delete root.dataset.sheetSnap;
+    return;
+  }
+  root.dataset.sheetSnap = snap;
+}
+
+/**
+ * Map pure-web-bottom-sheet snapIndex (0=collapsed, then bottom-to-top) to UI state.
+ * With snaps 25/55/90: 1=peek, 2=mid, 3=full.
+ * @param {number} snapIndex
+ * @returns {'peek' | 'mid' | 'full'}
+ */
+export function snapIndexToSheetSnap(snapIndex) {
+  if (snapIndex <= 1) return 'peek';
+  if (snapIndex === 2) return 'mid';
+  return 'full';
+}
+
+function createGrabberHandle() {
+  const handle = document.createElement('div');
+  handle.className = 'config-sheet__handle';
+  handle.innerHTML = '<span class="config-sheet__grabber" aria-hidden="true"></span>';
+  return handle;
+}
+
+/**
+ * @param {HTMLElement} mountParent
  * @param {HTMLElement} content
  */
 function mountDesktopRail(mountParent, content) {
   document.documentElement.classList.remove('sheet-fallback');
+  setSheetSnap(null);
+  document.documentElement.style.removeProperty('--sheet-peek-height');
+
   const host = document.createElement('aside');
   host.className = 'config-rail';
   host.setAttribute('role', 'region');
   host.setAttribute('aria-label', 'Configuration');
   host.append(content);
   mountParent.append(host);
-  return { host, content, mode: /** @type {const} */ ('desktop') };
+  return { host, content, footerHost: null, mode: /** @type {const} */ ('desktop') };
 }
 
 /**
@@ -63,6 +98,9 @@ export async function mountBottomSheet(mountParent, opts = {}) {
 
   if (useNative) {
     document.documentElement.classList.remove('sheet-fallback');
+    document.documentElement.style.setProperty('--sheet-peek-height', '25dvh');
+    setSheetSnap('peek');
+
     const { registerSheetElements } = await import('pure-web-bottom-sheet');
     registerSheetElements();
 
@@ -70,9 +108,11 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     sheet.className = 'config-sheet';
     sheet.tabIndex = 0;
     sheet.setAttribute('aria-label', 'Configuration');
+    sheet.setAttribute('nested-scroll', '');
 
     const snap90 = document.createElement('div');
     snap90.slot = 'snap';
+    snap90.className = 'top';
     snap90.style.setProperty('--snap', '90%');
 
     const snap55 = document.createElement('div');
@@ -84,13 +124,40 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     snap25.style.setProperty('--snap', '25%');
     snap25.className = 'initial';
 
-    sheet.append(snap90, snap55, snap25, content);
+    const header = document.createElement('div');
+    header.slot = 'header';
+    header.append(createGrabberHandle());
+
+    const footerHost = document.createElement('div');
+    footerHost.slot = 'footer';
+
+    const onSnapChange = (event) => {
+      const detail = event?.detail;
+      const index = typeof detail?.snapIndex === 'number' ? detail.snapIndex : 0;
+      setSheetSnap(snapIndexToSheetSnap(index));
+    };
+    sheet.addEventListener('snap-position-change', onSnapChange);
+
+    sheet.append(snap90, snap55, snap25, header, content, footerHost);
     mountParent.append(sheet);
 
-    return { host: sheet, content, mode: /** @type {const} */ ('native') };
+    return {
+      host: sheet,
+      content,
+      footerHost,
+      mode: /** @type {const} */ ('native'),
+      destroy() {
+        sheet.removeEventListener('snap-position-change', onSnapChange);
+        setSheetSnap(null);
+        document.documentElement.style.removeProperty('--sheet-peek-height');
+        sheet.remove();
+      },
+    };
   }
 
   document.documentElement.classList.add('sheet-fallback');
+  document.documentElement.style.removeProperty('--sheet-peek-height');
+  setSheetSnap('peek');
 
   const host = document.createElement('div');
   host.className = 'config-sheet config-sheet--fallback';
@@ -107,18 +174,35 @@ export async function mountBottomSheet(mountParent, opts = {}) {
   const panel = document.createElement('div');
   panel.className = 'config-sheet__panel';
 
-  const grabber = document.createElement('div');
-  grabber.className = 'config-sheet__handle';
-  grabber.innerHTML = '<span class="config-sheet__grabber" aria-hidden="true"></span>';
-
+  const grabber = createGrabberHandle();
   panel.append(grabber, content);
   scroller.append(spacer, panel);
   host.append(scroller);
   mountParent.append(host);
 
+  const syncFallbackSnap = () => {
+    const max = Math.max(1, spacer.offsetHeight);
+    // Near spacer end = peek; scrolled up toward panel expand = full.
+    const expanded = scroller.scrollTop < max * 0.45;
+    setSheetSnap(expanded ? 'full' : 'peek');
+  };
+
+  scroller.addEventListener('scroll', syncFallbackSnap, { passive: true });
+
   requestAnimationFrame(() => {
     scroller.scrollTop = spacer.offsetHeight;
+    syncFallbackSnap();
   });
 
-  return { host, content, mode: /** @type {const} */ ('fallback') };
+  return {
+    host,
+    content,
+    footerHost: null,
+    mode: /** @type {const} */ ('fallback'),
+    destroy() {
+      scroller.removeEventListener('scroll', syncFallbackSnap);
+      setSheetSnap(null);
+      host.remove();
+    },
+  };
 }

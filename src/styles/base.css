@@ -14,6 +14,8 @@
   --radius-btn: 10px;
   --touch-min: 44px;
   --config-panel-width: 320px;
+  /* Single source for fallback peek + mobile CTA/toast offset (native overrides to 25dvh). */
+  --sheet-peek-height: 7.5rem;
 }
 
 *,

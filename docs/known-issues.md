@@ -3,8 +3,9 @@
 ## Bug / catatan implementasi
 | Tanggal | Task | Gejala | Solusi |
 |---|---|---|---|
-| 2026-11-03 | M1 | Top bar 360/SE: overflow + lang &lt;44 + Saved teks — **ditutup** (D-UI-18); bukti `docs/_mobile-baselines/m1/`. Sisa isu M0: CTA overlap COLOR, landscape ≥768 = rail (**M2/M4**) | Bandingkan m0 vs m1; lanjut M2 |
-| 2026-11-03 | M0 | Audit kode vs `mobile-ux-spec` isu 1–12: #6 top-bar **ditutup di M1**; sisa isu CTA/sheet/landscape. Baseline PNG/WEBM di `docs/_mobile-baselines/m0/` (sebelum densify) | M2 (CTA/sheet), M4 (landscape &lt;768 sheet); bandingkan ulang di M7 |
+| 2026-11-03 | M2 | Sheet native tanpa grabber; CTA/toast hardcode `7.5rem` / overlap sheet tinggi; Save null setelah footer di-slot — **ditutup** (D-UI-19); bukti `docs/_mobile-baselines/m2/` + e2e sheet-cta. Sisa M0: landscape/rail (**M4**), remount breakpoint (**M4**) | Lanjut M3 (AR tap tanpa hover) |
+| 2026-11-03 | M1 | Top bar 360/SE: overflow + lang &lt;44 + Saved teks — **ditutup** (D-UI-18); bukti `docs/_mobile-baselines/m1/`. Sisa isu M0: CTA/sheet (**M2 ditutup**), landscape ≥768 = rail (**M4**) | Bandingkan m0 vs m1 |
+| 2026-11-03 | M0 | Audit kode vs `mobile-ux-spec` isu 1–12: #6 top-bar **M1**; #2/#8/#9 sheet/CTA **M2**; sisa landscape/viewport (**M4**), e2e matrix (**M7**). Baseline `docs/_mobile-baselines/m0/` | M4 / M7; bandingkan ulang |
 | 2026-11-03 | Fase M docs | Katalog isu mobile di `mobile-ux-spec.md` (viewport-fit, CTA/toast vs sheet, tooltip hover-only, tap lang <44, sheet tidak re-mount, native grabber, 80vh, e2e/LHCI mobile) | Jalankan task M0–M8; backup docs di `docs/_backup/pre-mobile/` |
 | 2026-11-02 | T0.5 | `npm i @eslint/js` tanpa pin menarik v10 (peer ESLint 10) bentrok `eslint@9` | Pin `@eslint/js@9` bersama `eslint@9` |
 | 2026-11-02 | T0.2 | Vite warning chunk JS ~739 KB (gzip ~190 KB) setelah scene three.js | T3.3: on-demand RAF (D-SCENE-02); chunk utama ~861 KB / **228 KB gzip** (&lt; ~300 KB budget); warning Vite &gt;500 KB tetap ada (three critical path) |

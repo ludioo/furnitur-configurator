@@ -197,6 +197,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-18 | Top bar mobile (`max-width: 767px`): brand visually hidden; Saved/About icon-first (label clip); lang `min-width: var(--touch-min)`; tabs tetap berlabel `flex-shrink: 0`. Desktop ≥768 tetap logo + label teks | Di 360–480 logo+teks Saved/About menekan tab Chair/Sofa (scrollWidth terpotong); spek prioritas tabs + tap ≥44 | mobile-ux-spec · prompts M1 · isu #6 |
 | D-QA-08 | `e2e/mobile-baseline.spec.js` tulis ke `docs/_mobile-baselines/${BASELINE_TAG\|\|'m0'}` | Banding M0 vs M1 tanpa menimpa artefak; M7 tetap project terpisah | prompts M1 · D-QA-07 |
 
+## 2026-11-03 — M2 Sheet snaps + CTA/toast
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-19 | Satu token `--sheet-peek-height` (fallback `7.5rem`, native override `25dvh`); `data-sheet-snap` peek/mid/full dari `snap-position-change` (index lib 1=peek) / scroll fallback; mid/full sembunyikan `.ar-cta`, toast ke bawah top bar; native: grabber `slot=header`, price/actions `slot=footer`, `nested-scroll` | Hindari hardcode `7.5rem` tersebar; CTA di atas sheet tinggi bentrok konten; footer slot mencegah potong Save di peek | mobile-ux-spec · prompts M2 · pure-web-bottom-sheet README |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

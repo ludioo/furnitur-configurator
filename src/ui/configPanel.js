@@ -23,7 +23,8 @@ function productById(productId) {
  * @param {{ onSaved?: () => void, onScreenshot?: () => void | Promise<void> }} [options]
  */
 export async function initConfigPanel(mountParent, options = {}) {
-  const { host, content, mode } = await mountBottomSheet(mountParent);
+  const sheet = await mountBottomSheet(mountParent);
+  const { host, content, footerHost, mode, destroy: destroySheet } = sheet;
   host.setAttribute('aria-label', t('config.panelAria'));
 
   const section = document.createElement('section');
@@ -52,14 +53,21 @@ export async function initConfigPanel(mountParent, options = {}) {
     </div>
   `;
   content.append(section);
+
+  const footer = section.querySelector('.config-panel__footer');
+  if (mode === 'native' && footerHost && footer) {
+    footerHost.append(footer);
+  }
+
   applyDom(section);
+  if (footerHost) applyDom(footerHost);
 
   const swatchMount = section.querySelector('[data-swatches]');
   const finishMount = section.querySelector('[data-finish-chips]');
   const sizeMount = section.querySelector('[data-size-chips]');
-  const priceMount = section.querySelector('[data-price-bar]');
-  const saveBtn = section.querySelector('[data-save]');
-  const screenshotBtn = section.querySelector('[data-screenshot]');
+  const priceMount = host.querySelector('[data-price-bar]');
+  const saveBtn = host.querySelector('[data-save]');
+  const screenshotBtn = host.querySelector('[data-screenshot]');
   const swatches = initSwatches(/** @type {HTMLElement} */ (swatchMount));
   const finishChips = initOptionChips(/** @type {HTMLElement} */ (finishMount), {
     optionKey: 'finish',
@@ -113,7 +121,8 @@ export async function initConfigPanel(mountParent, options = {}) {
       finishChips.destroy();
       sizeChips.destroy();
       priceBar.destroy();
-      host.remove();
+      if (typeof destroySheet === 'function') destroySheet();
+      else host.remove();
     },
   };
 }

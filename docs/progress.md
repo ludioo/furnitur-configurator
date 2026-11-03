@@ -1,6 +1,6 @@
 # Progress
 
-MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M1 done**. **Berikutnya: M2** (sheet snap / CTA+toast offset) — spek di `docs/mobile-ux-spec.md` / `mobile-testing.md`.
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M2 done**. **Berikutnya: M3** (touch / AR message tanpa hover-only) — spek di `docs/mobile-ux-spec.md` / `mobile-testing.md`.
 
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
@@ -31,7 +31,7 @@ MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M1 done**. 
 | T3.5 | pending | — | Repo situs utama |
 | M0 | done | 2026-11-03 | Audit isu 1–12 masih valid (#6/#13 partial). Baseline: `npm run e2e:baseline` → `docs/_mobile-baselines/m0/` (360/390/375/landscape `.png`+`.webm`). Temuan visual: top bar + CTA overlap di 360; landscape 844px kena rail desktop (≥768) |
 | M1 | done | 2026-11-03 | Top bar densitas &lt;768: brand hide + Saved/About icon-first; lang ≥44; bukti `docs/_mobile-baselines/m1/` (360/375); `BASELINE_TAG` di e2e baseline |
-| M2 | pending | - | Sheet snap / grabber / CTA+toast offset |
+| M2 | done | 2026-11-03 | Grabber native + footer slot; `--sheet-peek-height`; CTA hide / toast naik saat mid/full; bukti `docs/_mobile-baselines/m2/` + `e2e/sheet-cta.spec.js`; `npx playwright test --project=mobile` 3 passed / 1 skipped |
 | M3 | pending | - | Touch + AR message tanpa hover-only |
 | M4 | pending | - | viewport-fit, safe-area, dvh/svh, landscape |
 | M5 | pending | - | Perf pass fokus mobile |

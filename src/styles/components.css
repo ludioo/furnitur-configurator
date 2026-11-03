@@ -211,6 +211,13 @@
   color: var(--text);
 }
 
+.config-sheet__handle {
+  display: flex;
+  justify-content: center;
+  padding: 0.65rem 0 0.35rem;
+  cursor: grab;
+}
+
 .config-sheet__grabber {
   display: block;
   width: 2.25rem;
@@ -239,6 +246,11 @@
   padding: 0.875rem 0 calc(0.5rem + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--border);
   background: var(--bg-elevated);
+}
+
+bottom-sheet [slot='footer'] .config-panel__footer {
+  margin-top: 0;
+  padding-inline: 1rem;
 }
 
 .config-panel__actions {
@@ -407,11 +419,17 @@
   position: fixed;
   left: 1rem;
   right: 1rem;
-  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--sheet-peek-height) + 0.5rem + env(safe-area-inset-bottom, 0px));
   z-index: 60;
   display: flex;
   justify-content: center;
   pointer-events: none;
+}
+
+html[data-sheet-snap='mid'] .toast-host,
+html[data-sheet-snap='full'] .toast-host {
+  bottom: auto;
+  top: calc(3.25rem + env(safe-area-inset-top, 0px));
 }
 
 .toast {
@@ -429,7 +447,7 @@
 .ar-cta {
   position: fixed;
   left: 1rem;
-  bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--sheet-peek-height) + 0.75rem + env(safe-area-inset-bottom, 0px));
   z-index: 14;
   display: inline-flex;
   align-items: center;
@@ -446,6 +464,12 @@
   font-size: 0.9rem;
   box-shadow: 0 8px 24px color-mix(in srgb, #000 40%, transparent);
   cursor: pointer;
+}
+
+html[data-sheet-snap='mid'] .ar-cta,
+html[data-sheet-snap='full'] .ar-cta {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .ar-cta[aria-disabled='true'] {
@@ -633,11 +657,15 @@
   .toast-host {
     left: auto;
     right: calc(var(--config-panel-width) + 1rem);
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    top: auto;
     justify-content: flex-end;
   }
 
   .ar-cta {
     bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    visibility: visible;
+    pointer-events: auto;
   }
 }
 
