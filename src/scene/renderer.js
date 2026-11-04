@@ -1,4 +1,10 @@
-import * as THREE from 'three';
+import {
+  ACESFilmicToneMapping,
+  Color,
+  Scene,
+  SRGBColorSpace,
+  WebGLRenderer,
+} from 'three';
 import {
   isDesktopLayout,
   pixelRatioCap,
@@ -10,8 +16,8 @@ const CLEAR_COLOR = 0x12151c;
 /**
  * @param {HTMLElement} container
  * @returns {{
- *   scene: THREE.Scene,
- *   renderer: THREE.WebGLRenderer,
+ *   scene: import('three').Scene,
+ *   renderer: import('three').WebGLRenderer,
  *   setOnTick: (fn: ((dt: number, force: boolean) => boolean) | null) => void,
  *   invalidate: () => void,
  *   start: () => void,
@@ -21,13 +27,16 @@ const CLEAR_COLOR = 0x12151c;
  * }}
  */
 export function createRenderer(container) {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(CLEAR_COLOR);
+  const scene = new Scene();
+  scene.background = new Color(CLEAR_COLOR);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const renderer = new WebGLRenderer({
+    antialias: isDesktopLayout(),
+    alpha: true,
+  });
   renderer.setClearColor(CLEAR_COLOR, 1);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.outputColorSpace = SRGBColorSpace;
+  renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
   setPixelRatio(renderer);
   container.appendChild(renderer.domElement);
@@ -110,7 +119,7 @@ export function createRenderer(container) {
       scene.background = null;
       renderer.setClearColor(0x000000, 0);
     } else {
-      scene.background = new THREE.Color(CLEAR_COLOR);
+      scene.background = new Color(CLEAR_COLOR);
       renderer.setClearColor(CLEAR_COLOR, 1);
     }
     invalidate();

@@ -1,9 +1,9 @@
-import * as THREE from 'three';
+import { Box3, Color } from 'three';
 import productsData from '../data/products.json';
 import { createModelLoader } from './loader.js';
 
 /**
- * @param {THREE.Object3D} root
+ * @param {import('three').Object3D} root
  * @returns {{ meshes: string[], materials: string[] }}
  */
 export function inspectMaterials(root) {
@@ -21,7 +21,7 @@ export function inspectMaterials(root) {
 }
 
 /**
- * @param {THREE.Object3D} root
+ * @param {import('three').Object3D} root
  */
 function disposeObject(root) {
   root.traverse((obj) => {
@@ -40,13 +40,13 @@ function disposeObject(root) {
 }
 
 /**
- * @param {THREE.Object3D} root
+ * @param {import('three').Object3D} root
  * @param {number} scale
  */
 function groundAlign(root, scale) {
   root.position.y = 0;
   root.scale.setScalar(scale);
-  const box = new THREE.Box3().setFromObject(root);
+  const box = new Box3().setFromObject(root);
   const minY = box.min.y;
   if (Number.isFinite(minY) && minY !== 0) {
     root.position.y -= minY;
@@ -54,7 +54,7 @@ function groundAlign(root, scale) {
 }
 
 /**
- * @param {THREE.Scene} scene
+ * @param {import('three').Scene} scene
  * @param {{
  *   onProgress?: (pct: number) => void,
  *   onError?: (err: Error) => void,
@@ -62,7 +62,7 @@ function groundAlign(root, scale) {
  */
 export function createProductController(scene, hooks = {}) {
   const loader = createModelLoader(hooks);
-  /** @type {THREE.Object3D | null} */
+  /** @type {import('three').Object3D | null} */
   let current = null;
   /** @type {string | null} */
   let currentId = null;
@@ -93,7 +93,7 @@ export function createProductController(scene, hooks = {}) {
    * @param {string} hex
    */
   function applyColor(hex) {
-    const color = new THREE.Color(hex);
+    const color = new Color(hex);
     forBodyMaterials((m) => {
       if (!m.color) return;
       m.color.copy(color);

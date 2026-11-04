@@ -1,20 +1,43 @@
-import * as THREE from 'three';
+import {
+  Box3,
+  Matrix4,
+  PerspectiveCamera,
+  Quaternion,
+  Raycaster,
+  Sphere,
+  Spherical,
+  Vector2,
+  Vector3,
+  Vector4,
+} from 'three';
 import CameraControls from 'camera-controls';
 
-CameraControls.install({ THREE });
+CameraControls.install({
+  THREE: {
+    Vector2,
+    Vector3,
+    Vector4,
+    Quaternion,
+    Matrix4,
+    Spherical,
+    Box3,
+    Sphere,
+    Raycaster,
+  },
+});
 
 const IDLE_MS = 5000;
 /** rad/s — slow studio spin */
 const IDLE_AZIMUTH_SPEED = 0.15;
 
 /**
- * @param {THREE.WebGLRenderer} renderer
+ * @param {import('three').WebGLRenderer} renderer
  * @param {{ width: number, height: number }} size
  * @param {{ invalidate?: () => void }} [opts]
  */
 export function createCamera(renderer, size, opts = {}) {
   const invalidate = opts.invalidate;
-  const camera = new THREE.PerspectiveCamera(45, size.width / size.height, 0.1, 100);
+  const camera = new PerspectiveCamera(45, size.width / size.height, 0.1, 100);
   const controls = new CameraControls(camera, renderer.domElement);
   controls.minDistance = 1.2;
   controls.maxDistance = 12;

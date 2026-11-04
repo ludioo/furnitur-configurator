@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { CanvasTexture, Scene } from 'three';
 import { USDZExporter } from 'three/examples/jsm/exporters/USDZExporter.js';
 import { track } from '../core/analytics.js';
 
@@ -24,7 +24,7 @@ export function multiplyImageDataByColor(data, r, g, b) {
 /**
  * Bake material.color into map on a cloned material; reset color to white.
  * No-op if missing map/image or color already white.
- * @param {THREE.MeshStandardMaterial} material
+ * @param {import('three').MeshStandardMaterial} material
  * @returns {boolean}
  */
 export function bakeColorIntoMap(material) {
@@ -51,7 +51,7 @@ export function bakeColorIntoMap(material) {
     multiplyImageDataByColor(imageData.data, r, g, b);
     ctx.putImageData(imageData, 0, 0);
 
-    const baked = new THREE.CanvasTexture(canvas);
+    const baked = new CanvasTexture(canvas);
     baked.colorSpace = map.colorSpace;
     baked.flipY = map.flipY;
     baked.wrapS = map.wrapS;
@@ -74,8 +74,8 @@ export function bakeColorIntoMap(material) {
 
 /**
  * Deep-enough clone: recursive object + per-mesh material.clone (textures shared until bake).
- * @param {THREE.Object3D} root
- * @returns {THREE.Object3D}
+ * @param {import('three').Object3D} root
+ * @returns {import('three').Object3D}
  */
 export function prepareCloneForExport(root) {
   const clone = root.clone(true);
@@ -108,7 +108,7 @@ export function isIosUa(ua = typeof navigator !== 'undefined' ? navigator.userAg
 
 /**
  * Dispose materials (and baked canvas maps) on an export-only clone. Do not dispose geometries.
- * @param {THREE.Object3D} root
+ * @param {import('three').Object3D} root
  */
 function disposeExportClone(root) {
   root.traverse((obj) => {
@@ -124,13 +124,13 @@ function disposeExportClone(root) {
 
 /**
  * Export product root to USDZ and open Quick Look (iOS) or download (other).
- * @param {THREE.Object3D | null | undefined} root
+ * @param {import('three').Object3D | null | undefined} root
  */
 export async function exportAndOpen(root) {
   if (!root) throw new Error('USDZ: no product root');
 
   const clone = prepareCloneForExport(root);
-  const exportScene = new THREE.Scene();
+  const exportScene = new Scene();
   exportScene.add(clone);
 
   let url = '';

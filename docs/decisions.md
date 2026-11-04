@@ -246,6 +246,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 | D-UI-21 | Toast peek di atas AR CTA lewat `--ar-cta-clearance` (`touch-min + 1.75rem`); pesan toast identik = refresh timer (tanpa DOM baru); `max-height:700px` → native peek `38dvh` / fallback `11.5rem` + footer/swatch lebih rapat; CTA–peek gap `1rem`; Saved/About idle `background: transparent` | QA live: toast menutupi CTA, stack toast, SE swatch tertutup footer, Saved tampak terpilih | prompts M9 · mobile-ux-spec |
 | D-QA-11 | Playwright `mobile-iphone13` UA di-bump ke iPhone OS 18_2 / Version 18.2 (tetap Chromium) | Preset stock iOS 15 memaksa fallback sheet; short-panel tidak bisa scroll ke peek — false fail overlap | prompts M9 · D-UI-02 · D-QA-09 |
 
+## 2026-11-04 — M10 mobile performance pass
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-PERF-02 | Scene boot via dynamic `import('../scene/bootViewer.js')` after double-rAF; self-host DM Sans woff2; Vite `manualChunks` + named imports for three/camera-controls subset; assert Perf≥0.8 **tidak** dilonggarkan meski skor lab ~75 | FCP/LCP sudah ~1.1s; TBT/bootup tetap didominasi parse/eval three+Draco+PMREM di throttle mobile LHCI; longgarkan budget = langgar D-QA-02/D-QA-10 | prompts M10 · performance-budget · known-issues M8 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

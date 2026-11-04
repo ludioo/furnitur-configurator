@@ -1,19 +1,26 @@
-import * as THREE from 'three';
+import {
+  Matrix4,
+  Mesh,
+  MeshBasicMaterial,
+  Quaternion,
+  RingGeometry,
+  Vector3,
+} from 'three';
 import { track } from '../core/analytics.js';
 
 let active = false;
 
 /**
  * Write hit-test pose onto product root without inheriting XR matrix scale.
- * @param {THREE.Object3D} root
+ * @param {import('three').Object3D} root
  * @param {ArrayLike<number>} elements Column-major 4x4 matrix
  * @param {number} scale Uniform studio size scale to keep
  */
 export function applyHitPose(root, elements, scale) {
-  const mat = new THREE.Matrix4().fromArray(elements);
-  const pos = new THREE.Vector3();
-  const quat = new THREE.Quaternion();
-  const hitScale = new THREE.Vector3();
+  const mat = new Matrix4().fromArray(elements);
+  const pos = new Vector3();
+  const quat = new Quaternion();
+  const hitScale = new Vector3();
   mat.decompose(pos, quat, hitScale);
   root.position.copy(pos);
   root.quaternion.copy(quat);
@@ -23,11 +30,11 @@ export function applyHitPose(root, elements, scale) {
 /**
  * Start immersive-ar + hit-test; places the live product root on tap.
  * @param {{
- *   renderer: THREE.WebGLRenderer,
- *   scene: THREE.Scene,
- *   camera: THREE.PerspectiveCamera,
- *   getRoot: () => THREE.Object3D | null,
- *   ground: THREE.Object3D,
+ *   renderer: import('three').WebGLRenderer,
+ *   scene: import('three').Scene,
+ *   camera: import('three').PerspectiveCamera,
+ *   getRoot: () => import('three').Object3D | null,
+ *   ground: import('three').Object3D,
  *   stopStudio: () => void,
  *   startStudio: () => void,
  *   setPassthrough: (on: boolean) => void,
@@ -82,9 +89,9 @@ export async function startWebxr(ctx) {
   /** @type {XRHitTestSource | null} */
   let hitTestSource = null;
 
-  const reticle = new THREE.Mesh(
-    new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
-    new THREE.MeshBasicMaterial({ color: 0xffffff }),
+  const reticle = new Mesh(
+    new RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
+    new MeshBasicMaterial({ color: 0xffffff }),
   );
   reticle.matrixAutoUpdate = false;
   reticle.visible = false;

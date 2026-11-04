@@ -12,8 +12,8 @@ API contoh: `https://api.polyhaven.com/files/ArmChair_01` → pilih `gltf` → `
 Kredit About (meski CC0 tidak wajib): "ArmChair_01 & Sofa_01 by Poly Haven (CC0)".
 
 ## Font
-- DM Sans — Google Fonts, SIL OFL.
-- DM Mono atau IBM Plex Mono — OFL.
+- DM Sans — self-host `public/fonts/dm-sans-latin-{400,500,700}-normal.woff2` + `OFL.txt` (SIL OFL; sourced from Fontsource/Google Fonts OFL). No Google Fonts stylesheet on critical path (M10).
+- DM Mono atau IBM Plex Mono — OFL (belum dipakai).
 
 ## Ikon
 - **UI icons:** salin SVG individual dari **Lucide** (ISC) ke `src/ui/icons/` — https://lucide.dev · https://github.com/lucide-icons/lucide. Jangan `lucide-static` penuh; jangan package React. Set awal: save, share, camera, box (AR), info, x, chevron, trash. Kredit About: "Icons by Lucide (ISC)".
