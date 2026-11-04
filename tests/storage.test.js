@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  buildConfigName,
   deleteConfig,
   ensureSchema,
   get,
@@ -45,13 +46,29 @@ describe('storage', () => {
     expect(getLast()).toBeNull();
   });
 
+  it('buildConfigName uses product · color · finish', () => {
+    expect(
+      buildConfigName(
+        { productId: 'armchair', fabricColor: 'sand', finish: 'fabric' },
+        'en',
+      ),
+    ).toBe('Chair · Sand · Fabric');
+    expect(
+      buildConfigName(
+        { productId: 'sofa', fabricColor: 'navy', finish: 'leather' },
+        'id',
+      ),
+    ).toBe('Sofa · Navy · Kulit');
+  });
+
   it('saveConfig adds entry and listConfigs returns it', () => {
+    set('lang', 'en');
     const result = saveConfig(sample());
     expect(result.ok).toBe(true);
-    expect(result.entry?.name).toBe('Config #1');
+    expect(result.entry?.name).toBe('Chair · Sand · Fabric');
     expect(listConfigs()).toHaveLength(1);
     expect(listConfigs()[0].productId).toBe('armchair');
-    expect(localStorage.getItem('furncfg:configs')).toContain('Config #1');
+    expect(localStorage.getItem('furncfg:configs')).toContain('Chair · Sand · Fabric');
   });
 
   it('evicts oldest when saving beyond 10', () => {

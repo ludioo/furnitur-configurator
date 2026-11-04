@@ -26,7 +26,10 @@ export function initSavedList(mountParent, options = {}) {
           ${iconHtml(icons.x)}
         </button>
       </header>
-      <p class="saved-panel__empty" data-empty data-i18n="saved.empty"></p>
+      <div class="saved-panel__empty" data-empty>
+        <p data-i18n="saved.empty"></p>
+        <button type="button" class="saved-panel__empty-cta" data-empty-cta data-i18n="saved.emptyCta"></button>
+      </div>
       <ul class="saved-panel__list" data-list hidden></ul>
     </div>
   `;
@@ -35,6 +38,7 @@ export function initSavedList(mountParent, options = {}) {
   applyDom(root);
 
   const emptyEl = /** @type {HTMLElement} */ (root.querySelector('[data-empty]'));
+  const emptyCta = /** @type {HTMLButtonElement | null} */ (root.querySelector('[data-empty-cta]'));
   const listEl = /** @type {HTMLElement} */ (root.querySelector('[data-list]'));
   const dialog = /** @type {HTMLElement} */ (root.querySelector('.saved-panel__dialog'));
   const closeBtn = root.querySelector('[data-close]');
@@ -157,6 +161,13 @@ export function initSavedList(mountParent, options = {}) {
   }
 
   closeBtn?.addEventListener('click', () => close());
+  emptyCta?.addEventListener('click', () => {
+    close();
+    setTimeout(() => {
+      const saveBtn = document.querySelector('[data-save]');
+      if (saveBtn instanceof HTMLElement) saveBtn.focus();
+    }, 0);
+  });
   root.addEventListener('click', (e) => {
     if (e.target === root) close();
   });

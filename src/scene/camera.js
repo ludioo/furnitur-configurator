@@ -1,43 +1,50 @@
-import {
-  Box3,
-  Matrix4,
-  PerspectiveCamera,
-  Quaternion,
-  Raycaster,
-  Sphere,
-  Spherical,
-  Vector2,
-  Vector3,
-  Vector4,
-} from 'three';
-import CameraControls from 'camera-controls';
-
-CameraControls.install({
-  THREE: {
-    Vector2,
-    Vector3,
-    Vector4,
-    Quaternion,
-    Matrix4,
-    Spherical,
-    Box3,
-    Sphere,
-    Raycaster,
-  },
-});
+import { PerspectiveCamera } from 'three';
 
 const IDLE_MS = 5000;
 /** rad/s — slow studio spin */
 const IDLE_AZIMUTH_SPEED = 0.15;
 
 /**
+ * Perspective camera + orbit controls (camera-controls loaded lazily).
  * @param {import('three').WebGLRenderer} renderer
  * @param {{ width: number, height: number }} size
  * @param {{ invalidate?: () => void }} [opts]
  */
-export function createCamera(renderer, size, opts = {}) {
+export async function createCamera(renderer, size, opts = {}) {
   const invalidate = opts.invalidate;
   const camera = new PerspectiveCamera(45, size.width / size.height, 0.1, 100);
+  camera.position.set(2.5, 1.6, 3.2);
+  camera.lookAt(0, 0.5, 0);
+
+  const [
+    { default: CameraControls },
+    {
+      Box3,
+      Matrix4,
+      Quaternion,
+      Raycaster,
+      Sphere,
+      Spherical,
+      Vector2,
+      Vector3,
+      Vector4,
+    },
+  ] = await Promise.all([import('camera-controls'), import('three')]);
+
+  CameraControls.install({
+    THREE: {
+      Vector2,
+      Vector3,
+      Vector4,
+      Quaternion,
+      Matrix4,
+      Spherical,
+      Box3,
+      Sphere,
+      Raycaster,
+    },
+  });
+
   const controls = new CameraControls(camera, renderer.domElement);
   controls.minDistance = 1.2;
   controls.maxDistance = 12;
@@ -91,7 +98,7 @@ export function createCamera(renderer, size, opts = {}) {
   armIdleTimer();
 
   renderer.domElement.addEventListener('furncfg:resize', (e) => {
-    const { width, height } = e.detail;
+    const { width, height } = /** @type {CustomEvent} */ (e).detail;
     camera.aspect = width / Math.max(height, 1);
     camera.updateProjectionMatrix();
   });
@@ -112,7 +119,6 @@ export function createCamera(renderer, size, opts = {}) {
   }
 
   /**
-   * Pause orbit during AR; re-enable resets idle timer so studio does not spin immediately.
    * @param {boolean} on
    */
   function setEnabled(on) {

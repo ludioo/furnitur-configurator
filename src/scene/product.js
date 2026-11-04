@@ -1,6 +1,5 @@
 import { Box3, Color } from 'three';
 import productsData from '../data/products.json';
-import { createModelLoader } from './loader.js';
 
 /**
  * @param {import('three').Object3D} root
@@ -61,11 +60,20 @@ function groundAlign(root, scale) {
  * }} [hooks]
  */
 export function createProductController(scene, hooks = {}) {
-  const loader = createModelLoader(hooks);
+  /** @type {Awaited<ReturnType<typeof import('./loader.js').createModelLoader>> | null} */
+  let loader = null;
   /** @type {import('three').Object3D | null} */
   let current = null;
   /** @type {string | null} */
   let currentId = null;
+
+  async function ensureLoader() {
+    if (!loader) {
+      const { createModelLoader } = await import('./loader.js');
+      loader = createModelLoader(hooks);
+    }
+    return loader;
+  }
 
   function getProduct(id) {
     const product = productsData.products?.find((p) => p.id === id);
@@ -134,7 +142,8 @@ export function createProductController(scene, hooks = {}) {
    */
   async function load(productId, opts = {}) {
     const product = getProduct(productId);
-    const root = await loader.load(product.modelUrl);
+    const modelLoader = await ensureLoader();
+    const root = await modelLoader.load(product.modelUrl);
     if (opts.isStale?.()) {
       disposeObject(root);
       return null;
@@ -154,8 +163,15 @@ export function createProductController(scene, hooks = {}) {
     if (opts.fabricColorHex) applyColor(opts.fabricColorHex);
     if (opts.finish) applyFinish(opts.finish);
 
-    const info = inspectMaterials(root);
-    console.info(`[product] ${productId} materials:`, info.materials, 'meshes:', info.meshes);
+    const debugOn =
+      typeof location !== 'undefined' &&
+      /(?:\?|&)debug=(?:1|true)(?:&|$)/.test(location.search);
+    /** @type {{ meshes: string[], materials: string[] } | null} */
+    let info = null;
+    if (debugOn) {
+      info = inspectMaterials(root);
+      console.info(`[product] ${productId} materials:`, info.materials, 'meshes:', info.meshes);
+    }
     return { root, product, info };
   }
 
@@ -175,7 +191,8 @@ export function createProductController(scene, hooks = {}) {
         current = null;
         currentId = null;
       }
-      loader.dispose();
+      loader?.dispose?.();
+      loader = null;
     },
   };
 }

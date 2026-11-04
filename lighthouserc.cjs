@@ -5,7 +5,7 @@ module.exports = {
       // Serve built `dist` via LHCI's static server — avoids Windows stdout
       // buffering that makes Vite's "Local:" banner miss startServerReadyPattern.
       staticDistDir: './dist',
-      numberOfRuns: 1,
+      numberOfRuns: 3,
       // Explicit mobile audit (M8) — do not rely on LHCI default alone.
       settings: {
         formFactor: 'mobile',

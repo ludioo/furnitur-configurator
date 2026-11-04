@@ -394,3 +394,24 @@ Baca performance-budget.mdc, lighthouserc.cjs, known-issues T3.4/M8, task M10. S
 
 Tujuan: LHCI mobile Perf >=80 (target) tanpa melonggarkan budget; fokus load/render three.js. VERIFY: skor npm run lhci di progress. Commit: "perf: mobile performance pass".
 ```
+
+### M11 - Product polish + rename RoomFit (QA live 4 Nov 2026)
+```
+/ship M11
+
+Konteks: QA live 4 Nov setelah M9/M10 (Lighthouse mobile Perf median 76, A11y/BP/SEO 100, tanpa console error). Ikuti docs/mobile-ux-spec.md dan .cursor/rules/mobile.mdc; baca performance-budget.mdc, lighthouserc.cjs, known-issues (M10/M11), decisions D-PERF-02, task M11.
+Skills: frontend-design, web-design-guidelines, webapp-testing, verification-before-completion, antislop-ui, antislop-layoutmobile, tdd, code-review. Subagent: explore (cari file terkait), performance-engineer (item 4).
+
+1. Rename brand in-app ke RoomFit: <title>, header, About, manifest name/short_name, meta. JANGAN ubah domain/subdomain/vercel/deploy config (Barkah set manual nanti).
+2. Share meta: og:title/description/image/url, twitter:card summary_large_image, theme-color, canonical. Base URL = SATU config value (sementara https://configurator.barkahmauludi.com) agar mudah diganti. Generate og-image 1200x630 (preview produk + RoomFit). apple-touch-icon 180x180; cek favicon.
+3. Landscape 844x390: grabber/chevron affordance + compact peek strip berisi swatch warna supaya konfigurasi terlihat bisa dibuka.
+4. Perf: LHCI mobile Perf >=80 tanpa melonggarkan budget. Turunkan TBT (~900ms): pecah/defer bootViewer & kerja main-thread three.js (lazy import, requestIdleCallback, defer init non-kritis, worker bila wajar). Pakai performance-engineer.
+5. About lead-gen: CTA utama 'Work with me' (email/kontak ke halaman contact barkahmauludi.com) di atas link GitHub.
+6. Saved UX: empty state dengan CTA 'Save your first look'; nama otomatis 'Chair · Sand · Fabric' (produk · warna · finish).
+7. Toast AR unsupported tidak bersaing dengan AR CTA (anchor lebih tinggi atau dim CTA selama toast tampil).
+8. Loading indicator saat swap model Chair<->Sofa (aria-busy/aria-live, reduced-motion aman).
+
+Out of scope: domain/subdomain, redirect 301, Sanity portfolio.
+
+VERIFY (tanpa bukti = belum selesai): npm run lhci median 3 run Perf >=80, A11y/BP/SEO 100 (tempel skor); OG preview divalidasi (meta ada di HTML build, og-image 200 & 1200x630); Playwright: landscape affordance, Saved naming + empty state, loading state swap, no-overlap toast/AR CTA di iPhone SE, iPhone 13, Pixel 7, landscape 844x390; screenshot before/after di docs/_mobile-baselines/m11/; npm run lint, test, e2e, build hijau (tempel output). Update progress, known-issues, decisions. Commit: "feat: RoomFit rename, share meta, product polish + perf".
+```

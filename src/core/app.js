@@ -2,7 +2,6 @@ import { applyDom, t } from './i18n.js';
 import { getState, setState, subscribe as subscribeState } from './state.js';
 import { ensureSchema, getLast, setLast } from './storage.js';
 import { initShell, setHash } from '../ui/shell.js';
-import { initConfigPanel } from '../ui/configPanel.js';
 import { subscribeLayoutMode } from './layoutMode.js';
 import { initSavedList } from '../ui/savedList.js';
 import { initArButton } from '../ui/arButton.js';
@@ -13,6 +12,17 @@ function afterFirstPaint() {
     requestAnimationFrame(() => {
       requestAnimationFrame(resolve);
     });
+  });
+}
+
+/** @param {number} [timeout] */
+function waitIdle(timeout = 1400) {
+  return new Promise((resolve) => {
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => resolve(), { timeout });
+    } else {
+      setTimeout(resolve, Math.min(timeout, 300));
+    }
   });
 }
 
@@ -52,16 +62,21 @@ export function init() {
     },
   };
 
-  /** @type {Awaited<ReturnType<typeof initConfigPanel>> | null} */
+  /** @type {Awaited<ReturnType<typeof import('../ui/configPanel.js').initConfigPanel>> | null} */
   let configPanel = null;
   let remountSeq = 0;
 
   async function mountConfigPanel() {
+    const { initConfigPanel } = await import('../ui/configPanel.js');
     configPanel = await initConfigPanel(document.body, panelOpts);
     return configPanel;
   }
 
-  const configPanelReady = mountConfigPanel().catch((err) => {
+  const configPanelReady = (async () => {
+    await afterFirstPaint();
+    await waitIdle(500);
+    return mountConfigPanel();
+  })().catch((err) => {
     console.error('[configPanel]', err);
   });
 

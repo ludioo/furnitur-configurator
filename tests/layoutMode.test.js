@@ -102,14 +102,14 @@ describe('layoutMode', () => {
     expect(isDesktopLayout()).toBe(false);
   });
 
-  it('syncSheetPeekHeight sets 18svh for native short landscape', () => {
+  it('syncSheetPeekHeight sets 34svh for native short landscape', () => {
     mockMatchMedia({ shortLandscape: true });
     const snap = globalThis.document.createElement('div');
     syncSheetPeekHeight('native', snap);
     expect(globalThis.document.documentElement.style.getPropertyValue('--sheet-peek-height')).toBe(
-      '18svh',
+      '34svh',
     );
-    expect(snap.style.getPropertyValue('--snap')).toBe('18%');
+    expect(snap.style.getPropertyValue('--snap')).toBe('34%');
     expect(globalThis.document.documentElement.dataset.layout).toBe('short-landscape');
   });
 
@@ -145,9 +145,9 @@ describe('layoutMode', () => {
     const snap = globalThis.document.createElement('div');
     syncSheetPeekHeight('native', snap);
     expect(globalThis.document.documentElement.style.getPropertyValue('--sheet-peek-height')).toBe(
-      '18svh',
+      '34svh',
     );
-    expect(snap.style.getPropertyValue('--snap')).toBe('18%');
+    expect(snap.style.getPropertyValue('--snap')).toBe('34%');
   });
 
   it('subscribeLayoutMode fires when desktop flag flips', () => {

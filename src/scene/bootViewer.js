@@ -7,7 +7,6 @@ import { resolveFabricHex } from '../ui/swatches.js';
 import { resolveFinish, resolveSizeScale } from '../ui/optionChips.js';
 import { createRenderer } from './renderer.js';
 import { createCamera } from './camera.js';
-import { setupEnvironment } from './lights.js';
 import { createProductController } from './product.js';
 import { capturePng, shareOrDownloadPng } from './screenshot.js';
 
@@ -17,6 +16,15 @@ function yieldToMain() {
   return new Promise((resolve) => {
     setTimeout(resolve, 0);
   });
+}
+
+/** @param {() => void} cb @param {number} [timeout] */
+function whenIdle(cb, timeout = 600) {
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(() => cb(), { timeout });
+  } else {
+    setTimeout(cb, Math.min(timeout, 300));
+  }
 }
 
 /** @type {Promise<typeof import('../ar/webxr.js')> | null} */
@@ -95,11 +103,18 @@ export async function bootViewer(ctx) {
     width: container.clientWidth || window.innerWidth,
     height: container.clientHeight || window.innerHeight,
   };
-  const { camera, update: updateCamera, setEnabled: setControlsEnabled } = createCamera(
+  await yieldToMain();
+  const { camera, update: updateCamera, setEnabled: setControlsEnabled } = await createCamera(
     renderer,
     size,
     { invalidate },
   );
+  await yieldToMain();
+
+  const { setupSimpleLights } = await import('./lights.js');
+  setupSimpleLights(scene);
+  invalidate();
+  await yieldToMain();
 
   setScreenshotRunner(async () => {
     try {
@@ -127,9 +142,6 @@ export async function bootViewer(ctx) {
   scene.add(ground);
 
   await yieldToMain();
-  setupEnvironment(scene, renderer);
-  invalidate();
-  await yieldToMain();
 
   /** @type {ReturnType<typeof setTimeout> | null} */
   let slowTimer = null;
@@ -138,6 +150,20 @@ export async function bootViewer(ctx) {
   let loadingProductId = null;
   /** @type {'loading' | 'slow' | 'error' | 'idle'} */
   let splashPhase = 'idle';
+  let firstModelDone = false;
+  let envReady = false;
+  const modelBusy = document.getElementById('model-busy');
+
+  function setTabsBusy(productId, busy) {
+    document.querySelectorAll('[data-product-id]').forEach((btn) => {
+      if (!(btn instanceof HTMLElement)) return;
+      if (busy && btn.getAttribute('data-product-id') === productId) {
+        btn.setAttribute('aria-busy', 'true');
+      } else {
+        btn.removeAttribute('aria-busy');
+      }
+    });
+  }
 
   function showSplash() {
     splashPhase = 'loading';
@@ -159,6 +185,36 @@ export async function bootViewer(ctx) {
     if (slowTimer) {
       clearTimeout(slowTimer);
       slowTimer = null;
+    }
+  }
+
+  function showModelBusy(productId) {
+    setTabsBusy(productId, true);
+    if (!modelBusy) return;
+    applyDom(modelBusy);
+    modelBusy.hidden = false;
+    modelBusy.setAttribute('aria-busy', 'true');
+    modelBusy.removeAttribute('aria-hidden');
+  }
+
+  function hideModelBusy() {
+    setTabsBusy('', false);
+    if (!modelBusy) return;
+    modelBusy.hidden = true;
+    modelBusy.setAttribute('aria-busy', 'false');
+    modelBusy.setAttribute('aria-hidden', 'true');
+  }
+
+  async function ensureEnvironment() {
+    if (envReady) return;
+    envReady = true;
+    try {
+      const { setupEnvironment } = await import('./lights.js');
+      await setupEnvironment(scene, renderer);
+      invalidate();
+    } catch (err) {
+      envReady = false;
+      console.error('[env]', err);
     }
   }
 
@@ -227,9 +283,15 @@ export async function bootViewer(ctx) {
   async function loadProduct(productId) {
     const gen = ++loadGeneration;
     loadingProductId = productId;
-    showSplash();
-    armSlowTimer();
+    const useSplash = !firstModelDone;
+    if (useSplash) {
+      showSplash();
+      armSlowTimer();
+    } else {
+      showModelBusy(productId);
+    }
     try {
+      await yieldToMain();
       const cfg = getState();
       const hex = resolveFabricHex(cfg) || undefined;
       const finish = resolveFinish(cfg) || undefined;
@@ -246,16 +308,30 @@ export async function bootViewer(ctx) {
         return;
       }
       loadingProductId = null;
-      hideSplash();
+      if (useSplash) hideSplash();
+      else hideModelBusy();
       applyCurrentAppearance();
-      initAnalytics();
-      void configPanelReady
-        .then(() => import('../ui/onboarding.js'))
-        .then((m) => m.maybeStartTour())
-        .catch((err) => console.error('[onboarding]', err));
+      invalidate();
+      whenIdle(() => {
+        void ensureEnvironment();
+      }, 400);
+      if (!firstModelDone) {
+        firstModelDone = true;
+        initAnalytics();
+        void configPanelReady
+          .then(() => import('../ui/onboarding.js'))
+          .then((m) => m.maybeStartTour())
+          .catch((err) => console.error('[onboarding]', err));
+        whenIdle(() => {
+          void detectArCapability().then((mode) => {
+            if (mode === 'quicklook') void loadUsdz();
+          });
+        }, 800);
+      }
     } catch (err) {
       if (gen !== loadGeneration) return;
       loadingProductId = null;
+      hideModelBusy();
       console.error(err);
       showError(t('splash.loadError'));
     }
@@ -293,11 +369,6 @@ export async function bootViewer(ctx) {
   arButton.setOnQuicklook(async () => {
     const { exportAndOpen } = await loadUsdz();
     await exportAndOpen(products.getCurrentRoot());
-  });
-
-  // Warm USDZ chunk on Quick Look devices so tap spends less of the activation window on import.
-  void detectArCapability().then((mode) => {
-    if (mode === 'quicklook') void loadUsdz();
   });
 
   /** @type {(() => void) | null} */
