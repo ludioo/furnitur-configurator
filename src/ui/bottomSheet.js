@@ -1,10 +1,13 @@
 import {
+  MQ_COMPACT_HEIGHT,
   MQ_SHORT_LANDSCAPE,
+  isCompactHeight,
   isDesktopLayout,
   isShortLandscape,
 } from '../core/layoutMode.js';
 
 export {
+  isCompactHeight,
   isDesktopLayout,
   isShortLandscape,
   subscribeLayoutMode,
@@ -53,17 +56,27 @@ export function syncSheetPeekHeight(kind, peekSnapEl = null) {
   }
 
   const short = isShortLandscape();
+  const compact = isCompactHeight();
   root.dataset.layout = short ? 'short-landscape' : 'mobile';
 
   if (kind === 'native') {
-    root.style.setProperty('--sheet-peek-height', short ? '18svh' : '25dvh');
+    let peek = '25dvh';
+    let snap = '25%';
+    if (short) {
+      peek = '18svh';
+      snap = '18%';
+    } else if (compact) {
+      peek = '38dvh';
+      snap = '38%';
+    }
+    root.style.setProperty('--sheet-peek-height', peek);
     if (peekSnapEl) {
-      peekSnapEl.style.setProperty('--snap', short ? '18%' : '25%');
+      peekSnapEl.style.setProperty('--snap', snap);
     }
     return;
   }
 
-  // Fallback: let CSS media set --sheet-peek-height (7.5rem / 18svh).
+  // Fallback: let CSS media set --sheet-peek-height (7.5rem / 9.5rem / 18svh).
   root.style.removeProperty('--sheet-peek-height');
 }
 
@@ -177,8 +190,13 @@ export async function mountBottomSheet(mountParent, opts = {}) {
       typeof globalThis.matchMedia === 'function'
         ? globalThis.matchMedia(MQ_SHORT_LANDSCAPE)
         : null;
-    const onShortChange = () => syncSheetPeekHeight('native', snap25);
-    shortMq?.addEventListener('change', onShortChange);
+    const compactMq =
+      typeof globalThis.matchMedia === 'function'
+        ? globalThis.matchMedia(MQ_COMPACT_HEIGHT)
+        : null;
+    const onPeekMqChange = () => syncSheetPeekHeight('native', snap25);
+    shortMq?.addEventListener('change', onPeekMqChange);
+    compactMq?.addEventListener('change', onPeekMqChange);
 
     sheet.append(snap90, snap55, snap25, header, content, footerHost);
     mountParent.append(sheet);
@@ -189,7 +207,8 @@ export async function mountBottomSheet(mountParent, opts = {}) {
       footerHost,
       mode: /** @type {const} */ ('native'),
       destroy() {
-        shortMq?.removeEventListener('change', onShortChange);
+        shortMq?.removeEventListener('change', onPeekMqChange);
+        compactMq?.removeEventListener('change', onPeekMqChange);
         sheet.removeEventListener('snap-position-change', onSnapChange);
         setSheetSnap(null);
         document.documentElement.style.removeProperty('--sheet-peek-height');
@@ -237,14 +256,19 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     typeof globalThis.matchMedia === 'function'
       ? globalThis.matchMedia(MQ_SHORT_LANDSCAPE)
       : null;
-  const onShortChange = () => {
+  const compactMq =
+    typeof globalThis.matchMedia === 'function'
+      ? globalThis.matchMedia(MQ_COMPACT_HEIGHT)
+      : null;
+  const onPeekMqChange = () => {
     syncSheetPeekHeight('fallback');
     requestAnimationFrame(() => {
       scroller.scrollTop = spacer.offsetHeight;
       syncFallbackSnap();
     });
   };
-  shortMq?.addEventListener('change', onShortChange);
+  shortMq?.addEventListener('change', onPeekMqChange);
+  compactMq?.addEventListener('change', onPeekMqChange);
 
   requestAnimationFrame(() => {
     scroller.scrollTop = spacer.offsetHeight;
@@ -257,7 +281,8 @@ export async function mountBottomSheet(mountParent, opts = {}) {
     footerHost: null,
     mode: /** @type {const} */ ('fallback'),
     destroy() {
-      shortMq?.removeEventListener('change', onShortChange);
+      shortMq?.removeEventListener('change', onPeekMqChange);
+      compactMq?.removeEventListener('change', onPeekMqChange);
       scroller.removeEventListener('scroll', syncFallbackSnap);
       setSheetSnap(null);
       delete document.documentElement.dataset.layout;

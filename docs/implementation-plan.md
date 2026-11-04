@@ -57,6 +57,8 @@ Sumber: `docs/mobile-ux-spec.md`, `docs/mobile-testing.md`, `.cursor/rules/mobil
 | M6 | AR entry UX mobile (CTA copy/state/busy) | M5 | CTA jelas di peek; busy/error toast; instruksi Safari-only bila perlu; tidak klaim WebXR/QL lulus tanpa device/checklist |
 | M7 | Playwright suite mobile + recordVideo | M6 | Projects Pixel7 / iPhone13 / SE / landscape; `video: on` (atau retain); spek sheet/CTA/topbar; `npm run e2e` (+ script e2e:mobile) hijau |
 | M8 | LHCI mobile eksplisit + ringkas CI notes | M7 | `npm run lhci` skor mobile dilampirkan; Perf ≥80 atau blocker di known-issues; docs testing.mdc / mobile-testing selaras |
+| M9 | Mobile polish fixes (QA live 4 Nov 2026) | M8 | Toast 'Saved' & AR CTA tidak berbagi band vertikal di peek; toast identik di-dedupe (refresh timer); SE 375x667 (tinggi <=700): baris swatch pertama utuh; jarak CTA-grabber cukup; header Saved tidak tampak terpilih. Bukti: Playwright bounding-box no-overlap (SE/iPhone13/Pixel7/landscape 844x390), test 5 tap AR = 1 toast, screenshot before/after + video Pixel 7; lint/unit/e2e/build hijau |
+| M10 | Mobile performance pass (backlog, terpisah dari M9) | M9 | LHCI mobile Perf >=80 (target; lab live 33, lokal ~58-64); tanpa melonggarkan budget; optimasi load/render three.js |
 
 ## Later (jangan otomatis)
 - PDF quote (jspdf pola APAR).

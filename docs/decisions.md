@@ -239,6 +239,13 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-QA-10 | `lighthouserc.cjs` `collect.settings`: `formFactor: 'mobile'` + screenEmulation 360×640 DPR2; assert Perf≥0.8 & A11y≥0.9 **tetap**; skor M8 dilampirkan (Perf 64 / A11y 100); GHA tetap tanpa lhci; testing.mdc + mobile-testing selaras ke `.cjs` | M8 minta audit mobile tersurat; jangan andalkan default diam-diam; longgarkan budget = melanggar D-QA-02 / mobile-testing | prompts M8 · mobile-testing · D-QA-02 · D-QA-04 |
 
+## 2026-11-04 — M9 mobile polish (QA live)
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-UI-21 | Toast peek di atas AR CTA lewat `--ar-cta-clearance` (`touch-min + 1.75rem`); pesan toast identik = refresh timer (tanpa DOM baru); `max-height:700px` → native peek `38dvh` / fallback `11.5rem` + footer/swatch lebih rapat; CTA–peek gap `1rem`; Saved/About idle `background: transparent` | QA live: toast menutupi CTA, stack toast, SE swatch tertutup footer, Saved tampak terpilih | prompts M9 · mobile-ux-spec |
+| D-QA-11 | Playwright `mobile-iphone13` UA di-bump ke iPhone OS 18_2 / Version 18.2 (tetap Chromium) | Preset stock iOS 15 memaksa fallback sheet; short-panel tidak bisa scroll ke peek — false fail overlap | prompts M9 · D-UI-02 · D-QA-09 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

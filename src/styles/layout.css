@@ -135,7 +135,8 @@ html[data-layout='short-landscape'] .top-bar {
   padding: 0 0.65rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-btn);
-  background: var(--bg-elevated);
+  /* Idle: flat (not elevated) so Saved does not read as selected (M9). */
+  background: transparent;
   color: var(--text);
   font: inherit;
   font-size: 0.85rem;

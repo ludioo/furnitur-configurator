@@ -23,7 +23,15 @@ export default defineConfig({
     {
       name: 'mobile-iphone13',
       // Device preset defaults to WebKit; force Chromium (D-QA-06) with iPhone viewport/UA.
-      use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' },
+      // Bump iOS/Safari in UA to 18.2+ so native bottom-sheet is used (D-UI-02); stock
+      // iPhone 13 preset is iOS 15 → fallback sheet whose short-panel peek cannot scroll.
+      use: {
+        ...devices['iPhone 13'],
+        defaultBrowserType: 'chromium',
+        userAgent: devices['iPhone 13'].userAgent
+          .replace(/iPhone OS 15_\d+/, 'iPhone OS 18_2')
+          .replace(/Version\/[\d.]+/, 'Version/18.2'),
+      },
     },
     {
       name: 'mobile-iphone-se',

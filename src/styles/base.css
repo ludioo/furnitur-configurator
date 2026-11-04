@@ -16,12 +16,21 @@
   --config-panel-width: 320px;
   /* Single source for fallback peek + mobile CTA/toast offset (native overrides to 25dvh). */
   --sheet-peek-height: 7.5rem;
+  /* CTA stack above peek: button height + gap under toast (M9). */
+  --ar-cta-clearance: calc(var(--touch-min) + 1.75rem);
 }
 
 /* Short phone landscape: lower peek so canvas stays usable (~≥40% height). */
 @media (orientation: landscape) and (max-height: 500px) {
   :root {
     --sheet-peek-height: 18svh;
+  }
+}
+
+/* Short portrait (e.g. iPhone SE 667): taller fallback peek so first swatch clears footer. */
+@media (max-height: 700px) and (orientation: portrait) {
+  :root {
+    --sheet-peek-height: 11.5rem;
   }
 }
 

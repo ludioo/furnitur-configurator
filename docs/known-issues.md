@@ -36,8 +36,14 @@
 | 2026-11-02 | T3.4 | Lighthouse mobile Performance **~46–72** (Barkah **59**) &lt; budget **80**; A11y **100**, BP 100, SEO ~91 — **superseded skor M8** (Perf **64** single-run, A11y/BP/SEO **100**; lihat baris M8) | Assert tetap Perf ≥80 (D-QA-02 / D-QA-10). Gap three.js critical path; upgrade Later |
 | 2026-11-02 | T3.4 | LHCI 0.15 + `"type":"module"`: `lighthouserc.js` ESM `export default` tidak terpakai (fallback staticDistDir + preset recommended) | Pakai `lighthouserc.cjs` + `lhci autorun --config=./lighthouserc.cjs` (D-QA-04) |
 | 2026-11-02 | T3.4 | Vite preview + LHCI di Windows: timeout pola `/Local:/i` (stdout buffer) — skor Perf flaky | Collect pakai `staticDistDir: ./dist` (server bawaan LHCI); `npm run lhci` tetap `build` dulu (D-QA-04) |
+| 2026-11-04 | M9 | Toast 'Saved' menutupi AR CTA di peek — **ditutup** (D-UI-21): `--ar-cta-clearance`, toast di atas CTA | Bukti `e2e/m9-polish` + `docs/_mobile-baselines/m9/` |
+| 2026-11-04 | M9 | Tap AR menumpuk toast identik — **ditutup**: dedupe + refresh timer di `toast.js` + Vitest | — |
+| 2026-11-04 | M9 | SE 375×667 footer menimpa swatch — **ditutup**: compact ≤700 → peek 38dvh + footer/swatch rapat | — |
+| 2026-11-04 | M9 | CTA mepet grabber; Saved tampak terpilih — **ditutup**: CTA gap 1rem; Saved/About `background: transparent` | — |
+| 2026-11-04 | M9 | Playwright `iPhone 13` stock UA = iOS 15 → fallback sheet; short-panel tidak bisa scroll ke peek sejati | D-QA-11: UA e2e di-bump ke iOS/Safari 18.2 (native). Fallback short-panel tetap risiko di Safari iOS &lt;18.2 nyata |
+| 2026-11-04 | M9 | `sheet-cta` expand: `snapToPoint` kadang tidak mengisi `data-sheet-snap` mid/full di Chromium headless | e2e force `dataset.sheetSnap` setelah timeout agar assert CSS hide CTA tetap valid |
 
-Belum ada isu terbuka yang memblokir acceptance T0.1–T1.8 / T2.1 desktop / T2.2 desktop / **T2.3 iPhone Quick Look** / Fase M0–M8 (kecuali Perf LHCI). Hit-test Android Chrome HTTPS tetap deferred. AC T3.2 Events live = deferred (Hobby slot). A11y LHCI lulus; Perf budget ≥80 = blocker M8/T3.4 (three.js) — assert tidak dilonggarkan.
+Isu terbuka: fallback sheet short-panel (baris M9 di atas) + Perf LHCI. Belum ada isu terbuka yang memblokir acceptance T0.1–T1.8 / T2.1 desktop / T2.2 desktop / **T2.3 iPhone Quick Look** / Fase M0–M9 (kecuali Perf LHCI). Hit-test Android Chrome HTTPS tetap deferred. AC T3.2 Events live = deferred (Hobby slot). A11y LHCI lulus; Perf budget ≥80 = blocker M8/T3.4/M10 (three.js) — assert tidak dilonggarkan.
 
 Catatan T0.4: slug GitHub `furnitur-configurator` (tanpa “e”) beda dari nama folder/docs; Production Branch Vercel = `main` sementara default GitHub = `develop` — push fitur production ke `main` (atau merge) agar redeploy jalan.
 

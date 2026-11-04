@@ -368,3 +368,29 @@ Tujuan: pastikan audit mobile tersurat; npm run lhci; lampirkan skor; perbaikan 
 
 VERIFY: skor di progress/known-issues. Commit: "chore: lighthouse mobile assert and docs".
 ```
+
+### M9 - Mobile polish fixes (QA live 4 Nov 2026)
+```
+/ship M9
+
+Baca mobile-ux-spec.md, .cursor/rules/mobile.mdc, mobile-testing.md, known-issues (M9), task M9. Skills: antislop-layoutmobile, antislop-ui, tdd, code-review; pakai subagent explore untuk mencari file terkait. Validate  plan (tunggu)  implement.
+
+Sumber: QA live configurator.barkahmauludi.com 4 Nov 2026.
+1. Toast "Saved" menutupi AR CTA saat sheet peek (semua HP). Toast dan AR CTA tidak boleh berbagi band vertikal yang sama.
+2. Tap AR berulang menumpuk toast identik. Dedupe: jika pesan sama masih tampil, refresh timer-nya, jangan buat toast baru.
+3. iPhone SE 375x667: footer/harga di peek menimpa baris swatch pertama, baris 2 terpotong. Untuk tinggi <=700px, sesuaikan tinggi peek/footer agar baris swatch pertama terlihat utuh.
+4. Polish: jarak cukup antara AR CTA dan grabber; header "Saved" tidak tampak terpilih saat tidak dipilih.
+
+Out of scope: performa mobile (M10).
+
+VERIFY (tanpa bukti = belum selesai): Playwright bounding-box no-overlap toast/AR CTA/sheet di iPhone SE, iPhone 13, Pixel 7, landscape 844x390; test 5 tap AR = 1 toast; screenshot before/after per viewport (docs/_mobile-baselines/m9/) + video Playwright Pixel 7; npm run lint, test, e2e, build hijau (tempel output). Update progress + known-issues. Commit: "fix(mobile): toast/CTA overlap, toast dedupe, small-height peek".
+```
+
+### M10 - Mobile performance pass (backlog)
+```
+/ship M10
+
+Baca performance-budget.mdc, lighthouserc.cjs, known-issues T3.4/M8, task M10. Skills: explore, diagnosing-bugs. Validate  plan (tunggu)  implement.
+
+Tujuan: LHCI mobile Perf >=80 (target) tanpa melonggarkan budget; fokus load/render three.js. VERIFY: skor npm run lhci di progress. Commit: "perf: mobile performance pass".
+```

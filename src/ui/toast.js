@@ -10,6 +10,8 @@ let host = null;
 let hideTimer = null;
 /** @type {number} */
 let toastGen = 0;
+/** @type {string | null} */
+let activeMessage = null;
 
 function ensureHost() {
   if (host) return host;
@@ -23,8 +25,9 @@ function ensureHost() {
 
 /**
  * @param {HTMLElement} el
+ * @param {number} gen
  */
-async function exitAndRemove(el) {
+async function exitAndRemove(el, gen) {
   try {
     await runUiMotion(
       el,
@@ -36,17 +39,43 @@ async function exitAndRemove(el) {
     );
   } finally {
     el.remove();
+    if (gen === toastGen) {
+      activeMessage = null;
+    }
   }
 }
 
 /**
+ * Schedule hide for the current generation.
+ * @param {HTMLElement} el
+ * @param {number} gen
+ */
+function armHideTimer(el, gen) {
+  if (hideTimer) clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => {
+    hideTimer = null;
+    if (gen !== toastGen) return;
+    void exitAndRemove(el, gen);
+  }, DURATION_MS);
+}
+
+/**
  * Toast with light enter/exit via motion/mini (skips when reduced-motion).
+ * Identical message while visible refreshes the hide timer (no stack).
  * @param {string} message
  */
 export function showToast(message) {
   if (!message) return;
   const root = ensureHost();
+
+  const existing = root.querySelector('.toast');
+  if (existing && activeMessage === message) {
+    armHideTimer(/** @type {HTMLElement} */ (existing), toastGen);
+    return;
+  }
+
   const gen = ++toastGen;
+  activeMessage = message;
   root.replaceChildren();
 
   const el = document.createElement('div');
@@ -66,14 +95,5 @@ export function showToast(message) {
     { duration: ENTER_S },
   );
 
-  if (hideTimer) clearTimeout(hideTimer);
-  hideTimer = setTimeout(() => {
-    hideTimer = null;
-    if (gen !== toastGen) return;
-    void exitAndRemove(el).then(() => {
-      if (gen === toastGen) {
-        /* host may stay empty */
-      }
-    });
-  }, DURATION_MS);
+  armHideTimer(el, gen);
 }

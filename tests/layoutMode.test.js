@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const {
+  isCompactHeight,
   isDesktopLayout,
   isShortLandscape,
   pixelRatioCap,
@@ -47,13 +48,18 @@ function stubDocumentElement() {
 }
 
 /**
- * @param {{ wide?: boolean, shortLandscape?: boolean }} flags
+ * @param {{ wide?: boolean, shortLandscape?: boolean, compactHeight?: boolean }} flags
  */
-function mockMatchMedia({ wide = false, shortLandscape = false } = {}) {
+function mockMatchMedia({
+  wide = false,
+  shortLandscape = false,
+  compactHeight = false,
+} = {}) {
   globalThis.matchMedia = vi.fn().mockImplementation((query) => {
     let matches = false;
     if (query.includes('min-width: 768px')) matches = wide;
     if (query.includes('max-height: 500px')) matches = shortLandscape;
+    if (query.includes('max-height: 700px')) matches = compactHeight;
     return {
       matches,
       media: query,
@@ -108,13 +114,40 @@ describe('layoutMode', () => {
   });
 
   it('syncSheetPeekHeight sets 25dvh for native portrait mobile', () => {
-    mockMatchMedia({ shortLandscape: false });
+    mockMatchMedia({ shortLandscape: false, compactHeight: false });
     const snap = globalThis.document.createElement('div');
     syncSheetPeekHeight('native', snap);
     expect(globalThis.document.documentElement.style.getPropertyValue('--sheet-peek-height')).toBe(
       '25dvh',
     );
     expect(snap.style.getPropertyValue('--snap')).toBe('25%');
+  });
+
+  it('isCompactHeight reads max-height 700px media', () => {
+    mockMatchMedia({ compactHeight: true });
+    expect(isCompactHeight()).toBe(true);
+    mockMatchMedia({ compactHeight: false });
+    expect(isCompactHeight()).toBe(false);
+  });
+
+  it('syncSheetPeekHeight sets 38dvh for compact portrait (not short landscape)', () => {
+    mockMatchMedia({ shortLandscape: false, compactHeight: true });
+    const snap = globalThis.document.createElement('div');
+    syncSheetPeekHeight('native', snap);
+    expect(globalThis.document.documentElement.style.getPropertyValue('--sheet-peek-height')).toBe(
+      '38dvh',
+    );
+    expect(snap.style.getPropertyValue('--snap')).toBe('38%');
+  });
+
+  it('short landscape peek wins over compact height', () => {
+    mockMatchMedia({ shortLandscape: true, compactHeight: true });
+    const snap = globalThis.document.createElement('div');
+    syncSheetPeekHeight('native', snap);
+    expect(globalThis.document.documentElement.style.getPropertyValue('--sheet-peek-height')).toBe(
+      '18svh',
+    );
+    expect(snap.style.getPropertyValue('--snap')).toBe('18%');
   });
 
   it('subscribeLayoutMode fires when desktop flag flips', () => {

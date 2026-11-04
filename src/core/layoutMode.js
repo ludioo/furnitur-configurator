@@ -1,5 +1,7 @@
 export const MQ_WIDE = '(min-width: 768px)';
 export const MQ_SHORT_LANDSCAPE = '(orientation: landscape) and (max-height: 500px)';
+/** Short viewport (e.g. iPhone SE 667): bump peek / compact footer (M9). */
+export const MQ_COMPACT_HEIGHT = '(max-height: 700px)';
 
 function mqMatches(query) {
   return (
@@ -10,6 +12,11 @@ function mqMatches(query) {
 /** Phone landscape short enough that a desktop rail would crush the canvas. */
 export function isShortLandscape() {
   return mqMatches(MQ_SHORT_LANDSCAPE);
+}
+
+/** Viewport height ≤700px (portrait SE and short landscape). */
+export function isCompactHeight() {
+  return mqMatches(MQ_COMPACT_HEIGHT);
 }
 
 /**

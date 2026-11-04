@@ -419,7 +419,10 @@ bottom-sheet [slot='footer'] .config-panel__footer {
   position: fixed;
   left: 1rem;
   right: 1rem;
-  bottom: calc(var(--sheet-peek-height) + 0.5rem + env(safe-area-inset-bottom, 0px));
+  /* Above AR CTA band (peek + clearance), not sharing CTA vertical band. */
+  bottom: calc(
+    var(--sheet-peek-height) + var(--ar-cta-clearance) + env(safe-area-inset-bottom, 0px)
+  );
   z-index: 60;
   display: flex;
   justify-content: center;
@@ -446,7 +449,7 @@ html[data-sheet-snap='full'] .toast-host {
 .ar-cta {
   position: fixed;
   left: 1rem;
-  bottom: calc(var(--sheet-peek-height) + 0.75rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--sheet-peek-height) + 1rem + env(safe-area-inset-bottom, 0px));
   z-index: 14;
   display: inline-flex;
   align-items: center;
@@ -683,7 +686,9 @@ html[data-sheet-snap='full'] .ar-cta {
   .toast-host {
     left: 1rem;
     right: 1rem;
-    bottom: calc(var(--sheet-peek-height) + 0.5rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(
+      var(--sheet-peek-height) + var(--ar-cta-clearance) + env(safe-area-inset-bottom, 0px)
+    );
     justify-content: flex-start;
   }
 
@@ -694,7 +699,41 @@ html[data-sheet-snap='full'] .ar-cta {
   }
 
   .ar-cta {
-    bottom: calc(var(--sheet-peek-height) + 0.75rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--sheet-peek-height) + 1rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Compact height: tighter sticky footer + denser swatches so first row clears footer. */
+@media (max-height: 700px) {
+  .config-panel__footer {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0 calc(0.25rem + env(safe-area-inset-bottom, 0px));
+    gap: 0.4rem;
+  }
+
+  bottom-sheet [slot='footer'] .config-panel__footer {
+    padding-block: 0.35rem calc(0.25rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .swatches {
+    gap: 0.35rem 0.25rem;
+  }
+
+  .swatch {
+    gap: 0.2rem;
+  }
+
+  .swatch__disc {
+    width: 36px;
+    height: 36px;
+  }
+
+  .config-panel__heading {
+    margin-bottom: 0.35rem;
+  }
+
+  .config-panel__heading:not(:first-child) {
+    margin-top: 0.65rem;
   }
 }
 
