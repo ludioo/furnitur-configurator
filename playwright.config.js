@@ -12,13 +12,31 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4173',
     locale: 'en-US',
     trace: 'on-first-retry',
+    video: 'on',
+    screenshot: 'only-on-failure',
   },
   projects: [
     {
-      name: 'mobile',
+      name: 'mobile-pixel7',
+      use: { ...devices['Pixel 7'] },
+    },
+    {
+      name: 'mobile-iphone13',
+      // Device preset defaults to WebKit; force Chromium (D-QA-06) with iPhone viewport/UA.
+      use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' },
+    },
+    {
+      name: 'mobile-iphone-se',
+      // 375×667 (not 1st-gen 320×568); Chromium-only like iPhone 13.
+      use: { ...devices['iPhone SE (3rd gen)'], defaultBrowserType: 'chromium' },
+    },
+    {
+      name: 'mobile-landscape',
       use: {
-        ...devices['Pixel 5'],
-        viewport: { width: 390, height: 844 },
+        ...devices['Pixel 7'],
+        viewport: { width: 844, height: 390 },
+        isMobile: true,
+        hasTouch: true,
       },
     },
     {

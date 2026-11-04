@@ -227,6 +227,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-AR-08 | iOS non-Safari (CriOS/FxiOS/…): CTA tetap `aria-disabled` + toast/tooltip `ar.openSafari` (tanpa deep link); busy = `aria-busy` + CSS opacity/`cursor:wait` (tanpa spinner loop); bukti state lewat e2e emulasi `docs/_mobile-baselines/m6/` — bukan klaim WebXR/QL device | Known-issues mitigasi “buka Safari”; deep link tidak andal; headless tidak bisa certify hit-test/QL | prompts M6 · UF2 · D-AR-04 · D-A11Y-01 |
 
+## 2026-11-04 — M7 Playwright mobile matrix
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-QA-09 | Projects: `mobile-pixel7`, `mobile-iphone13`, `mobile-iphone-se` (`iPhone SE (3rd gen)`), `mobile-landscape` (844×390), `desktop`; `video: on` + `screenshot: only-on-failure`; iPhone presets `defaultBrowserType: 'chromium'` (tetap D-QA-06); baseline PNG sheet/CTA hanya `mobile-iphone13`; assert AR unsupported di Pixel/landscape; iPhone = Quick Look ready (Safari UA); script `e2e:mobile` | Matrix mobile-testing; WebKit tidak diinstall; SE 1st-gen 320px salah target; Safari UA ≠ unsupported | prompts M7 · mobile-testing · D-QA-06 · D-QA-07 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

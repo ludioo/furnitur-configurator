@@ -19,14 +19,15 @@ Bilang ke AI: **"jalankan project ini di lokal"**. AI: `npm install` → `npm ru
 | `npm run preview` | Pratinjau hasil build |
 | `npm test` | Tes logika (Vitest) — **cepat, tanpa buka browser** |
 | `npm run test:watch` | Tes sambil AI coding |
-| `npm run e2e` | Tes klik otomatis (Playwright) di Chrome headless |
+| `npm run e2e` | Tes klik otomatis (Playwright) di Chrome headless — matrix mobile + desktop |
+| `npm run e2e:mobile` | Sama, hanya 4 project mobile (Pixel 7 / iPhone 13 / SE / landscape) |
 | `npm run lint` | Cek gaya kode |
 | `npm run format` | Rapikan format |
 | `npm run lhci` | Audit Lighthouse + budget |
 | `npm run optimize:model` | Compress model 3D |
 
 ### E2E sekali setup
-Pertama kali sebelum `npm run e2e`, AI menjalankan: `npx playwright install chromium` (unduh browser tes). Tidak perlu kamu paham isinya.
+Pertama kali sebelum `npm run e2e`, AI menjalankan: `npx playwright install chromium` (unduh browser tes). Tidak perlu kamu paham isinya. Setelah jalan, video rekaman ada di `test-results/**/*.webm` (folder diabaikan git).
 
 ## 3. Env variables
 | Nama | Isi | Di mana |

@@ -3,6 +3,11 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
 const OUT_DIR = path.join('docs', '_mobile-baselines', 'm2');
+const BASELINE_PROJECT = 'mobile-iphone13';
+
+function isMobileProject(name) {
+  return name.startsWith('mobile-');
+}
 
 test.describe('mobile sheet + AR CTA', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,9 +17,7 @@ test.describe('mobile sheet + AR CTA', () => {
   });
 
   test('peek shows grabber and AR CTA above sheet', async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== 'mobile', 'mobile viewport only');
-
-    await mkdir(OUT_DIR, { recursive: true });
+    test.skip(!isMobileProject(testInfo.project.name), 'mobile viewport only');
 
     const grabber = page.locator('.config-sheet__grabber');
     await expect(grabber).toBeVisible();
@@ -28,16 +31,17 @@ test.describe('mobile sheet + AR CTA', () => {
     const snap = await page.locator('html').getAttribute('data-sheet-snap');
     expect(snap === 'peek' || snap === null).toBeTruthy();
 
-    await page.screenshot({
-      path: path.join(OUT_DIR, 'peek.png'),
-      fullPage: false,
-    });
+    if (testInfo.project.name === BASELINE_PROJECT) {
+      await mkdir(OUT_DIR, { recursive: true });
+      await page.screenshot({
+        path: path.join(OUT_DIR, 'peek.png'),
+        fullPage: false,
+      });
+    }
   });
 
   test('expanded sheet hides AR CTA', async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== 'mobile', 'mobile viewport only');
-
-    await mkdir(OUT_DIR, { recursive: true });
+    test.skip(!isMobileProject(testInfo.project.name), 'mobile viewport only');
 
     const expanded = await page.evaluate(async () => {
       const view = document.defaultView;
@@ -45,19 +49,26 @@ test.describe('mobile sheet + AR CTA', () => {
         new Promise((resolve) => {
           view.requestAnimationFrame(() => view.requestAnimationFrame(resolve));
         });
+      const waitExpanded = async () => {
+        const deadline = Date.now() + 2000;
+        while (Date.now() < deadline) {
+          const snap = document.documentElement.dataset.sheetSnap;
+          if (snap === 'mid' || snap === 'full') return snap;
+          await waitFrames();
+        }
+        return document.documentElement.dataset.sheetSnap;
+      };
       const sheet = document.querySelector('bottom-sheet');
       if (sheet && typeof sheet.snapToPoint === 'function') {
         // Lib: 0=collapsed, 1=peek, 2=mid, 3=full (25/55/90)
         sheet.snapToPoint(3, { behavior: 'instant' });
-        await waitFrames();
-        return { mode: 'native', snap: document.documentElement.dataset.sheetSnap };
+        return { mode: 'native', snap: await waitExpanded() };
       }
       const scroller = document.querySelector('.config-sheet__scroller');
       if (scroller) {
         scroller.scrollTop = 0;
         scroller.dispatchEvent(new view.Event('scroll'));
-        await waitFrames();
-        return { mode: 'fallback', snap: document.documentElement.dataset.sheetSnap };
+        return { mode: 'fallback', snap: await waitExpanded() };
       }
       return { mode: 'none', snap: document.documentElement.dataset.sheetSnap };
     });
@@ -68,9 +79,12 @@ test.describe('mobile sheet + AR CTA', () => {
     const arCta = page.locator('.ar-cta');
     await expect(arCta).toBeHidden();
 
-    await page.screenshot({
-      path: path.join(OUT_DIR, 'expanded.png'),
-      fullPage: false,
-    });
+    if (testInfo.project.name === BASELINE_PROJECT) {
+      await mkdir(OUT_DIR, { recursive: true });
+      await page.screenshot({
+        path: path.join(OUT_DIR, 'expanded.png'),
+        fullPage: false,
+      });
+    }
   });
 });

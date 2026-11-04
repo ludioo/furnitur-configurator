@@ -3,9 +3,18 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
 const OUT_DIR = path.join('docs', '_mobile-baselines', 'm6');
+const BASELINE_PROJECT = 'mobile-iphone13';
 const OPEN_SAFARI = 'Open this page in Safari to view in AR';
 const IPHONE_CHROME =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.0.0 Mobile/15E148 Safari/604.1';
+
+function isMobileProject(name) {
+  return name.startsWith('mobile-');
+}
+
+function expectsArUnsupported(name) {
+  return name === 'mobile-pixel7' || name === 'mobile-landscape';
+}
 
 test.describe('mobile AR CTA states', () => {
   test.beforeEach(async ({ page }) => {
@@ -15,41 +24,52 @@ test.describe('mobile AR CTA states', () => {
   });
 
   test('screenshots disabled, ready, and busy (emulated)', async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== 'mobile', 'mobile viewport only');
-
-    await mkdir(OUT_DIR, { recursive: true });
+    test.skip(!isMobileProject(testInfo.project.name), 'mobile viewport only');
 
     const ar = page.locator('button.ar-cta');
     await expect(ar).toBeVisible();
-    await expect(ar).toHaveAttribute('aria-disabled', 'true');
 
-    await page.screenshot({
-      path: path.join(OUT_DIR, 'cta-disabled.png'),
-      fullPage: false,
-    });
+    if (expectsArUnsupported(testInfo.project.name)) {
+      await expect(ar).toHaveAttribute('aria-disabled', 'true');
+    } else {
+      await expect(ar).not.toHaveAttribute('aria-disabled', 'true', { timeout: 10_000 });
+    }
 
-    await ar.evaluate((el) => {
-      el.removeAttribute('aria-disabled');
-    });
-    await expect(ar).not.toHaveAttribute('aria-disabled', 'true');
-    await page.screenshot({
-      path: path.join(OUT_DIR, 'cta-ready.png'),
-      fullPage: false,
-    });
+    if (testInfo.project.name === BASELINE_PROJECT) {
+      await mkdir(OUT_DIR, { recursive: true });
 
-    await ar.evaluate((el) => {
-      el.setAttribute('aria-busy', 'true');
-    });
-    await expect(ar).toHaveAttribute('aria-busy', 'true');
-    await page.screenshot({
-      path: path.join(OUT_DIR, 'cta-busy.png'),
-      fullPage: false,
-    });
+      await ar.evaluate((el) => {
+        el.setAttribute('aria-disabled', 'true');
+        el.removeAttribute('aria-busy');
+      });
+      await expect(ar).toHaveAttribute('aria-disabled', 'true');
+      await page.screenshot({
+        path: path.join(OUT_DIR, 'cta-disabled.png'),
+        fullPage: false,
+      });
+
+      await ar.evaluate((el) => {
+        el.removeAttribute('aria-disabled');
+      });
+      await page.screenshot({
+        path: path.join(OUT_DIR, 'cta-ready.png'),
+        fullPage: false,
+      });
+
+      await ar.evaluate((el) => {
+        el.setAttribute('aria-busy', 'true');
+      });
+      await expect(ar).toHaveAttribute('aria-busy', 'true');
+      await page.screenshot({
+        path: path.join(OUT_DIR, 'cta-busy.png'),
+        fullPage: false,
+      });
+    }
   });
 });
 
 test('iOS Chrome UA tap shows open-in-Safari toast', async ({ browser, baseURL }, testInfo) => {
-  test.skip(testInfo.project.name !== 'mobile', 'mobile project only');
+  test.skip(testInfo.project.name !== BASELINE_PROJECT, 'run once on mobile-iphone13');
 
   const context = await browser.newContext({
     baseURL,

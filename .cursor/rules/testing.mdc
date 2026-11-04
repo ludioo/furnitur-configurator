@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Tools (lihat `docs/tech-stack.md`)
 - **Vitest** — unit: `pricing`, `storage`, `i18n`, config snapshot. Command: `npm test` / `npm run test:watch`.
-- **Playwright** — e2e smoke mobile (~390) + desktop; AR unsupported di desktop. Command: `npm run e2e` (setelah `npx playwright install chromium` sekali).
+- **Playwright** — e2e matrix: `mobile-pixel7` / `mobile-iphone13` / `mobile-iphone-se` / `mobile-landscape` + `desktop`; `video: on` → `test-results/**/*.webm`. Commands: `npm run e2e`, `npm run e2e:mobile` (setelah `npx playwright install chromium` sekali).
 - **ESLint flat** (`eslint.config.js`) + **Prettier** — `npm run lint` / `npm run format`.
 - **@lhci/cli** — `npm run lhci` + budgets di `lighthouserc.js` (Perf ≥ 80, A11y ≥ 90).
 - **GitHub Actions** — `.github/workflows/ci.yml`: lint → test → build pada push/PR `main`.

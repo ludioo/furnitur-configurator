@@ -127,3 +127,10 @@ Uji di Chrome desktop + 1 HP Android + 1 iPhone bila ada.
 - [x] Ubah breakpoint/orientasi meremount rail↔sheet tanpa reload penuh.
 - [x] Bukti: `docs/_mobile-baselines/m4/` (375 + landscape + se-landscape); `npm run build` hijau.
 - [ ] Notch/safe-area padding di iPhone Safari nyata (Chromium baseline tidak mengisi `env(safe-area-inset-*)`) — cek manual Barkah.
+
+## M7 (Playwright mobile matrix + video)
+- [x] Projects: `mobile-pixel7`, `mobile-iphone13`, `mobile-iphone-se`, `mobile-landscape`, `desktop`.
+- [x] `video: on` — artefak di `test-results/**/*.webm` (gitignore).
+- [x] Spek topbar / sheet+CTA / landscape; smoke + AR fallback tetap.
+- [x] `npm run e2e` dan `npm run e2e:mobile` hijau.
+- [x] Docs: `mobile-testing.md`, `env-setup.md`, testing.mdc, progress + D-QA-09.

@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:mobile": "playwright test --project=mobile-pixel7 --project=mobile-iphone13 --project=mobile-iphone-se --project=mobile-landscape",
     "e2e:baseline": "playwright test -c playwright.baseline.config.js",
     "lint": "eslint .",
     "format": "prettier --write .",

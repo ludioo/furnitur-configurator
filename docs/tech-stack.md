@@ -59,7 +59,8 @@ Vanilla **three.js r170+** + **Vite 6** (sama pola APAR). Tanpa React/TS/Tailwin
 |---|---|---|
 | `npm test` | `vitest run` | Tes logika (cepat, tanpa browser) |
 | `npm run test:watch` | `vitest` | AI saat develop |
-| `npm run e2e` | `playwright test` | Smoke UI (butuh `npx playwright install` sekali) |
+| `npm run e2e` | `playwright test` | Smoke UI matrix mobile+desktop (butuh `npx playwright install chromium` sekali); video di `test-results/` |
+| `npm run e2e:mobile` | `playwright test` 4 project mobile | Sama tanpa desktop |
 | `npm run lint` | `eslint .` | Cek gaya kode |
 | `npm run format` | `prettier --write .` | Rapikan format |
 | `npm run lhci` | `lhci autorun` | Audit performa + budget |

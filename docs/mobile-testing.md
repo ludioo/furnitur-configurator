@@ -4,14 +4,14 @@ Cara membuktikan Fase M (polish UI mobile + AR entry) tanpa Barkah membaca kode.
 
 ## Playwright — projects
 
-Perluas `playwright.config.js` (task **M7**). Usulan:
+Matrix di `playwright.config.js` (**M7 done**):
 
 | Project name | Device / viewport | Orientasi |
 |---|---|---|
-| `mobile-pixel7` | `devices['Pixel 7']` atau 412×915 | portrait |
-| `mobile-iphone13` | `devices['iPhone 13']` atau 390×844 | portrait |
-| `mobile-iphone-se` | `devices['iPhone SE']` atau 375×667 | portrait |
-| `mobile-landscape` | 844×390 (atau Pixel 7 landscape) | landscape |
+| `mobile-pixel7` | `devices['Pixel 7']` | portrait |
+| `mobile-iphone13` | `devices['iPhone 13']` | portrait |
+| `mobile-iphone-se` | `devices['iPhone SE (3rd gen)']` (375×667) | portrait |
+| `mobile-landscape` | Pixel 7 + 844×390 | landscape |
 | `desktop` | Desktop Chrome (regresi) | — |
 
 Catatan: WebXR hit-test & Quick Look **tidak** bisa diverifikasi penuh di Chromium headless — tetap ada checklist perangkat nyata di bawah.
@@ -21,14 +21,14 @@ Catatan: WebXR hit-test & Quick Look **tidak** bisa diverifikasi penuh di Chromi
 Di `use` (atau per project mobile):
 
 ```js
-screenshot: 'only-on-failure', // plus explicit page.screenshot di baseline
-video: 'on',                  // atau 'retain-on-failure' jika storage CI sempit
+screenshot: 'only-on-failure', // plus explicit page.screenshot di baseline (hanya mobile-iphone13)
+video: 'on',
 trace: 'on-first-retry',
 ```
 
-- Folder output default Playwright: `test-results/` (sudah di `.gitignore` idealnya).
-- Baseline visual review (bukan flake CI ketat dulu): `docs/_mobile-baselines/m0/` — generate lewat **`npm run e2e:baseline`** (`playwright.baseline.config.js`, D-QA-07); bandingkan di **M7** setelah polish. Spec baseline diabaikan oleh `npm run e2e` (`testIgnore`).
-- Script saran M7 (opsional): `"e2e:mobile": "playwright test --project=mobile-pixel7 --project=mobile-iphone13 --project=mobile-iphone-se --project=mobile-landscape"`.
+- Folder output default Playwright: `test-results/` (sudah di `.gitignore`); video review: `test-results/**/*.webm`.
+- Baseline visual review (bukan flake CI ketat dulu): `docs/_mobile-baselines/m0/` — generate lewat **`npm run e2e:baseline`** (`playwright.baseline.config.js`, D-QA-07). Spec baseline diabaikan oleh `npm run e2e` (`testIgnore`).
+- Script: `npm run e2e:mobile` = empat project mobile di atas (tanpa desktop).
 
 ### Skenario wajib
 
@@ -97,6 +97,7 @@ Jangan `sleep` panjang — pakai locator + `expect`.
 npm run build
 npm test
 npm run e2e
+npm run e2e:mobile
 npm run e2e:baseline
 npm run lhci
 npm run dev -- --host

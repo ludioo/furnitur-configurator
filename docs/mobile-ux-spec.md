@@ -104,8 +104,8 @@ Temuan read-only 2026-11-03 — status diperbarui setelah M0–M4:
 8. **`src/ui/bottomSheet.js` native grabber** — **ditutup M2** (`slot=header`).
 9. **Peek/CTA drift** — **ditutup M2** (satu token `--sheet-peek-height`; native short-landscape `18svh` di M4).
 10. **Landscape CSS** — **ditutup M4** (peek rendah + undo rail chrome di short-landscape).
-11. **`playwright.config.js` matrix** — **masih terbuka → M7** (baseline ada di `e2e:baseline`; suite utama belum SE/Pixel7/landscape).
+11. **`playwright.config.js` matrix** — **ditutup M7** (Pixel7 / iPhone13 / SE 3rd / landscape + desktop; `video: on`; `e2e:mobile`).
 12. **`lighthouserc.cjs` / Perf mobile** — **masih terbuka → M8** (Perf ~59 blocker; M5 = DPR/jank saja, bukan skor LHCI).
-13. **Fase M task** — **berjalan** (M0–M6 done; lanjut M7–M8).
+13. **Fase M task** — **berjalan** (M0–M7 done; lanjut M8).
 
-Prioritas sisa: `M7`–`M8` di `docs/implementation-plan.md`.
+Prioritas sisa: `M8` di `docs/implementation-plan.md`.
