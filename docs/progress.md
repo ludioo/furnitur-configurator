@@ -1,6 +1,6 @@
 # Progress
 
-MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M10 done** (M10 Perf lab masih &lt;80, assert tetap). Berikutnya: T3.5 portfolio (repo situs).
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M11 done**. Berikutnya: **T3.5** portfolio (repo situs).
 
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
@@ -40,5 +40,6 @@ MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M10 done** 
 | M8 | done | 2026-11-04 | `lighthouserc.cjs` formFactor mobile eksplisit (360×640 DPR2); assert tetap Perf≥0.8 / A11y≥0.9. `npm run lhci` (1 run): Perf **64**, A11y **100**, BP **100**, SEO **100** — Perf assert gagal (blocker three.js, budget tidak dilonggarkan; flaky ~58–64). Docs: testing.mdc + mobile-testing selaras |
 | M9 | done | 2026-11-04 | Toast di atas CTA (`--ar-cta-clearance`); dedupe pesan + refresh timer; compact height ≤700 → peek 38dvh + footer rapat; Saved/About idle transparan; e2e `m9-polish` + `docs/_mobile-baselines/m9/`; iPhone13 UA iOS 18.2 untuk native sheet |
 | M10 | done | 2026-11-04 | Defer `bootViewer` + self-host DM Sans + named-import tree-shake three (~229→166 KB gzip vendor). Main entry ~22 KB gzip. `npm run lhci` mobile: Perf **75** (flaky ~74–76; was ~58–64), A11y **100** — assert ≥0.8 **tetap gagal** (TBT ~1.2s / bootup ~2s three+Draco+PMREM). Budget tidak dilonggarkan (D-PERF-02) |
+| M11 | done | 2026-11-04 | RoomFit rename + OG/Twitter/canonical/theme + og-image 1200×630 + apple-touch; landscape chevron+peek swatches 34svh; LHCI 3-run Perf **94/96/96** (median **96**), A11y/BP/SEO **100**; About Work with me; Saved empty CTA + `Chair · Sand · Fabric`; toast vs CTA; model-busy swap; e2e `m11-polish` + `docs/_mobile-baselines/m11/` |
 
 Status: `pending` | `in_progress` | `done` | `blocked`

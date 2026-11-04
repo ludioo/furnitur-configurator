@@ -252,6 +252,14 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-PERF-02 | Scene boot via dynamic `import('../scene/bootViewer.js')` after double-rAF; self-host DM Sans woff2; Vite `manualChunks` + named imports for three/camera-controls subset; assert Perf≥0.8 **tidak** dilonggarkan meski skor lab ~75 | FCP/LCP sudah ~1.1s; TBT/bootup tetap didominasi parse/eval three+Draco+PMREM di throttle mobile LHCI; longgarkan budget = langgar D-QA-02/D-QA-10 | prompts M10 · performance-budget · known-issues M8 |
 
+## 2026-11-04 - M11 product polish + rename RoomFit
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-BRAND-01 | Brand in-app diganti ke **RoomFit**; domain/subdomain/deploy config tidak diubah di M11 (Barkah set manual); base URL canonical/OG = `SITE_ORIGIN` di `src/core/siteConfig.js` (sementara https://configurator.barkahmauludi.com); sync string yang sama di `index.html` | Nama 'configurator' terlalu teknis; AR 'lihat di ruanganmu' jadi nilai jual; ganti URL nanti cukup 1 nilai (+ mirror HTML) | QA live 4 Nov · prompts M11 |
+| D-PERF-03 | Mobile: Hemisphere+Directional saja (skip RoomEnvironment/PMREM); desktop tetap IBL. Lazy `camera-controls`, `configPanel`, GLTF/DRACO chunks; `lighthouserc` `numberOfRuns: 3`; assert Perf≥0.8 tetap. LHCI lab: Perf **94/96/96**, TBT ~220–300ms | TBT/boot Viewer ~1.2–1.7s didominasi three+PMREM+panel; PMREM bukan kebutuhan mobile LH path | prompts M11 · D-PERF-02 · performance-engineer |
+| D-UI-22 | Short-landscape peek `34svh` + chevron di grabber + strip swatch horizontal; Saved auto-name `Chair · Sand · Fabric`; empty CTA; toast `data-toast-visible` naikkan clearance + dim AR CTA; swap pakai `#model-busy` (splash hanya first load) | QA live landscape/Saved/toast/swap | prompts M11 · mobile-ux-spec |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

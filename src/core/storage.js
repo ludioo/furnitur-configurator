@@ -1,9 +1,47 @@
+import productsData from '../data/products.json';
+
 const PREFIX = 'furncfg:';
 const SCHEMA_VERSION = 1;
 const MAX_CONFIGS = 10;
 const CONFIGS_KEY = 'configs';
 const LAST_KEY = 'last';
 const SCHEMA_KEY = 'schemaVersion';
+
+/** Short product names for auto titles (match top-bar tabs). */
+const PRODUCT_SHORT = {
+  armchair: { en: 'Chair', id: 'Kursi' },
+  sofa: { en: 'Sofa', id: 'Sofa' },
+};
+
+/**
+ * @param {{ en?: string, id?: string } | string | undefined} label
+ * @param {string} lang
+ */
+function pickLabel(label, lang) {
+  if (!label) return '';
+  if (typeof label === 'string') return label;
+  return label[lang] || label.en || '';
+}
+
+/**
+ * Auto-name like "Chair · Sand · Fabric".
+ * @param {{ productId: string, fabricColor: string, finish: string }} snapshot
+ * @param {string} [lang]
+ * @returns {string}
+ */
+export function buildConfigName(snapshot, lang = 'en') {
+  const code = lang === 'id' ? 'id' : 'en';
+  const product = productsData.products?.find((p) => p.id === snapshot.productId);
+  const productName =
+    PRODUCT_SHORT[snapshot.productId]?.[code] ||
+    pickLabel(product?.label, code) ||
+    snapshot.productId;
+  const colorOpt = product?.options?.fabricColor?.find((o) => o.id === snapshot.fabricColor);
+  const finishOpt = product?.options?.finish?.find((o) => o.id === snapshot.finish);
+  const color = pickLabel(colorOpt?.label, code) || snapshot.fabricColor;
+  const finish = pickLabel(finishOpt?.label, code) || snapshot.finish;
+  return `${productName} · ${color} · ${finish}`;
+}
 
 /** @typedef {{ productId: string, fabricColor: string, finish: string, size: string }} ConfigSnapshot */
 /** @typedef {{ IDR: number, USD: number, illustrative?: boolean }} PriceSnapshot */
@@ -149,19 +187,6 @@ function writeConfigs(list) {
 }
 
 /**
- * @param {SavedConfig[]} list
- * @returns {string}
- */
-function nextConfigName(list) {
-  let max = 0;
-  for (const item of list) {
-    const m = /^Config #(\d+)$/.exec(item.name || '');
-    if (m) max = Math.max(max, Number(m[1]));
-  }
-  return `Config #${max + 1}`;
-}
-
-/**
  * @param {SaveConfigInput} input
  * @returns {{ ok: boolean, reason?: string, entry?: SavedConfig, evicted?: SavedConfig }}
  */
@@ -180,17 +205,26 @@ export function saveConfig(input) {
   }
 
   const list = readConfigs();
-  const nameSource = list.slice();
   /** @type {SavedConfig | undefined} */
   let evicted;
   if (list.length >= MAX_CONFIGS) {
     evicted = list.shift();
   }
 
+  const lang = get('lang') === 'id' ? 'id' : 'en';
   /** @type {SavedConfig} */
   const entry = {
     id: `cfg_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
-    name: input.name || nextConfigName(nameSource),
+    name:
+      input.name ||
+      buildConfigName(
+        {
+          productId: input.productId,
+          fabricColor: input.fabricColor,
+          finish: input.finish,
+        },
+        lang,
+      ),
     createdAt: new Date().toISOString(),
     productId: input.productId,
     fabricColor: input.fabricColor,

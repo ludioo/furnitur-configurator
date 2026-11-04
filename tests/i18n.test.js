@@ -9,14 +9,14 @@ describe('i18n', () => {
 
   it('returns English strings for known keys', () => {
     setLang('en');
-    expect(t('app.title')).toBe('Furniture Configurator');
+    expect(t('app.title')).toBe('RoomFit');
     expect(t('splash.retry')).toBe('Retry');
   });
 
   it('returns Indonesian strings after setLang', () => {
     setLang('id');
     expect(getLang()).toBe('id');
-    expect(t('app.title')).toBe('Konfigurator Furnitur');
+    expect(t('app.title')).toBe('RoomFit');
     expect(t('splash.retry')).toBe('Coba lagi');
   });
 

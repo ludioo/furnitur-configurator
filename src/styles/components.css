@@ -60,6 +60,43 @@
   display: none;
 }
 
+.model-busy {
+  position: fixed;
+  top: calc(3.75rem + env(safe-area-inset-top, 0px));
+  left: 50%;
+  z-index: 25;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  color: var(--text);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.model-busy[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .model-busy:not([hidden]) {
+    animation: model-busy-fade 0.2s ease-out;
+  }
+}
+
+@keyframes model-busy-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .webgl-poster {
   position: fixed;
   inset: 0;
@@ -130,6 +167,28 @@
 .about-modal__muted {
   color: var(--text-muted);
   font-size: 0.85rem !important;
+}
+
+.about-modal__cta {
+  margin: 0.25rem 0 0.75rem;
+}
+
+.about-modal__work {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-btn);
+  background: var(--accent);
+  color: #0b0d10;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-modal__work:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
 }
 
 .about-modal__links {
@@ -213,8 +272,10 @@
 
 .config-sheet__handle {
   display: flex;
-  justify-content: center;
-  padding: 0.65rem 0 0.35rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0 0.25rem;
   cursor: grab;
 }
 
@@ -225,6 +286,18 @@
   border-radius: 999px;
   background: var(--text-muted);
   opacity: 0.55;
+}
+
+.config-sheet__chevron {
+  display: inline-flex;
+  color: var(--text-muted);
+  opacity: 0.7;
+  line-height: 0;
+}
+
+.config-sheet__chevron .icon {
+  width: 1rem;
+  height: 1rem;
 }
 
 .config-panel {
@@ -429,6 +502,16 @@ bottom-sheet [slot='footer'] .config-panel__footer {
   pointer-events: none;
 }
 
+/* While toast is up, lift further and dim CTA so they don't compete (M11). */
+html[data-toast-visible='1'] {
+  --ar-cta-clearance: calc(var(--touch-min) + 3.5rem);
+}
+
+html[data-toast-visible='1'] .ar-cta {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
 html[data-sheet-snap='mid'] .toast-host,
 html[data-sheet-snap='full'] .toast-host {
   bottom: auto;
@@ -580,6 +663,34 @@ html[data-sheet-snap='full'] .ar-cta {
   color: var(--text-muted);
   text-align: center;
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.saved-panel__empty p {
+  margin: 0;
+}
+
+.saved-panel__empty-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-btn);
+  background: var(--accent);
+  color: #0b0d10;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.saved-panel__empty-cta:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
 }
 
 .saved-panel__empty[hidden],
@@ -701,6 +812,35 @@ html[data-sheet-snap='full'] .ar-cta {
   .ar-cta {
     bottom: calc(var(--sheet-peek-height) + 1rem + env(safe-area-inset-bottom, 0px));
   }
+}
+
+/* Short landscape: peek strip = horizontal swatches under grabber/chevron. */
+html[data-layout='short-landscape'] #config-color-heading {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+}
+
+html[data-layout='short-landscape'] .swatches {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: 0.15rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+html[data-layout='short-landscape'] .swatch {
+  flex: 0 0 auto;
+}
+
+html[data-layout='short-landscape'] .swatch__disc {
+  width: 36px;
+  height: 36px;
+}
+
+html[data-layout='short-landscape'] .swatch__label {
+  font-size: 0.65rem;
 }
 
 /* Compact height: tighter sticky footer + denser swatches so first row clears footer. */

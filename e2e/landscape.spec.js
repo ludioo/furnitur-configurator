@@ -13,6 +13,8 @@ test('short landscape keeps sheet layout and usable canvas', async ({
 
   await expect(page.locator('html')).toHaveAttribute('data-layout', 'short-landscape');
   await expect(page.locator('.config-sheet__grabber')).toBeVisible();
+  await expect(page.locator('.config-sheet__chevron')).toBeVisible();
+  await expect(page.locator('.config-panel__swatches .swatch').first()).toBeVisible();
   await expect(page.locator('.config-rail')).toHaveCount(0);
 
   await expect(page.locator('.ar-cta')).toBeVisible();

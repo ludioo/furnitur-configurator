@@ -5,6 +5,7 @@ import {
   isDesktopLayout,
   isShortLandscape,
 } from '../core/layoutMode.js';
+import { iconHtml, icons } from './icons.js';
 
 export {
   isCompactHeight,
@@ -63,8 +64,9 @@ export function syncSheetPeekHeight(kind, peekSnapEl = null) {
     let peek = '25dvh';
     let snap = '25%';
     if (short) {
-      peek = '18svh';
-      snap = '18%';
+      // Grabber + chevron + compact swatch strip must stay in peek (M11).
+      peek = '34svh';
+      snap = '34%';
     } else if (compact) {
       peek = '38dvh';
       snap = '38%';
@@ -107,7 +109,10 @@ export function snapIndexToSheetSnap(snapIndex) {
 function createGrabberHandle() {
   const handle = document.createElement('div');
   handle.className = 'config-sheet__handle';
-  handle.innerHTML = '<span class="config-sheet__grabber" aria-hidden="true"></span>';
+  handle.innerHTML = `
+    <span class="config-sheet__grabber" aria-hidden="true"></span>
+    <span class="config-sheet__chevron" aria-hidden="true">${iconHtml(icons.chevron, 'icon icon--sm')}</span>
+  `;
   return handle;
 }
 

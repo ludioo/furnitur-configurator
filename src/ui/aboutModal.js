@@ -1,4 +1,5 @@
 import { applyDom } from '../core/i18n.js';
+import { CONTACT_URL } from '../core/siteConfig.js';
 import { iconHtml, icons } from './icons.js';
 import { runUiMotion } from './motion.js';
 
@@ -29,6 +30,15 @@ export function createAboutModal(opts = {}) {
       <p data-i18n="about.credits"></p>
       <p data-i18n="about.disclaimer"></p>
       <p class="about-modal__muted" data-i18n="about.icons"></p>
+      <p class="about-modal__cta">
+        <a
+          class="about-modal__work"
+          href="${CONTACT_URL}"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-i18n="about.workWithMe"
+        ></a>
+      </p>
       <p class="about-modal__links">
         <a href="https://barkahmauludi.com" target="_blank" rel="noopener noreferrer" data-i18n="about.portfolio"></a>
         <a href="https://github.com/ludioo/furnitur-configurator" target="_blank" rel="noopener noreferrer" data-i18n="about.github"></a>

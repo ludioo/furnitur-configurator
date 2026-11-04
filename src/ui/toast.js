@@ -27,6 +27,13 @@ function ensureHost() {
  * @param {HTMLElement} el
  * @param {number} gen
  */
+function setToastVisible(on) {
+  const root = document?.documentElement;
+  if (!root) return;
+  if (on) root.dataset.toastVisible = '1';
+  else delete root.dataset.toastVisible;
+}
+
 async function exitAndRemove(el, gen) {
   try {
     await runUiMotion(
@@ -41,6 +48,7 @@ async function exitAndRemove(el, gen) {
     el.remove();
     if (gen === toastGen) {
       activeMessage = null;
+      setToastVisible(false);
     }
   }
 }
@@ -76,6 +84,7 @@ export function showToast(message) {
 
   const gen = ++toastGen;
   activeMessage = message;
+  setToastVisible(true);
   root.replaceChildren();
 
   const el = document.createElement('div');
