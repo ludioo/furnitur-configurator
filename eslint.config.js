@@ -47,6 +47,8 @@ const nodeGlobals = {
   localStorage: 'readonly',
   navigator: 'readonly',
   document: 'readonly',
+  window: 'readonly',
+  getComputedStyle: 'readonly',
 };
 
 export default [
@@ -79,6 +81,7 @@ export default [
       'vite.config.js',
       'vitest.config.js',
       'playwright.config.js',
+      'playwright.baseline.config.js',
       'eslint.config.js',
     ],
     languageOptions: {
