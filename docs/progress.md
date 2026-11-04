@@ -1,6 +1,6 @@
 # Progress
 
-MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M7 done**. **Berikutnya: M8** (LHCI mobile).
+MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M8 done**. Berikutnya: T3.5 portfolio (repo situs) atau polish di luar Fase M.
 
 | Task | Status | Tanggal | Catatan |
 |---|---|---|---|
@@ -37,6 +37,6 @@ MVP fitur (T0–T3.6) selesai kecuali T3.5 portfolio. Fase M: **M0–M7 done**. 
 | M5 | done | 2026-11-03 | DPR cap `!isDesktopLayout()` → ≤1.5 (short-landscape termasuk); top bar sheet tanpa blur; toast tanpa `will-change` permanen; `layoutMode.js` + Vitest `pixelRatioCap`. Build: main JS **863.61 KB / 229.10 KB gzip** (baseline T3.3 ~861 / 228) — no meaningful regression. LHCI Perf ≥80 tetap → M8 |
 | M6 | done | 2026-11-03 | CTA peek + busy CSS; iOS non-Safari toast `ar.openSafari` (tanpa deep link); e2e `ar-cta-states` + baseline `docs/_mobile-baselines/m6/` (disabled/ready/busy emulasi). WebXR/QL device tetap deferred |
 | M7 | done | 2026-11-04 | Projects `mobile-pixel7` / `iphone13` / `iphone-se` (3rd gen) / `landscape` + `desktop`; `video: on` → `test-results/**/*.webm`; spek topbar + landscape; `e2e:mobile`; Chromium-only (iPhone preset `defaultBrowserType: chromium`). `npm run e2e` 27 passed / 23 skipped; `e2e:mobile` hijau |
-| M8 | pending | - | LHCI mobile + docs |
+| M8 | done | 2026-11-04 | `lighthouserc.cjs` formFactor mobile eksplisit (360×640 DPR2); assert tetap Perf≥0.8 / A11y≥0.9. `npm run lhci` (1 run): Perf **64**, A11y **100**, BP **100**, SEO **100** — Perf assert gagal (blocker three.js, budget tidak dilonggarkan; flaky ~58–64). Docs: testing.mdc + mobile-testing selaras |
 
 Status: `pending` | `in_progress` | `done` | `blocked`

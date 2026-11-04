@@ -6,6 +6,17 @@ module.exports = {
       // buffering that makes Vite's "Local:" banner miss startServerReadyPattern.
       staticDistDir: './dist',
       numberOfRuns: 1,
+      // Explicit mobile audit (M8) — do not rely on LHCI default alone.
+      settings: {
+        formFactor: 'mobile',
+        screenEmulation: {
+          mobile: true,
+          width: 360,
+          height: 640,
+          deviceScaleFactor: 2,
+          disabled: false,
+        },
+      },
     },
     assert: {
       assertions: {

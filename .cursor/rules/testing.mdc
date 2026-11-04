@@ -10,8 +10,8 @@ alwaysApply: false
 - **Vitest** — unit: `pricing`, `storage`, `i18n`, config snapshot. Command: `npm test` / `npm run test:watch`.
 - **Playwright** — e2e matrix: `mobile-pixel7` / `mobile-iphone13` / `mobile-iphone-se` / `mobile-landscape` + `desktop`; `video: on` → `test-results/**/*.webm`. Commands: `npm run e2e`, `npm run e2e:mobile` (setelah `npx playwright install chromium` sekali).
 - **ESLint flat** (`eslint.config.js`) + **Prettier** — `npm run lint` / `npm run format`.
-- **@lhci/cli** — `npm run lhci` + budgets di `lighthouserc.js` (Perf ≥ 80, A11y ≥ 90).
-- **GitHub Actions** — `.github/workflows/ci.yml`: lint → test → build pada push/PR `main`.
+- **@lhci/cli** — `npm run lhci` + budgets di `lighthouserc.cjs` (Perf ≥ 80, A11y ≥ 90); form factor **mobile** tersurat di `collect.settings`.
+- **GitHub Actions** — `.github/workflows/ci.yml`: lint → test → build pada push/PR `main`. LHCI **tidak** di GHA (D-QA-04); jalankan manual `npm run lhci`.
 
 ## Aturan
 - Jangan menambah Jest, Cypress, atau Storybook.
@@ -23,5 +23,5 @@ alwaysApply: false
 
 ## Mobile (Fase M)
 - Ikuti `docs/mobile-testing.md`: project Pixel 7 / iPhone 13 / iPhone SE / landscape, `video` untuk review, baseline screenshot.
-- LHCI dianggap **mobile**; skor + blocker di `known-issues.md`.
+- LHCI = audit **mobile** eksplisit (`lighthouserc.cjs`); skor + blocker di `known-issues.md`. Jangan longgarkan budget diam-diam.
 - Jangan anggap WebXR/Quick Look lulus dari headless saja — checklist device di mobile-testing.

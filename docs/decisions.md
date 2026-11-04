@@ -233,6 +233,12 @@ Format: `YYYY-MM-DD | ID | Keputusan | Alasan | Sumber`
 |---|---|---|---|
 | D-QA-09 | Projects: `mobile-pixel7`, `mobile-iphone13`, `mobile-iphone-se` (`iPhone SE (3rd gen)`), `mobile-landscape` (844×390), `desktop`; `video: on` + `screenshot: only-on-failure`; iPhone presets `defaultBrowserType: 'chromium'` (tetap D-QA-06); baseline PNG sheet/CTA hanya `mobile-iphone13`; assert AR unsupported di Pixel/landscape; iPhone = Quick Look ready (Safari UA); script `e2e:mobile` | Matrix mobile-testing; WebKit tidak diinstall; SE 1st-gen 320px salah target; Safari UA ≠ unsupported | prompts M7 · mobile-testing · D-QA-06 · D-QA-07 |
 
+## 2026-11-04 — M8 LHCI mobile eksplisit
+
+| ID | Keputusan | Alasan | Sumber dibuka |
+|---|---|---|---|
+| D-QA-10 | `lighthouserc.cjs` `collect.settings`: `formFactor: 'mobile'` + screenEmulation 360×640 DPR2; assert Perf≥0.8 & A11y≥0.9 **tetap**; skor M8 dilampirkan (Perf 64 / A11y 100); GHA tetap tanpa lhci; testing.mdc + mobile-testing selaras ke `.cjs` | M8 minta audit mobile tersurat; jangan andalkan default diam-diam; longgarkan budget = melanggar D-QA-02 / mobile-testing | prompts M8 · mobile-testing · D-QA-02 · D-QA-04 |
+
 ## Template keputusan baru
 `2026-MM-DD | D-XXX-nn | ... | ... | URL atau "eksperimen T0.3"`
 

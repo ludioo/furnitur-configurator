@@ -1,6 +1,6 @@
 ---
 description: Anggaran performa 3D & web (load <3 dtk, transfer <3 MB), GLB Draco/KTX2, AR/driver/debug lazy
-globs: src/scene/**,src/ar/**,src/core/**,src/ui/**,src/debug/**,public/**,scripts/**,vite.config.js,vercel.json,lighthouserc.js
+globs: src/scene/**,src/ar/**,src/core/**,src/ui/**,src/debug/**,public/**,scripts/**,vite.config.js,vercel.json,lighthouserc.js,lighthouserc.cjs
 alwaysApply: false
 ---
 

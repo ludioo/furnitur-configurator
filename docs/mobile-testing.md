@@ -49,9 +49,10 @@ Jangan `sleep` panjang — pakai locator + `expect`.
 
 `lighthouserc.cjs` + `npm run lhci` (task **M8** / lanjutan T3.4):
 
-- Form factor **mobile** (default LHCI sering mobile; dokumentasikan eksplisit di config atau progress).
+- Form factor **mobile** tersurat di `collect.settings` (`formFactor: 'mobile'`, screenEmulation 360×640 / DPR 2).
 - Assert tetap: Performance ≥ 0.8 (error), Accessibility ≥ 0.9.
 - Jika Perf masih < 80 karena three.js critical path: **jangan** diam-diam longgarkan budget; catat skor + blocker di `known-issues.md` (pola T3.4).
+- GHA hanya lint → test → build; LHCI manual (D-QA-04).
 - Output: `.lighthouseci/` — lampirkan ringkasan skor di progress task.
 
 ## Manual — perangkat nyata

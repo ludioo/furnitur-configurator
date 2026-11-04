@@ -82,7 +82,7 @@ Ikuti `.cursor/rules/performance-budget.mdc` + tambahan:
 - `renderer.setPixelRatio` cap sheet/mobile **≤ 1.5** lewat `isDesktopLayout()` / `pixelRatioCap` (`layoutMode.js`) — jangan naikkan; short-landscape ikut 1.5.
 - Tekstur GLB tetap ≤ 1024; jangan naikkan resolusi demi "tajam di Retina".
 - Hormati `prefers-reduced-motion`.
-- Target: ≥ 30 fps mid-range; transfer awal < 3 MB; LHCI mobile Perf stretch tetap 80 (blocker sudah dicatat T3.4).
+- Target: ≥ 30 fps mid-range; transfer awal < 3 MB; LHCI mobile Perf stretch tetap 80 (blocker dicatat M8 / known-issues; assert tidak dilonggarkan).
 
 ## Aksesibilitas mobile
 
@@ -92,7 +92,7 @@ Ikuti `.cursor/rules/performance-budget.mdc` + tambahan:
 
 ## Current issues found (kode)
 
-Temuan read-only 2026-11-03 — status diperbarui setelah M0–M4:
+Temuan read-only 2026-11-03 — status diperbarui setelah M0–M8:
 
 1. **`index.html`** — **ditutup M4** (`viewport-fit=cover`). Notch nyata: cek manual Safari.
 2. **`src/styles/components.css` (`.ar-cta`)** — **ditutup M2** (`--sheet-peek-height` + hide mid/full).
@@ -105,7 +105,7 @@ Temuan read-only 2026-11-03 — status diperbarui setelah M0–M4:
 9. **Peek/CTA drift** — **ditutup M2** (satu token `--sheet-peek-height`; native short-landscape `18svh` di M4).
 10. **Landscape CSS** — **ditutup M4** (peek rendah + undo rail chrome di short-landscape).
 11. **`playwright.config.js` matrix** — **ditutup M7** (Pixel7 / iPhone13 / SE 3rd / landscape + desktop; `video: on`; `e2e:mobile`).
-12. **`lighthouserc.cjs` / Perf mobile** — **masih terbuka → M8** (Perf ~59 blocker; M5 = DPR/jank saja, bukan skor LHCI).
-13. **Fase M task** — **berjalan** (M0–M7 done; lanjut M8).
+12. **`lighthouserc.cjs` / Perf mobile** — **ditutup M8**: formFactor mobile tersurat; skor Perf **64** / A11y **100** (budget Perf ≥80 tidak dilonggarkan; blocker three.js di known-issues).
+13. **Fase M task** — **M0–M8 done**.
 
-Prioritas sisa: `M8` di `docs/implementation-plan.md`.
+Prioritas sisa di luar Fase M: T3.5 portfolio; device WebXR/Quick Look checklist; Later code-split three bila kejar Perf ≥80.
